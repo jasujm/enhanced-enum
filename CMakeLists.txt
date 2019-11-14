@@ -13,5 +13,8 @@ target_compile_features(${ENHANCEDENUM_LIB} INTERFACE cxx_std_17)
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/cxx-include/ DESTINATION include)
 
-enable_testing()
-add_subdirectory(cxx-tests)
+set(ENHANCEDENUM_BUILD_TESTS ON CACHE BOOL "Build tests")
+if(ENHANCEDENUM_BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(cxx-tests)
+endif()
