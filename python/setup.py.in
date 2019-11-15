@@ -1,0 +1,18 @@
+import setuptools
+
+setuptools.setup(
+    name="EnumECG",
+    version="@CMAKE_PROJECT_VERSION@",
+    author="Jaakko Moisio",
+    author_email="jaakko@moisio.fi",
+    description="Enum Enhancement Code Generator",
+    url="https://github.com/jasujm/enhanced_enum",
+    package_dir={ '': '@CMAKE_CURRENT_SOURCE_DIR@' },
+    packages=["enumecg"],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.7',
+)

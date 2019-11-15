@@ -15,7 +15,13 @@ Indices and tables
 * :ref:`search`
 
 
-Docs
-====
+C++ docs
+========
 
 .. doxygennamespace:: enhanced_enum
+
+Python docs
+===========
+
+.. automodule:: enumecg
+   :members:

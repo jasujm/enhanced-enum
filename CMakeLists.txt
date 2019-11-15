@@ -25,3 +25,8 @@ if(ENHANCEDENUM_BUILD_TESTS)
   enable_testing()
   add_subdirectory(cxx-tests)
 endif()
+
+set(ENHANCEDENUM_BUILD_PYTHON ON CACHE BOOL "Build python modules")
+if(ENHANCEDENUM_BUILD_PYTHON)
+  add_subdirectory(python)
+endif()
