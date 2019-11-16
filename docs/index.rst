@@ -25,3 +25,9 @@ Python docs
 
 .. automodule:: enumecg
    :members:
+
+.. automodule:: enumecg.definitions
+   :members:
+
+.. automodule:: enumecg.generators
+   :members:

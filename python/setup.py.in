@@ -7,12 +7,14 @@ setuptools.setup(
     author_email="jaakko@moisio.fi",
     description="Enum Enhancement Code Generator",
     url="https://github.com/jasujm/enhanced_enum",
-    package_dir={ '': '@CMAKE_CURRENT_SOURCE_DIR@' },
+    package_dir={"": "@PYTHON_SOURCE_DIRECTORY@"},
     packages=["enumecg"],
+    package_data={"enumecg": ["templates/*.in"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.7',
+    python_requires=">=3.7",
+    install_requires=["Jinja2>=2.10"],
 )
