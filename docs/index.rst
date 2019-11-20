@@ -31,3 +31,6 @@ Python docs
 
 .. automodule:: enumecg.generators
    :members:
+
+.. automodule:: enumecg.utils
+   :members:

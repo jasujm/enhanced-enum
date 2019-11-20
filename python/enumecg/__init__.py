@@ -19,7 +19,8 @@ def generator(enum) -> generators.CodeGenerator:
 
     - An instance of :class:`definitions.EnumDefinition`
 
-    - A ``dict`` containing "name" and "members" keys
+    - A ``dict`` containing "typename" and "members" keys, "members" itself
+      being a ``dict`` containing enumerator name to value mapping.
 
     - etc.
 
