@@ -9,15 +9,13 @@ class CodeGeneratorTest(unittest.TestCase):
     def setUp(self):
         self.gen = CodeGenerator(STATUS_DEFINITION)
 
-    def test_enum_definitions_should_contain_underlying_enum(self):
-        self.assertIn(
-            "enum class UnderlyingStatus", self.gen.generate_enum_definitions()
-        )
+    def test_enum_definitions_should_contain_label_enum(self):
+        self.assertIn("enum class StatusLabel", self.gen.generate_enum_definitions())
 
-    def test_enum_definitions_should_contain_underlying_enumerators(self):
+    def test_enum_definitions_should_contain_label_enumerators(self):
         snippet = self.gen.generate_enum_definitions()
         for member in STATUS_DEFINITION.members:
-            self.assertIn(member.underlying_enumerator_name, snippet)
+            self.assertIn(member.label_enumerator_name, snippet)
 
     def test_enum_definitions_should_contain_details_namespace(self):
         self.assertIn("namespace StatusDetails", self.gen.generate_enum_definitions())
@@ -37,5 +35,5 @@ class CodeGeneratorTest(unittest.TestCase):
     def test_enum_definitions_should_contain_enhance_function(self):
         self.assertRegex(
             self.gen.generate_enum_definitions(),
-            r"EnhancedStatus enhance\(UnderlyingStatus \w+\)",
+            r"EnhancedStatus enhance\(StatusLabel \w+\)",
         )

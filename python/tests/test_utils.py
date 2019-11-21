@@ -8,6 +8,7 @@ class UtilsTest(unittest.TestCase):
         parts, joiner = split_name("snake_case")
         self.assertSequenceEqual(parts, ["snake", "case"])
         self.assertEqual(joiner(parts + ["rules"]), "snake_case_rules")
+        self.assertEqual(joiner([]), "")
 
     def test_split_name_lower_snake_case_with_numbers(self):
         parts, _ = split_name("sn4ke_cas3")
@@ -17,6 +18,7 @@ class UtilsTest(unittest.TestCase):
         parts, joiner = split_name("SNAKE_CASE")
         self.assertSequenceEqual(parts, ["snake", "case"])
         self.assertEqual(joiner(parts + ["rules"]), "SNAKE_CASE_RULES")
+        self.assertEqual(joiner([]), "")
 
     def test_split_name_upper_snake_case_with_numbers(self):
         parts, _ = split_name("SN4KE_CAS3")
@@ -26,6 +28,7 @@ class UtilsTest(unittest.TestCase):
         parts, joiner = split_name("CamelCase")
         self.assertSequenceEqual(parts, ["camel", "case"])
         self.assertEqual(joiner(parts + ["rules"]), "CamelCaseRules")
+        self.assertEqual(joiner([]), "")
 
     def test_split_name_upper_camel_case_with_numbers(self):
         parts, _ = split_name("C4melCas3")
@@ -35,6 +38,7 @@ class UtilsTest(unittest.TestCase):
         parts, joiner = split_name("mixedCase")
         self.assertSequenceEqual(parts, ["mixed", "case"])
         self.assertEqual(joiner(parts + ["rules"]), "mixedCaseRules")
+        self.assertEqual(joiner([]), "")
 
     def test_split_name_upper_camel_case_with_numbers(self):
         parts, _ = split_name("C4melCas3")

@@ -11,11 +11,11 @@ import regex
 
 
 def _capitalize_word(word):
-    return word[0].upper() + word[1:].lower()
+    return word[0].upper() + word[1:]
 
 
 def _join_lower_snake_case(parts):
-    return "_".join(part.lower() for part in parts)
+    return "_".join(parts)
 
 
 def _join_upper_snake_case(parts):
@@ -27,7 +27,12 @@ def _join_upper_camel_case(parts):
 
 
 def _join_lower_camel_case(parts):
-    return parts[0].lower() + "".join(_capitalize_word(part) for part in parts[1:])
+    try:
+        first, *rest = parts
+    except ValueError:
+        return ""
+    else:
+        return first + "".join(_capitalize_word(part) for part in rest)
 
 
 _SPLIT_NAME_TESTS = [

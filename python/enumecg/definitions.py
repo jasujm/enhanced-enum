@@ -6,7 +6,9 @@ Contains the classes that the code generator uses as its representation of an
 enum definition.
 """
 
+import collections
 import collections.abc as cabs
+import enum as py_enum
 import dataclasses
 import typing
 
@@ -17,7 +19,7 @@ from . import utils
 class EnumMemberDefinition:
     """Enum member definition"""
 
-    underlying_enumerator_name: str
+    label_enumerator_name: str
     enumerator_value_constant_name: str
     enumerator_value: typing.Any
 
@@ -26,7 +28,7 @@ class EnumMemberDefinition:
 class EnumDefinition:
     """Enum definition"""
 
-    underlying_enum_typename: str
+    label_enum_typename: str
     enhanced_enum_typename: str
     details_namespace_name: str
     members: typing.Sequence[EnumMemberDefinition]
@@ -38,9 +40,9 @@ def _make_member_definition(member):
     name, value = member
     name_parts, joiner = utils.split_name(name)
     return EnumMemberDefinition(
-        underlying_enumerator_name=name,
+        label_enumerator_name=name,
         enumerator_value_constant_name=joiner(name_parts + ["value"]),
-        enumerator_value = value,
+        enumerator_value=value,
     )
 
 
@@ -49,12 +51,21 @@ def _make_definition_from_dict(enum_dict):
     members = enum_dict["members"]
     typename_parts, joiner = utils.split_name(typename)
     return EnumDefinition(
-        underlying_enum_typename=joiner(["underlying"] + typename_parts),
+        label_enum_typename=joiner(typename_parts + ["label"]),
         enhanced_enum_typename=joiner(["enhanced"] + typename_parts),
         details_namespace_name=joiner(typename_parts + ["details"]),
         members=[_make_member_definition(member) for member in members.items()],
-        value_type_typename="std::string_view" # TODO: infer from values
+        value_type_typename="std::string_view",  # TODO: infer from values
     )
+
+
+def _extract_python_enum_attrs(enum):
+    return {
+        "typename": enum.__name__,
+        "members": collections.OrderedDict(
+            (member.name, member.value) for member in enum
+        ),
+    }
 
 
 def make_definition(enum) -> EnumDefinition:
@@ -74,6 +85,8 @@ def make_definition(enum) -> EnumDefinition:
         return enum
     elif isinstance(enum, cabs.Mapping):
         return _make_definition_from_dict(enum)
+    elif isinstance(enum, py_enum.EnumMeta):
+        return _make_definition_from_dict(_extract_python_enum_attrs(enum))
     else:
         raise TypeError(
             f"Could not convert {enum!r} of type {type(enum)} into EnumDefinition"

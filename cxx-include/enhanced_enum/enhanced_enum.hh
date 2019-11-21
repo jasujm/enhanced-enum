@@ -11,39 +11,39 @@ namespace enhanced_enum {
 /** \brief Base class for enhanced enum types
  */
 template<
-    typename EnhancedEnum, typename UnderlyingEnum, typename ValueType>
+    typename EnhancedEnum, typename LabelEnum, typename ValueType>
 struct enum_base {
-    static_assert( std::is_enum_v<UnderlyingEnum> );
+    static_assert( std::is_enum_v<LabelEnum> );
 
-    using enum_type = UnderlyingEnum; ///< \brief Underlying enum type
-    using value_type = ValueType;     ///< \brief Enhanced enum value type
+    using enum_type = LabelEnum;    ///< \brief Label enum type
+    using value_type = ValueType;   ///< \brief Enhanced enum value type
 
     enum_base() = default;
 
-    /** \brief Construct enhanced enum from an underlying enumerator
+    /** \brief Construct enhanced enum from a label enumerator
      */
-    constexpr enum_base(UnderlyingEnum name) : name {name} {}
+    constexpr enum_base(LabelEnum label) noexcept : label {label} {}
 
-    /** \brief Get the underlying enumerator
+    /** \brief Get the label enumerator
      */
     constexpr enum_type get() const
     {
-        return name;
+        return label;
     }
 
     /** \brief Get the value of the enhanced enumerator
      */
     constexpr const value_type& value() const
     {
-        const auto n = static_cast<std::size_t>(name);
+        const auto n = static_cast<std::size_t>(label);
         return EnhancedEnum::values.at(n);
     }
 
 private:
-    UnderlyingEnum name;
+    LabelEnum label;
 };
 
-/** \brief The enhanced enum type associated with an underlying enum type
+/** \brief The enhanced enum type associated with a label enum type
  */
 template<typename Enum>
 using enhanced = decltype(enhance(std::declval<Enum>()));

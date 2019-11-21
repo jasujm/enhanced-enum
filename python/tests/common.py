@@ -1,22 +1,22 @@
 from enumecg.definitions import EnumDefinition, EnumMemberDefinition
 
 STATUS_DEFINITION = EnumDefinition(
-    underlying_enum_typename="UnderlyingStatus",
+    label_enum_typename="StatusLabel",
     enhanced_enum_typename="EnhancedStatus",
     details_namespace_name="StatusDetails",
     members=[
         EnumMemberDefinition(
-            underlying_enumerator_name="INITIALIZING",
+            label_enumerator_name="INITIALIZING",
             enumerator_value_constant_name="INITIALIZING_VALUE",
             enumerator_value="initializing",
         ),
         EnumMemberDefinition(
-            underlying_enumerator_name="WAITING_FOR_INPUT",
+            label_enumerator_name="WAITING_FOR_INPUT",
             enumerator_value_constant_name="WAITING_FOR_INPUT_VALUE",
             enumerator_value="waitingForInput",
         ),
         EnumMemberDefinition(
-            underlying_enumerator_name="BUSY",
+            label_enumerator_name="BUSY",
             enumerator_value_constant_name="BUSY_VALUE",
             enumerator_value="busy",
         ),

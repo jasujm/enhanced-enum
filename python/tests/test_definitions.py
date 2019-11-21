@@ -1,3 +1,4 @@
+import enum
 import unittest
 
 from .common import STATUS_DEFINITION
@@ -19,6 +20,14 @@ class EnumDefinitionTest(unittest.TestCase):
             },
         }
         self.assertEqual(make_definition(definition_dict), STATUS_DEFINITION)
+
+    def test_make_definition_should_make_definition_from_python_enum(self):
+        class Status(enum.Enum):
+            INITIALIZING = "initializing"
+            WAITING_FOR_INPUT = "waitingForInput"
+            BUSY = "busy"
+
+        self.assertEqual(make_definition(Status), STATUS_DEFINITION)
 
     def test_make_definition_should_raise_error_on_unknown_type(self):
         self.assertRaises(TypeError, make_definition, "this doesn't make sense")

@@ -6,6 +6,7 @@ The top level module provides the high level code generation API for the
 Enhanced Enum library.
 """
 
+from . import definitions
 from . import generators
 
 
@@ -22,7 +23,9 @@ def generator(enum) -> generators.CodeGenerator:
     - A ``dict`` containing "typename" and "members" keys, "members" itself
       being a ``dict`` containing enumerator name to value mapping.
 
-    - etc.
+    - A native Python :class:`enum.Enum` class. The typename is derived from the
+      name of the enum class, and the enumerator definitions are derived from
+      its members.
 
     Parameters:
         enum: The description of the enum
@@ -30,8 +33,9 @@ def generator(enum) -> generators.CodeGenerator:
     Returns:
         The :class:`generators.CodeGenerator` instance created from the ``enum``
         description.
+
     """
-    return generators.CodeGenerator(enum)
+    return generators.CodeGenerator(definitions.make_definition(enum))
 
 
 def generate(enum) -> str:
