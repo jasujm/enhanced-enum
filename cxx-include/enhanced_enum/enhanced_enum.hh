@@ -15,7 +15,7 @@ template<
 struct enum_base {
     static_assert( std::is_enum_v<LabelEnum> );
 
-    using enum_type = LabelEnum;    ///< \brief Label enum type
+    using label_type = LabelEnum;   ///< \brief Label enum type
     using value_type = ValueType;   ///< \brief Enhanced enum value type
 
     enum_base() = default;
@@ -26,14 +26,14 @@ struct enum_base {
 
     /** \brief Get the label enumerator
      */
-    constexpr enum_type get() const
+    constexpr label_type get() const noexcept
     {
         return label;
     }
 
     /** \brief Get the value of the enhanced enumerator
      */
-    constexpr const value_type& value() const
+    constexpr const value_type& value() const noexcept
     {
         const auto n = static_cast<std::size_t>(label);
         return EnhancedEnum::values.at(n);
