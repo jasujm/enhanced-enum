@@ -15,22 +15,24 @@ Indices and tables
 * :ref:`search`
 
 
-C++ docs
-========
+C++ enums with superpowers
+==========================
 
-.. doxygennamespace:: enhanced_enum
+The Enhanced Enum C++ library is a header-only library used to implement
+enhanced enumeration types.
 
-Python docs
-===========
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: enumecg
-   :members:
+   enhancedenumlib
 
-.. automodule:: enumecg.definitions
-   :members:
+Generating enum definitions
+---------------------------
 
-.. automodule:: enumecg.generators
-   :members:
+The :mod:`enumecg` package that is used to generate the necessary boilerplate
+for C++ enum definitions.
 
-.. automodule:: enumecg.utils
-   :members:
+.. toctree::
+   :maxdepth: 2
+
+   enumecglib
