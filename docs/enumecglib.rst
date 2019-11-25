@@ -1,5 +1,7 @@
-EnumECG package
-===============
+.. _enumecg-library:
+
+EnumECG -- The Python library
+=============================
 
 Overview
 --------
