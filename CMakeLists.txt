@@ -6,7 +6,7 @@ project("Enhanced Enum"
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 set(ENHANCEDENUM_LIB "EnhancedEnum")
-set(ENHANCEDENUM_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/cxx-include")
+set(ENHANCEDENUM_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/cxx/include")
 
 set(PYTHON_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/python")
 file(GLOB_RECURSE ENUMECG_SOURCE_PYS "${PYTHON_SOURCE_DIR}/enumecg/*.py")
@@ -18,7 +18,7 @@ target_include_directories(${ENHANCEDENUM_LIB} INTERFACE
   ${ENHANCEDENUM_INCLUDE_DIRS})
 target_compile_features(${ENHANCEDENUM_LIB} INTERFACE cxx_std_17)
 
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/cxx-include/ DESTINATION include)
+install(DIRECTORY ${ENHANCEDENUM_INCLUDE_DIRS}/ DESTINATION include)
 
 set(ENHANCEDENUM_BUILD_DOCS ON CACHE BOOL "Build documentation")
 if(ENHANCEDENUM_BUILD_DOCS)
@@ -28,7 +28,7 @@ endif()
 set(ENHANCEDENUM_BUILD_TESTS ON CACHE BOOL "Build tests")
 if(ENHANCEDENUM_BUILD_TESTS)
   enable_testing()
-  add_subdirectory(cxx-tests)
+  add_subdirectory(cxx/tests)
 endif()
 
 set(ENHANCEDENUM_BUILD_PYTHON ON CACHE BOOL "Build python modules")

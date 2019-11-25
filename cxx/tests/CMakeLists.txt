@@ -24,7 +24,7 @@ if (Python_FOUND)
     gmock_build_tests gtest_build_samples gtest_build_tests
     gtest_disable_pthreads gtest_force_shared_crt gtest_hide_internal_symbols)
 
-  set(STATUS_DEFINITIONS_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/test-include")
+  set(STATUS_DEFINITIONS_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/include")
   file(MAKE_DIRECTORY ${STATUS_DEFINITIONS_INCLUDE_DIR})
   set(STATUS_DEFINITIONS_HEADER "${STATUS_DEFINITIONS_INCLUDE_DIR}/status.hh")
   set(STATUS_DEFINITIONS_GENERATOR_PY "${CMAKE_CURRENT_SOURCE_DIR}/generate_status_hh.py")
