@@ -7,7 +7,7 @@
 
 using testapp::StatusLabel;
 using testapp::EnhancedStatus;
-namespace StatusDetails = testapp::StatusDetails;
+namespace Statuses = testapp::Statuses;
 
 // Explicitly bundling label enum, enhanced enum and value to be consumed in the
 // tests. Also defining operator<< to make the test reports pretty.
@@ -40,7 +40,7 @@ static_assert( std::is_same_v<enhanced_enum::make_enhanced_t<EnhancedStatus>, En
 // enhance(), .get() and .value() are constexpr
 
 static_assert( enhance(StatusLabel::BUSY).get() == StatusLabel::BUSY );
-static_assert( enhance(StatusLabel::BUSY).value() == testapp::StatusDetails::BUSY_VALUE );
+static_assert( enhance(StatusLabel::BUSY).value() == EnhancedStatus::BUSY_VALUE );
 
 // Comparison operators work as expected, and can compare both enhanced and
 // label enums
@@ -89,18 +89,18 @@ INSTANTIATE_TEST_SUITE_P(
     testing::Values(
         EnumBundle {
             StatusLabel::INITIALIZING,
-            enhance(StatusLabel::INITIALIZING),
-            StatusDetails::INITIALIZING_VALUE,
+            Statuses::INITIALIZING,
+            EnhancedStatus::INITIALIZING_VALUE,
         },
         EnumBundle {
             StatusLabel::WAITING_FOR_INPUT,
-            enhance(StatusLabel::WAITING_FOR_INPUT),
-            StatusDetails::WAITING_FOR_INPUT_VALUE,
+            Statuses::WAITING_FOR_INPUT,
+            EnhancedStatus::WAITING_FOR_INPUT_VALUE,
         },
         EnumBundle {
             StatusLabel::BUSY,
-            enhance(StatusLabel::BUSY),
-            StatusDetails::BUSY_VALUE,
+            Statuses::BUSY,
+            EnhancedStatus::BUSY_VALUE,
         }
     )
 );

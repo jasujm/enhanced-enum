@@ -19,7 +19,7 @@ from . import utils
 class EnumMemberDefinition:
     """Enum member definition"""
 
-    label_enumerator_name: str
+    enumerator_name: str
     enumerator_value_constant_name: str
     enumerator_value: typing.Any
 
@@ -30,17 +30,16 @@ class EnumDefinition:
 
     label_enum_typename: str
     enhanced_enum_typename: str
-    details_namespace_name: str
-    members: typing.Sequence[EnumMemberDefinition]
     value_type_typename: str
-    value_type_alias: str = "ValueType"
+    members: typing.Sequence[EnumMemberDefinition]
+    enums_namespace_name: str
 
 
 def _make_member_definition(member):
     name, value = member
     name_parts, joiner = utils.split_name(name)
     return EnumMemberDefinition(
-        label_enumerator_name=name,
+        enumerator_name=name,
         enumerator_value_constant_name=joiner(name_parts + ["value"]),
         enumerator_value=value,
     )
@@ -53,9 +52,9 @@ def _make_definition_from_dict(enum_dict):
     return EnumDefinition(
         label_enum_typename=joiner(typename_parts + ["label"]),
         enhanced_enum_typename=joiner(["enhanced"] + typename_parts),
-        details_namespace_name=joiner(typename_parts + ["details"]),
-        members=[_make_member_definition(member) for member in members.items()],
         value_type_typename="std::string_view",  # TODO: infer from values
+        members=[_make_member_definition(member) for member in members.items()],
+        enums_namespace_name=typename + "es",  # TODO: inflect properly
     )
 
 
