@@ -54,7 +54,7 @@ def _make_definition_from_dict(enum_dict):
             )
             for (n, (member_name, member_value)) in enumerate(members.items())
         ],
-        enums_namespace_name=typename + "es",  # TODO: inflect properly
+        enums_namespace_name=formatter.join(formatter.parts[0], pluralize=True)
     )
 
 

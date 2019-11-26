@@ -9,6 +9,7 @@ are may also be useful outside the scope of the :mod:`enumecg` package.
 
 import typing
 
+import inflect
 import regex
 
 
@@ -72,6 +73,8 @@ class NameFormatter:
         [['first', 'name'], ['second', 'name']]
         >>> formatter.join(["name", "in", "snake", "case"])
         'name_in_snake_case'
+        >>> formatter.join(["snake", "case"], pluralize=True)
+        'snake_cases'
 
     The following case styles are recognized:
 
@@ -89,6 +92,8 @@ class NameFormatter:
     targets code generation. Numbers may appear in any other position except at
     the start of a subword.
     """
+
+    _inflect = inflect.engine()
 
     def __init__(self, *names: str):
         """
@@ -117,6 +122,23 @@ class NameFormatter:
         """List of the name parts used to create the formatter"""
         return self._parts
 
-    def join(self, parts: typing.Iterable[str]):
-        """Create new name from ``parts``"""
-        return self._joiner(parts)
+    def join(self, parts: typing.Iterable[str], *, pluralize=False):
+        """Create new name from ``parts``
+
+        Parameters:
+          parts: Parts (words) of the name
+          pluralize: If ``True``, assume the argument is a singular
+            noun, and return it pluralized.
+
+        Return:
+          The new name as string, with the individual parts joined
+          together using the case style inferred during the construction
+        """
+        try:
+            *head, last = parts
+        except ValueError:
+            return ""
+        else:
+            if pluralize:
+                last = self._inflect.plural_noun(last)
+            return self._joiner(head + [last])
