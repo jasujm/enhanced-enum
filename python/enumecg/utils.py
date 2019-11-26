@@ -7,6 +7,8 @@ library needs to perform. While they are mainly targeted for internal use, they
 are may also be useful outside the scope of the :mod:`enumecg` package.
 """
 
+import typing
+
 import regex
 
 
@@ -52,23 +54,23 @@ _SPLIT_NAME_TESTS = [
 ]
 
 
-def split_name(name: str):
-    """Split names into subwords
+class NameFormatter:
+    """Format names in the same case style as sample names
 
-    This function is used to split a name (variable, class etc.) into subwords,
-    and creating new names with the same case style. An example demonstrates
-    this the best:
+    This class is used to split a sample of names (variables, classes
+    etc.) into subwords, and creating new names with the same case
+    style. An example demonstrates this the best:
 
     .. testsetup::
 
-        from enumecg.utils import split_name
+        from enumecg.utils import NameFormatter
 
     .. doctest::
 
-        >>> parts, joiner = split_name("snake_case")
-        >>> parts
-        ['snake', 'case']
-        >>> joiner(["name", "in", "snake", "case"])
+        >>> formatter = NameFormatter("first_name", "second_name")
+        >>> formatter.parts
+        [['first', 'name'], ['second', 'name']]
+        >>> formatter.join(["name", "in", "snake", "case"])
         'name_in_snake_case'
 
     The following case styles are recognized:
@@ -86,25 +88,35 @@ def split_name(name: str):
     Only ASCII alphanumeric characters are supported, because the function
     targets code generation. Numbers may appear in any other position except at
     the start of a subword.
-
-    Parameters:
-       name: The name to analyze
-
-    Returns:
-      .. compound::
-
-         A tuple containing:
-
-         1. A list of subwords in ``name``
-
-         2. A function that can be called with a sequence of strings, returning
-            a name with the same case style as the original ``name``
-
-    Raises:
-        :exc:`ValueError`: If ``name`` doesn't follow any known case style.
     """
-    for pattern, joiner in _SPLIT_NAME_TESTS:
-        match = pattern.fullmatch(name)
-        if match:
-            return [part.lower() for part in match.captures("parts")], joiner
-    raise ValueError(f"Could not split {name!r} into subwords")
+
+    def __init__(self, *names: str):
+        """
+        Parameters:
+          name: The name to analyze
+
+        Raises:
+          :exc:`ValueError`: If at least one of the ``names`` doesn't
+            follow a known case style, or if the sample contains names
+            that follow different case style.
+        """
+        for pattern, joiner in _SPLIT_NAME_TESTS:
+            matches = [pattern.fullmatch(name) for name in names]
+            if all(matches):
+                self._parts = [
+                    [part.lower() for part in match.captures("parts")]
+                    for match in matches
+                ]
+                self._joiner = joiner
+                break
+        else:
+            raise ValueError(f"Could not find common case for {names!r}")
+
+    @property
+    def parts(self):
+        """List of the name parts used to create the formatter"""
+        return self._parts
+
+    def join(self, parts: typing.Iterable[str]):
+        """Create new name from ``parts``"""
+        return self._joiner(parts)

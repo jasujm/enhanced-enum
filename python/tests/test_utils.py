@@ -1,60 +1,51 @@
 import unittest
 
-from enumecg.utils import split_name
+from enumecg.utils import NameFormatter
 
 
 class UtilsTest(unittest.TestCase):
-    def test_split_name_lower_snake_case(self):
-        parts, joiner = split_name("snake_case")
-        self.assertSequenceEqual(parts, ["snake", "case"])
-        self.assertEqual(joiner(parts + ["rules"]), "snake_case_rules")
-        self.assertEqual(joiner([]), "")
+    def test_name_formatter_lower_snake_case(self):
+        formatter = NameFormatter("snake_case", "sn4ke_cas3")
+        self.assertSequenceEqual(formatter.parts[0], ["snake", "case"])
+        self.assertSequenceEqual(formatter.parts[1], ["sn4ke", "cas3"])
+        self.assertEqual(formatter.join(["snake", "case", "rules"]), "snake_case_rules")
+        self.assertEqual(formatter.join([]), "")
 
-    def test_split_name_lower_snake_case_with_numbers(self):
-        parts, _ = split_name("sn4ke_cas3")
-        self.assertSequenceEqual(parts, ["sn4ke", "cas3"])
+    def test_name_formatter_upper_snake_case(self):
+        formatter = NameFormatter("SNAKE_CASE", "SN4KE_CAS3")
+        self.assertSequenceEqual(formatter.parts[0], ["snake", "case"])
+        self.assertSequenceEqual(formatter.parts[1], ["sn4ke", "cas3"])
+        self.assertEqual(formatter.join(["snake", "case", "rules"]), "SNAKE_CASE_RULES")
+        self.assertEqual(formatter.join([]), "")
 
-    def test_split_name_upper_snake_case(self):
-        parts, joiner = split_name("SNAKE_CASE")
-        self.assertSequenceEqual(parts, ["snake", "case"])
-        self.assertEqual(joiner(parts + ["rules"]), "SNAKE_CASE_RULES")
-        self.assertEqual(joiner([]), "")
+    def test_name_formatter_upper_camel_case(self):
+        formatter = NameFormatter("CamelCase", "C4melCas3")
+        self.assertSequenceEqual(formatter.parts[0], ["camel", "case"])
+        self.assertSequenceEqual(formatter.parts[1], ["c4mel", "cas3"])
+        self.assertEqual(formatter.join(["camel", "case", "rules"]), "CamelCaseRules")
+        self.assertEqual(formatter.join([]), "")
 
-    def test_split_name_upper_snake_case_with_numbers(self):
-        parts, _ = split_name("SN4KE_CAS3")
-        self.assertSequenceEqual(parts, ["sn4ke", "cas3"])
+    def test_name_formatter_lower_camel_case(self):
+        formatter = NameFormatter("camelCase", "c4melCas3")
+        self.assertSequenceEqual(formatter.parts[0], ["camel", "case"])
+        self.assertSequenceEqual(formatter.parts[1], ["c4mel", "cas3"])
+        self.assertEqual(formatter.join(["camel", "case", "rules"]), "camelCaseRules")
+        self.assertEqual(formatter.join([]), "")
 
-    def test_split_name_upper_camel_case(self):
-        parts, joiner = split_name("CamelCase")
-        self.assertSequenceEqual(parts, ["camel", "case"])
-        self.assertEqual(joiner(parts + ["rules"]), "CamelCaseRules")
-        self.assertEqual(joiner([]), "")
+    def test_name_formatter_with_single_lowercase_word_should_be_snake_case(self):
+        formatter = NameFormatter("word")
+        self.assertEqual(formatter.join(["snake", "case"]), "snake_case")
 
-    def test_split_name_upper_camel_case_with_numbers(self):
-        parts, _ = split_name("C4melCas3")
-        self.assertSequenceEqual(parts, ["c4mel", "cas3"])
+    def test_name_formatter_with_single_uppercase_word_should_be_snake_case(self):
+        formatter = NameFormatter("WORD")
+        self.assertEqual(formatter.join(["snake", "case"]), "SNAKE_CASE")
 
-    def test_split_name_lower_camel_case(self):
-        parts, joiner = split_name("mixedCase")
-        self.assertSequenceEqual(parts, ["mixed", "case"])
-        self.assertEqual(joiner(parts + ["rules"]), "mixedCaseRules")
-        self.assertEqual(joiner([]), "")
-
-    def test_split_name_upper_camel_case_with_numbers(self):
-        parts, _ = split_name("C4melCas3")
-        self.assertSequenceEqual(parts, ["c4mel", "cas3"])
-
-    def test_split_name_with_single_lowercase_word_should_be_snake_case(self):
-        _, joiner = split_name("word")
-        self.assertSequenceEqual(joiner(["snake", "case"]), "snake_case")
-
-    def test_split_name_with_single_uppercase_word_should_be_snake_case(self):
-        _, joiner = split_name("WORD")
-        self.assertSequenceEqual(joiner(["snake", "case"]), "SNAKE_CASE")
-
-    def test_split_name_with_single_capitalized_word_should_be_camel_case(self):
-        _, joiner = split_name("Word")
-        self.assertSequenceEqual(joiner(["camel", "case"]), "CamelCase")
+    def test_name_formatter_with_single_capitalized_word_should_be_camel_case(self):
+        formatter = NameFormatter("Word")
+        self.assertEqual(formatter.join(["camel", "case"]), "CamelCase")
 
     def test_name_with_unrecognized_case_should_raise_error(self):
-        self.assertRaises(ValueError, split_name, "odd word")
+        self.assertRaises(ValueError, NameFormatter, "odd word")
+
+    def test_names_with_different_cases_should_raise_error(self):
+        self.assertRaises(ValueError, NameFormatter, "lower", "UPPER")

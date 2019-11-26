@@ -35,25 +35,25 @@ class EnumDefinition:
     enums_namespace_name: str
 
 
-def _make_member_definition(member):
-    name, value = member
-    name_parts, joiner = utils.split_name(name)
-    return EnumMemberDefinition(
-        enumerator_name=name,
-        enumerator_value_constant_name=joiner(name_parts + ["value"]),
-        enumerator_value=value,
-    )
-
-
 def _make_definition_from_dict(enum_dict):
     typename = enum_dict["typename"]
     members = enum_dict["members"]
-    typename_parts, joiner = utils.split_name(typename)
+    formatter = utils.NameFormatter(typename)
+    member_formatter = utils.NameFormatter(*members.keys())
     return EnumDefinition(
-        label_enum_typename=joiner(typename_parts + ["label"]),
-        enhanced_enum_typename=joiner(["enhanced"] + typename_parts),
+        label_enum_typename=formatter.join(formatter.parts[0] + ["label"]),
+        enhanced_enum_typename=formatter.join(["enhanced"] + formatter.parts[0]),
         value_type_typename="std::string_view",  # TODO: infer from values
-        members=[_make_member_definition(member) for member in members.items()],
+        members=[
+            EnumMemberDefinition(
+                enumerator_name=member_name,
+                enumerator_value_constant_name=member_formatter.join(
+                    member_formatter.parts[n] + ["value"]
+                ),
+                enumerator_value=member_value,
+            )
+            for (n, (member_name, member_value)) in enumerate(members.items())
+        ],
         enums_namespace_name=typename + "es",  # TODO: inflect properly
     )
 
