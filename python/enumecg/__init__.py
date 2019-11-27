@@ -1,6 +1,6 @@
 """
-High level API
---------------
+EnumECG package
+...............
 
 The top level module provides the high level code generation API for the
 Enhanced Enum library.

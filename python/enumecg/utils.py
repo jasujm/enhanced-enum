@@ -1,10 +1,10 @@
 """
 Utilities
----------
+.........
 
-The utilities in this module are used to perform miscellaneous tasks that the
-library needs to perform. While they are mainly targeted for internal use, they
-are may also be useful outside the scope of the :mod:`enumecg` package.
+Utilities to perform miscellaneous tasks that the library needs to
+perform. While they are mainly targeted for internal use, they are may
+also be useful outside the scope of the :mod:`enumecg` package.
 """
 
 import typing

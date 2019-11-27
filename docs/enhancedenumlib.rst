@@ -1,5 +1,7 @@
-Enhanced Enum library
-=====================
+.. _enhancedenum-library:
+
+Enhanced Enum -- The C++ library
+================================
 
 Motivation
 ----------
@@ -53,6 +55,8 @@ code from Python enum definitions.
 The library currently targets C++17, but will include C++20 goodies
 later.
 
+.. _enhancedenum-overview:
+
 Overview of an enum definition
 ------------------------------
 
@@ -78,7 +82,8 @@ the library machinery, is free to use the types, constants and functions that
 the. Because the generated definitions are also public API of the type, backward
 incompatible changes are not made lightly.
 
-Let's take a closer look at the enumeration from :ref:`introduction`:
+Let's create ``Status`` type that enumerates the different states of
+an imaginary process:
 
   >>> import enum
   >>> class Status(enum.Enum):
@@ -91,6 +96,7 @@ Let's take a closer look at the enumeration from :ref:`introduction`:
 The above command will generate the following C++ code:
 
 .. literalinclude:: examples/status.hh
+   :language: c++
 
 The code starts with definition of ``enum class StatusLabel``. This is
 the underlying *label enum* type. The `label enumerators` be thought
@@ -104,7 +110,7 @@ three template arguments:
 1. ``EnhancedStatus`` to employ the curiously recurring template pattern.
 2. ``StatusLabel``, the label enum type
 3. ``std::string_view``, the value type of the enumerators. They are
-   discussed in more detail in :ref:`enhancedenumlib_enumerator_values`.
+   discussed in more detail in :ref:`enumecg-enumerator-values`.
 
 The class also defines static data members mapping the enumerators to
 their values.
@@ -123,10 +129,17 @@ Finally the enumerators are defined as constants in the ``namespace
 Statuses``. This is not necessary for the library itself, but defined
 for the application use.
 
-.. _enhancedenumlib_enumerator_values:
+Controlling output
+..................
 
-Enumerator values
------------------
+The above command generated names of the types, enumerators and the
+helper namespace from the names in the Python definition. The defaults
+may not be what you want. Especially you might want to control if the
+label enum or the enhanced enum is the *primary type* and simply
+called ``Status``.
+
+For the details about controlling output see
+:ref:`enumecg-code-generation`.
 
 Library reference
 -----------------

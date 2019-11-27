@@ -1,6 +1,9 @@
 """
 Code generator
---------------
+..............
+
+The module contains the code generator consuming enum definitions and
+outputting C++ code.
 """
 
 import jinja2

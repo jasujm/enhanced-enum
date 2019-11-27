@@ -1,6 +1,6 @@
 """
 Enum definitions
-----------------
+................
 
 Contains the classes that the code generator uses as its representation of an
 enum definition.
