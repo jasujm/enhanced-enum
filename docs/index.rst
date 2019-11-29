@@ -32,3 +32,11 @@ generate the enhanced enum definitions for the C++ application.
 
    enhancedenumlib
    enumecglib
+
+Developer guide
+===============
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
