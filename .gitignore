@@ -1,0 +1,8 @@
+# In-source docs build
+docs/_build/
+
+# In-source python builds
+python/build/
+python/dist/
+python/*.egg-info/
+__pycache__/
