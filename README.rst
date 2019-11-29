@@ -61,12 +61,26 @@ Getting started
 ---------------
 
 The C++ library is header only. Just copy the contents of the
-``cxx/include/`` directory in the repository to your include path.
+``cxx/include/`` directory in the repository to your include path. If
+you prefer, you can create and install the CMake targets for the
+library:
 
-The EnumECG library used for code generation can be installed using
-``pip``:
+.. code-block:: console
 
-.. code-block:: bash
+   $ cmake /path/to/repository
+   $ make && make install
+
+In your project:
+
+.. code-block:: cmake
+
+   find_package(EnhancedEnum)
+   target_link_libraries(my-target EnhancedEnum::EnhancedEnum)
+
+The enum definitions are created with the EnumECG library written in
+Python. It can be installed using ``pip``:
+
+.. code-block:: console
 
    $ pip install EnumECG
 

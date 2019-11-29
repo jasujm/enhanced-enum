@@ -1,15 +1,15 @@
-Installation from source
-========================
+Building and installing from sources
+====================================
 
-The project uses CMake as its build system:
+The project uses CMake as its build system. To build everything:
 
-.. code-block:: bash
+.. code-block:: console
 
    $ cd /path/to/build/dir
-   $ cmake                                 \
-   >   -D ENHANCEDENUM_BUILD_DOCS=ON       \
-   >   -D ENHANCEDENUM_BUILD_PYTHON=ON     \
-   >   -D ENHANCEDENUM_BUILD_TESTS=ON      \
+   $ cmake                                      \
+   >   -D ENHANCEDENUM_BUILD_DOCS:BOOL=ON       \
+   >   -D ENHANCEDENUM_BUILD_PYTHON:BOOL=ON     \
+   >   -D ENHANCEDENUM_BUILD_TESTS:BOOL=ON      \
    >   /path/to/repository
 
 The Enhanced Enum library specific CMake variables are:
@@ -35,13 +35,20 @@ The Enhanced Enum library specific CMake variables are:
   packages
 
 The C++ headers under the ``cxx/include/`` directory will always be
-installed.
+installed, along with CMake config files needed to find the package in
+other projects. When installed this way, the project is exposed as
+imported target ``EnhancedEnum::EnhancedEnum``:
+
+.. code-block:: cmake
+
+   find_package(EnhancedEnum)
+   target_link_libraries(my-target EnhancedEnum::EnhancedEnum)
 
 Docs, EnumECG and unit tests *all* require Python when being built. A
 build environment can be bootstrapped using the ``Pipfile`` under
 the ``python/`` directory:
 
-.. code-block:: bash
+.. code-block:: console
 
   $ cd /path/to/repository/python
   $ pipenv install --dev
