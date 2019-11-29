@@ -8,6 +8,8 @@ black = ">=19.10b0"
 sphinx = "*"
 breathe = "*"
 sphinx-rtd-theme = "*"
+twine = "*"
+wheel = "*"
 
 [packages]
 jinja2 = ">=2.10"
