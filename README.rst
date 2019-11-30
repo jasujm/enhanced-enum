@@ -84,7 +84,8 @@ Python. It can be installed using ``pip``:
 
    $ pip install EnumECG
 
-The library and code generation API are documented in the user guide.
+The library and code generation API are documented in the user guide
+hosted at `Read the Docs <https://enhanced-enum.readthedocs.io/>`_.
 
 Contact
 -------
