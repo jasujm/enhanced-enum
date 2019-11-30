@@ -3,9 +3,11 @@ import setuptools
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 
+
 def get_description():
     with open(os.path.join(package_dir, "README")) as f:
         return f.read()
+
 
 setup_kwargs = dict(
     name="EnumECG",
@@ -29,6 +31,6 @@ setup_kwargs = dict(
 # This is to bootstrap the build in case it is made with Enhanced Enum
 # CMake toolchain
 if os.environ.get("IS_CMAKE_BUILD"):
-    setup_kwargs["package_dir"] = { "": package_dir }
+    setup_kwargs["package_dir"] = {"": package_dir}
 
 setuptools.setup(**setup_kwargs)

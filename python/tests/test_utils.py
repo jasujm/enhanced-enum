@@ -49,7 +49,9 @@ class UtilsTest(unittest.TestCase):
 
     def test_name_formatter_pluralize(self):
         formatter = NameFormatter("word")
-        self.assertEqual(formatter.join(["joinable", "thing"], pluralize=True), "joinable_things")
+        self.assertEqual(
+            formatter.join(["joinable", "thing"], pluralize=True), "joinable_things"
+        )
         self.assertEqual(formatter.join([], pluralize=True), "")
 
     def test_names_with_different_cases_should_raise_error(self):
