@@ -11,12 +11,13 @@ def get_description():
 
 setup_kwargs = dict(
     name="EnumECG",
-    version="0.0.1",
+    version="0.1.dev0",
     author="Jaakko Moisio",
     author_email="jaakko@moisio.fi",
     description="Generate Enhanced Enum definitions for C++",
     long_description=get_description(),
-    url="https://github.com/jasujm/enhanced_enum",
+    license="MIT",
+    url="https://github.com/jasujm/enhanced-enum",
     packages=["enumecg"],
     package_data={"enumecg": ["templates/*.in"]},
     classifiers=[
