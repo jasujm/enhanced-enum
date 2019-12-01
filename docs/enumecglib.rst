@@ -54,6 +54,16 @@ file using general purpose serialization format like JSON or YAML.
   >>> import enumecg
   >>> enumecg.generate(status)
 
+The supported keys are:
+
+- ``typename``: The enum typename.
+
+- ``members``: Mapping between enumerator names and values. The
+  enumerators appear in the same order as they appear in the
+  definition. Note that in CPython ``dict`` type is ordered by
+  default, but to be more explicit, ``collections.OrderedDict`` might
+  be preferred.
+
 Native representation
 .....................
 
