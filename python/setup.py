@@ -11,7 +11,7 @@ def get_description():
 
 setup_kwargs = dict(
     name="EnumECG",
-    version="0.1.dev0",
+    version="0.1.dev1",
     author="Jaakko Moisio",
     author_email="jaakko@moisio.fi",
     description="Generate Enhanced Enum definitions for C++",
