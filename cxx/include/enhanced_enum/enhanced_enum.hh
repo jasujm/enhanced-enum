@@ -167,7 +167,7 @@ struct is_label_enum
 //! \cond internal
 
 template<typename T>
-struct is_label_enum<T, std::void_t<enhanced<T>>>: std::true_type {};
+struct is_label_enum<T, std::void_t<enhanced<T>>> : std::true_type {};
 
 //! \endcond
 
