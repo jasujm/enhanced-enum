@@ -37,7 +37,5 @@ class CodeGeneratorTest(unittest.TestCase):
             self.assertIn(member.enumerator_value_constant_name, snippet)
             self.assertIn(member.enumerator_value, snippet)
 
-    def test_enum_definitions_should_contain_enums_namespace(self):
-        self.assertIn(
-            STATUS_DEFINITION.enums_namespace_name, self.gen.generate_enum_definitions()
-        )
+    def test_enum_definitions_should_contain_associate_namespace(self):
+        self.assertIn("namespace Statuses", self.gen.generate_enum_definitions())

@@ -32,7 +32,7 @@ class EnumDefinition:
     enhanced_enum_typename: str
     value_type_typename: str
     members: typing.Sequence[EnumMemberDefinition]
-    enums_namespace_name: str
+    associate_namespace_name: str
 
 
 def _make_definition_from_dict(enum_dict):
@@ -54,7 +54,7 @@ def _make_definition_from_dict(enum_dict):
             )
             for (n, (member_name, member_value)) in enumerate(members.items())
         ],
-        enums_namespace_name=formatter.join(formatter.parts[0], pluralize=True),
+        associate_namespace_name=formatter.join(formatter.parts[0], pluralize=True),
     )
 
 

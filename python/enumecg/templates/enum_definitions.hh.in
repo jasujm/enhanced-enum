@@ -32,7 +32,7 @@ constexpr {{ d.enhanced_enum_typename }} {{ enhance_function_name }}({{ d.label_
     return e;
 }
 
-namespace Statuses {
+namespace {{ d.associate_namespace_name }} {
 {%- for member in d.members %}
 inline constexpr const {{ qualify_with_enhanced_enum(value_type_alias) }}& {{ member.enumerator_value_constant_name }} { std::get<{{ loop.index0 }}>({{ qualify_with_enhanced_enum(values_array_name) }}) };
 {%- endfor %}

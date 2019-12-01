@@ -95,7 +95,7 @@ fine control of the generated code is required.
   ...             enumerator_value="busy",
   ...         ),
   ...     ],
-  ...     enums_namespace_name="Statuses",
+  ...     associate_namespace_name="Statuses",
   ... )
   >>> import enumecg
   >>> enumecg.generate(status)

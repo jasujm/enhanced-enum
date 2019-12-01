@@ -21,5 +21,5 @@ STATUS_DEFINITION = EnumDefinition(
             enumerator_value="busy",
         ),
     ],
-    enums_namespace_name="Statuses",
+    associate_namespace_name="Statuses",
 )
