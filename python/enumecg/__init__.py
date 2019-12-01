@@ -10,7 +10,7 @@ from . import definitions
 from . import generators
 
 
-def generator(enum) -> generators.CodeGenerator:
+def generator(enum, **options) -> generators.CodeGenerator:
     """Create code generator for an enhanced enum type
 
     Creates an instance of :class:`generators.CodeGenerator` created from the
@@ -29,16 +29,16 @@ def generator(enum) -> generators.CodeGenerator:
 
     Parameters:
         enum: The description of the enum
+        options: The options to control enum generation
 
     Returns:
         The :class:`generators.CodeGenerator` instance created from the ``enum``
         description.
-
     """
-    return generators.CodeGenerator(definitions.make_definition(enum))
+    return generators.CodeGenerator(definitions.make_definition(enum, **options))
 
 
-def generate(enum) -> str:
+def generate(enum, **options) -> str:
     """Generate code for an enhanced enum
 
     This function is a shorthand for creating and invoking a code generator in
@@ -47,8 +47,9 @@ def generate(enum) -> str:
 
     Parameters:
        enum: The description of the enum
+       options: The options to control enum generation
 
     Returns:
        The enhanced enum definition created from the ``enum`` description.
     """
-    return str(generator(enum).generate_enum_definitions())
+    return str(generator(enum, **options).generate_enum_definitions())

@@ -35,14 +35,25 @@ class EnumDefinition:
     associate_namespace_name: str
 
 
-def _make_definition_from_dict(enum_dict):
+def _make_definition_from_dict(enum_dict, **options):
     typename = enum_dict["typename"]
     members = enum_dict["members"]
     formatter = utils.NameFormatter(typename)
     member_formatter = utils.NameFormatter(*members.keys())
+    primary_type = options.get("primary_type")
+    label_enum_typename = (
+        formatter.join(formatter.parts[0] + ["label"])
+        if primary_type != "label"
+        else typename
+    )
+    enhanced_enum_typename = (
+        formatter.join(["enhanced"] + formatter.parts[0])
+        if primary_type != "enhanced"
+        else typename
+    )
     return EnumDefinition(
-        label_enum_typename=formatter.join(formatter.parts[0] + ["label"]),
-        enhanced_enum_typename=formatter.join(["enhanced"] + formatter.parts[0]),
+        label_enum_typename=label_enum_typename,
+        enhanced_enum_typename=enhanced_enum_typename,
         value_type_typename="std::string_view",  # TODO: infer from values
         members=[
             EnumMemberDefinition(
@@ -67,7 +78,7 @@ def _extract_python_enum_attrs(enum):
     }
 
 
-def make_definition(enum) -> EnumDefinition:
+def make_definition(enum, **options) -> EnumDefinition:
     """Make :class:`EnumDefinition` instance from various types
 
     This function is used to convert various kinds of enum descriptions
@@ -79,13 +90,17 @@ def make_definition(enum) -> EnumDefinition:
     This function is mainly meant to be used by the high level functions in the
     top level :mod:`enumecg` module, but can also be invoked directly for
     greater control over the code generation process.
+
+    Parameters:
+        enum: The convertible enum description
+        options: The conversion options
     """
     if isinstance(enum, EnumDefinition):
         return enum
     elif isinstance(enum, cabs.Mapping):
-        return _make_definition_from_dict(enum)
+        return _make_definition_from_dict(enum, **options)
     elif isinstance(enum, py_enum.EnumMeta):
-        return _make_definition_from_dict(_extract_python_enum_attrs(enum))
+        return _make_definition_from_dict(_extract_python_enum_attrs(enum), **options)
     else:
         raise TypeError(
             f"Could not convert {enum!r} of type {type(enum)} into EnumDefinition"

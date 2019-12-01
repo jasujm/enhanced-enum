@@ -67,7 +67,7 @@ The supported keys are:
 - ``members``: Mapping between enumerator names and values. The
   enumerators appear in the same order as they appear in the
   definition. Note that in CPython ``dict`` type is ordered by
-  default, but to be more explicit, ``collections.OrderedDict`` might
+  default, but to be more explicit, :class:`collections.OrderedDict` might
   be preferred.
 
 Native representation
@@ -113,8 +113,16 @@ explicit fields of the definition object.
 
 .. _enumecg-code-generation:
 
-Controlling the code generation
--------------------------------
+Code generation options
+-----------------------
+
+Various aspects of code generation can be controlled by passing
+keyword arguments to the code generator functions.
+
+Please note that when generating the code directly from
+:class:`enumecg.definitions.EnumDefinition` object, the options have
+no effect because the :class:`EnumDefinition` object is assumed to contain
+all information required to generate the code already.
 
 Type names
 ..........
@@ -125,9 +133,21 @@ certainly the user will want to call one of those types simply
 ``Status`` depending on the view whether the label enum or the
 enhanced enum is considered the *primary enum type*.
 
-.. warning::
+To make the label enum the primary type, set ``primary_type`` option
+to "label" when invoking the code generation:
 
-   WIP: Not implemented yet.
+.. doctest::
+
+   >>> enumecg.generate(Status, primary_type="label")
+   '...enum class Status {...'
+
+Similarly, passing option "enhanced" will make the enhanced enum the
+primary type:
+
+.. doctest::
+
+   >>> enumecg.generate(Status, primary_type="enhanced")
+   '...struct Status : ::enhanced_enum::enum_base<...'
 
 .. _enumecg-enumerator-values:
 
@@ -154,8 +174,13 @@ It is also possible to start with an
 of the above representations, and modifying it before actually using
 it to generate the C++
 code. :func:`enumecg.definitions.make_definition()` can first be used
-to get an ``EnumDefinition`` object, which can further be used with
-the :func:`enumecg.generate()` function.
+to get an :class:`EnumDefinition` object, which can further be used
+with the :func:`enumecg.generate()` function.
+
+Note that, although the :func:`generate()` function will ignore any
+options when an :class:`EnumDefinition` object is used as argument,
+:func:`make_definition()` accepts all the same options, that will be
+applied when creating the enum definition.
 
 .. _enumecg-high-level-api:
 
