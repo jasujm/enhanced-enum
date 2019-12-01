@@ -231,10 +231,29 @@ using make_enhanced_t = typename make_enhanced<Enum>::type;
  * }
  * \endcode
  */
+template<
+    typename T, typename U
+#ifndef IS_DOXYGEN
+    , typename = void
+#endif
+>
+struct is_same_when_enhanced
+#ifndef IS_DOXYGEN
+    : std::false_type
+#endif
+{};
+
+//! \cond internal
+
 template<typename T, typename U>
-using is_same_when_enhanced = std::is_same<
-    make_enhanced_t<T>, make_enhanced_t<U>
->;
+struct is_same_when_enhanced<
+    T, U,
+    std::enable_if_t<
+        std::is_same_v<make_enhanced_t<T>, make_enhanced_t<U>>
+    >
+> : std::true_type {};
+
+//! \endcond
 
 /** \brief Shorthand for \ref is_same_when_enhanced
  */
