@@ -55,6 +55,10 @@ install(FILES ${ENHANCEDENUM_CONFIG}
 
 install(DIRECTORY ${ENHANCEDENUM_INCLUDE_DIR}/ DESTINATION include)
 
+if(ENHANCEDENUM_BUILD_TESTS)
+  enable_testing()
+endif()
+
 set(ENHANCEDENUM_BUILD_DOCS OFF CACHE BOOL "Build documentation")
 if(ENHANCEDENUM_BUILD_DOCS)
   add_subdirectory(docs)
@@ -62,7 +66,6 @@ endif()
 
 set(ENHANCEDENUM_BUILD_TESTS OFF CACHE BOOL "Build tests")
 if(ENHANCEDENUM_BUILD_TESTS)
-  enable_testing()
   add_subdirectory(cxx/tests)
 endif()
 

@@ -26,14 +26,16 @@ Creating C++ enum from Python enum
 The most idiomatic way to create an enum definition in pure Python is
 to give the generator a Python enum type.
 
+.. doctest::
 
-  >>> import enum
-  >>> class Status(enum.Enum):
-  ...     INITIALIZING = "initializing"
-  ...     WAITING_FOR_INPUT = "waitingForInput"
-  ...     BUSY = "busy"
-  >>> import enumecg
-  >>> enumecg.generate(Status)
+   >>> import enum
+   >>> class Status(enum.Enum):
+   ...     INITIALIZING = "initializing"
+   ...     WAITING_FOR_INPUT = "waitingForInput"
+   ...     BUSY = "busy"
+   >>> import enumecg
+   >>> enumecg.generate(Status)
+   '...'
 
 The mapping between the name of the enum type, and the names and
 values of the enum members are obvious in this style.
@@ -44,16 +46,19 @@ Creating C++ enum from a dict
 This is a convenient method if the enum definitions are loaded from a
 file using general purpose serialization format like JSON or YAML.
 
-  >>> status = {
-  ...     "typename": "Status",
-  ...     "members": {
-  ...         "INITIALIZING": "initializing",
-  ...         "WAITING_FOR_INPUT": "waitingForInput",
-  ...         "BUSY": "busy",
-  ...     }
-  ... }
-  >>> import enumecg
-  >>> enumecg.generate(status)
+.. doctest::
+
+   >>> status = {
+   ...     "typename": "Status",
+   ...     "members": {
+   ...         "INITIALIZING": "initializing",
+   ...         "WAITING_FOR_INPUT": "waitingForInput",
+   ...         "BUSY": "busy",
+   ...     }
+   ... }
+   >>> import enumecg
+   >>> enumecg.generate(status)
+   '...'
 
 The supported keys are:
 
@@ -73,32 +78,35 @@ its datatype holding the native representation of enum
 definition. They can be used with the generator directly if a very
 fine control of the generated code is required.
 
-  >>> from enumecg.definitions import EnumDefinition, EnumMemberDefinition
-  >>> status = EnumDefinition(
-  ...     label_enum_typename="StatusLabel",
-  ...     enhanced_enum_typename="EnhancedStatus",
-  ...     value_type_typename="std::string_view",
-  ...     members=[
-  ...         EnumMemberDefinition(
-  ...             enumerator_name="INITIALIZING",
-  ...             enumerator_value_constant_name="INITIALIZING_VALUE",
-  ...             enumerator_value="initializing",
-  ...         ),
-  ...         EnumMemberDefinition(
-  ...             enumerator_name="WAITING_FOR_INPUT",
-  ...             enumerator_value_constant_name="WAITING_FOR_INPUT_VALUE",
-  ...             enumerator_value="waitingForInput",
-  ...         ),
-  ...         EnumMemberDefinition(
-  ...             enumerator_name="BUSY",
-  ...             enumerator_value_constant_name="BUSY_VALUE",
-  ...             enumerator_value="busy",
-  ...         ),
-  ...     ],
-  ...     associate_namespace_name="Statuses",
-  ... )
-  >>> import enumecg
-  >>> enumecg.generate(status)
+.. doctest::
+
+   >>> from enumecg.definitions import EnumDefinition, EnumMemberDefinition
+   >>> status = EnumDefinition(
+   ...     label_enum_typename="StatusLabel",
+   ...     enhanced_enum_typename="EnhancedStatus",
+   ...     value_type_typename="std::string_view",
+   ...     members=[
+   ...         EnumMemberDefinition(
+   ...             enumerator_name="INITIALIZING",
+   ...             enumerator_value_constant_name="INITIALIZING_VALUE",
+   ...             enumerator_value="initializing",
+   ...         ),
+   ...         EnumMemberDefinition(
+   ...             enumerator_name="WAITING_FOR_INPUT",
+   ...             enumerator_value_constant_name="WAITING_FOR_INPUT_VALUE",
+   ...             enumerator_value="waitingForInput",
+   ...         ),
+   ...         EnumMemberDefinition(
+   ...             enumerator_name="BUSY",
+   ...             enumerator_value_constant_name="BUSY_VALUE",
+   ...             enumerator_value="busy",
+   ...         ),
+   ...     ],
+   ...     associate_namespace_name="Statuses",
+   ... )
+   >>> import enumecg
+   >>> enumecg.generate(status)
+   '...'
 
 Note that in this style all names used in the C++ template are
 explicit fields of the definition object.

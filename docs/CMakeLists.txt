@@ -35,6 +35,12 @@ if(Doxygen_FOUND AND Sphinx_FOUND)
     COMMENT "Generating Sphinx documentation")
 
   add_custom_target(docs ALL DEPENDS ${SPHINX_INDEX_FILE} ${DOXYGEN_INDEX_FILE})
+
+  if (ENHANCEDENUM_BUILD_TESTS)
+    add_test(NAME EnumECGDoctest
+      COMMAND ${SPHINX_EXECUTABLE} -b doctest
+        ${SPHINX_SOURCE_DIR} ${SPHINX_BUILD})
+  endif()
 else()
   message(STATUS "Doxygen and/or Sphinx not found. Skipping documentation.")
 endif()

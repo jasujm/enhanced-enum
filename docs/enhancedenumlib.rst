@@ -85,13 +85,16 @@ incompatible changes are not made lightly.
 Let's create ``Status`` type that enumerates the different states of
 an imaginary process:
 
-  >>> import enum
-  >>> class Status(enum.Enum):
-  ...     INITIALIZING = "initializing"
-  ...     WAITING_FOR_INPUT = "waitingForInput"
-  ...     BUSY = "busy"
-  >>> import enumecg
-  >>> enumecg.generate(Status)
+.. doctest::
+
+   >>> import enum
+   >>> class Status(enum.Enum):
+   ...     INITIALIZING = "initializing"
+   ...     WAITING_FOR_INPUT = "waitingForInput"
+   ...     BUSY = "busy"
+   >>> import enumecg
+   >>> enumecg.generate(Status)
+   '...'
 
 The above command will generate the following C++ code:
 
