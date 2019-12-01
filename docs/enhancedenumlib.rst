@@ -97,15 +97,17 @@ The above command will generate the following C++ code:
 
 .. literalinclude:: examples/status.hh
    :language: c++
+   :linenos:
 
-The code starts with definition of ``enum class StatusLabel``. This is
-the underlying *label enum* type. The `label enumerators` be thought
-as a names for the enumerators in the enhanced enum type.
+The code starts with definition of ``enum class StatusLabel`` at
+line 1. This is the underlying *label enum* type. The `label
+enumerators` be thought as a names for the enumerators in the enhanced
+enum type.
 
-The next block is the definition of ``struct EnhancedStatus``. This is
-the actual enhance enum type. It derives from :cpp:class:`enum_base`
-implemented in the Enhanced Enum library header. The base class has
-three template arguments:
+The next block is the definition of ``struct EnhancedStatus`` at
+line 7. This is the actual enhance enum type. It derives from
+:cpp:class:`enum_base` implemented in the Enhanced Enum library
+header. The base class has three template arguments:
 
 1. ``EnhancedStatus`` to employ the curiously recurring template pattern.
 2. ``StatusLabel``, the label enum type
@@ -117,17 +119,18 @@ their values.
 
 The library needs a way to map a label enumerators to the
 corresponding enhanced enumerators without knowing the name of the
-enhanced enum type. That is done with the ``enhance()`` method, that
-needs to be defined in the same namespace as ``StatusLabel`` itself to
-support argument-dependent lookup. Because the library needs to
-reserve an identifier in the user namespace, there is a risk for name
-collision. The name ``enhance`` was chosen because, although short, it
-is a verb not otherwise often used in computer programming. Due to its
-shortness it makes the code using the function cleaner.
+enhanced enum type. That is done with the ``enhance()`` method,
+defined at line 16. It needs to be defined in the same namespace as
+``StatusLabel`` itself to support argument-dependent lookup. Because
+the library needs to reserve an identifier in the user namespace,
+there is a risk for name collision. The name ``enhance`` was chosen
+because, although short, it is a verb not otherwise often used in
+computer programming. Due to its shortness it makes the code using the
+function cleaner.
 
-Finally the enumerators are defined as constants in the ``namespace
-Statuses``. This is not necessary for the library itself, but defined
-for the application use.
+Finally the enumerators and their values are defined as constants in
+the ``namespace Statuses``, defined at line 21. This is not necessary
+for the library itself, but defined for the application use.
 
 Controlling output
 ..................

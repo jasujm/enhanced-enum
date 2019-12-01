@@ -40,8 +40,8 @@ static_assert( std::is_same_v<enhanced_enum::make_enhanced_t<EnhancedStatus>, En
 // enhance(), .get() and .value() are constexpr
 
 static_assert( enhance(StatusLabel::BUSY).get() == StatusLabel::BUSY );
-static_assert( enhance(StatusLabel::BUSY).value() == EnhancedStatus::BUSY_VALUE );
-static_assert( EnhancedStatus::from(EnhancedStatus::BUSY_VALUE) == Statuses::BUSY );
+static_assert( enhance(StatusLabel::BUSY).value() == Statuses::BUSY_VALUE );
+static_assert( EnhancedStatus::from(Statuses::BUSY_VALUE) == Statuses::BUSY );
 static_assert( !EnhancedStatus::from("nonexistent") );
 
 // Comparison operators work as expected, and can compare both enhanced and
@@ -98,17 +98,17 @@ INSTANTIATE_TEST_SUITE_P(
         EnumBundle {
             StatusLabel::INITIALIZING,
             Statuses::INITIALIZING,
-            EnhancedStatus::INITIALIZING_VALUE,
+            Statuses::INITIALIZING_VALUE,
         },
         EnumBundle {
             StatusLabel::WAITING_FOR_INPUT,
             Statuses::WAITING_FOR_INPUT,
-            EnhancedStatus::WAITING_FOR_INPUT_VALUE,
+            Statuses::WAITING_FOR_INPUT_VALUE,
         },
         EnumBundle {
             StatusLabel::BUSY,
             Statuses::BUSY,
-            EnhancedStatus::BUSY_VALUE,
+            Statuses::BUSY_VALUE,
         }
     )
 );

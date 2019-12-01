@@ -18,6 +18,7 @@ definitions. For further discussion see :ref:`enhancedenum-overview`.
 
 .. literalinclude:: examples/status.hh
    :language: c++
+   :linenos:
 
 Creating C++ enum from Python enum
 ..................................

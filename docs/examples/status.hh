@@ -6,13 +6,10 @@ enum class StatusLabel {
 
 struct EnhancedStatus : ::enhanced_enum::enum_base<EnhancedStatus, StatusLabel, std::string_view> {
     using ::enhanced_enum::enum_base<EnhancedStatus, StatusLabel, std::string_view>::enum_base;
-    static constexpr value_type INITIALIZING_VALUE { "initializing" };
-    static constexpr value_type WAITING_FOR_INPUT_VALUE { "waitingForInput" };
-    static constexpr value_type BUSY_VALUE { "busy" };
-    static constexpr std::array<value_type, 3> values {
-        INITIALIZING_VALUE,
-        WAITING_FOR_INPUT_VALUE,
-        BUSY_VALUE,
+    static constexpr std::array values {
+        value_type { "initializing" },
+        value_type { "waitingForInput" },
+        value_type { "busy" },
     };
 };
 
@@ -22,7 +19,10 @@ constexpr EnhancedStatus enhance(StatusLabel e) noexcept
 }
 
 namespace Statuses {
-constexpr EnhancedStatus INITIALIZING { StatusLabel::INITIALIZING };
-constexpr EnhancedStatus WAITING_FOR_INPUT { StatusLabel::WAITING_FOR_INPUT };
-constexpr EnhancedStatus BUSY { StatusLabel::BUSY };
+inline constexpr const EnhancedStatus::value_type& INITIALIZING_VALUE { std::get<0>(EnhancedStatus::values) };
+inline constexpr const EnhancedStatus::value_type& WAITING_FOR_INPUT_VALUE { std::get<1>(EnhancedStatus::values) };
+inline constexpr const EnhancedStatus::value_type& BUSY_VALUE { std::get<2>(EnhancedStatus::values) };
+inline constexpr EnhancedStatus INITIALIZING { StatusLabel::INITIALIZING };
+inline constexpr EnhancedStatus WAITING_FOR_INPUT { StatusLabel::WAITING_FOR_INPUT };
+inline constexpr EnhancedStatus BUSY { StatusLabel::BUSY };
 }
