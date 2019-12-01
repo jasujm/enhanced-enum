@@ -3,27 +3,28 @@ normally have:
 
 .. code-block:: c++
 
-   struct Status {
+   struct StatusLabel {
        INITIALIZING,
        WAITING_FOR_INPUT,
        BUSY,
    };
 
-   constexpr auto status = enhance(Status::INITIALIZING);
+   constexpr auto status = enhance(StatusLabel::INITIALIZING);
 
 Their value is no longer restricted to integers:
 
 .. code-block:: c++
 
    static_assert( status.value() == "initializing" );
+   static_assert( status == Status::from("initializing") );
 
 ...all while taking remaining largely compatible with the fundamental enums:
 
 .. code-block:: c++
 
-   static_assert( sizeof(status) == sizeof(Status) );
-   static_assert( status == Status::INITIALIZING );
-   static_assert( status != Status::WAITING_FOR_INPUT );
+   static_assert( sizeof(status) == sizeof(StatusLabel) );
+   static_assert( status == StatusLabel::INITIALIZING );
+   static_assert( status != StatusLabel::WAITING_FOR_INPUT );
 
 Why yet another enum library for C++?
 -------------------------------------

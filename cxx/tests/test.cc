@@ -41,6 +41,8 @@ static_assert( std::is_same_v<enhanced_enum::make_enhanced_t<EnhancedStatus>, En
 
 static_assert( enhance(StatusLabel::BUSY).get() == StatusLabel::BUSY );
 static_assert( enhance(StatusLabel::BUSY).value() == EnhancedStatus::BUSY_VALUE );
+static_assert( EnhancedStatus::from(EnhancedStatus::BUSY_VALUE) == Statuses::BUSY );
+static_assert( !EnhancedStatus::from("nonexistent") );
 
 // Comparison operators work as expected, and can compare both enhanced and
 // label enums
@@ -81,6 +83,12 @@ TEST_P(EnhancedEnumTest, testValue)
 {
     const auto bundle = GetParam();
     EXPECT_EQ(bundle.enhanced.value(), bundle.value);
+}
+
+TEST_P(EnhancedEnumTest, testConstructFromValue)
+{
+    const auto bundle = GetParam();
+    EXPECT_EQ(EnhancedStatus::from(bundle.value), bundle.enhanced);
 }
 
 INSTANTIATE_TEST_SUITE_P(

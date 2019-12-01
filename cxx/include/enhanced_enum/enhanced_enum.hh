@@ -4,6 +4,7 @@
  */
 
 #include <array>
+#include <optional>
 #include <type_traits>
 
 /** \brief The main namespace for the Enhanced Enum library
@@ -47,6 +48,39 @@ struct enum_base {
 
     using label_type = LabelEnum;   ///< \brief Alias for the label enum type
     using value_type = ValueType;   ///< \brief Alias for the value type
+
+    /** \brief Get the number of enumerators
+     *
+     * \return The number of enumerators in this enum
+     */
+    static constexpr std::size_t size() noexcept
+    {
+        return EnhancedEnum::values.size();
+    }
+
+    /** \brief Get enhanced enum associated with value
+     *
+     * \param value The value to search
+     *
+     * \return The first enumerator whose value is \p value, or empty
+     * if no such enumerator exists
+     *
+     * \note The number of comparisons is linear in the size of the
+     * enumeration. The assumption is that the number of enumerators
+     * is small and the values are localized in memory, making linear
+     * algorithm efficient in practice.
+     */
+    static constexpr std::optional<EnhancedEnum> from(const value_type& value) noexcept
+    {
+        constexpr auto N = size();
+        for (auto i = 0u; i < N; ++i) {
+            const auto e = EnhancedEnum {static_cast<LabelEnum>(i)};
+            if (e.value() == value) {
+                return e;
+            }
+        }
+        return std::nullopt;
+    }
 
     /** \brief Default constructor
      *
