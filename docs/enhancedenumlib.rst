@@ -147,6 +147,29 @@ called ``Status``.
 For the details about controlling output see
 :ref:`enumecg-code-generation`.
 
+Using the generated enum in a project
+-------------------------------------
+
+The generated enum definitions may appear in a namespace scope (global
+or any other namespace) in the user's C++ files. In addition the file
+must include the ``enhanced_enum.hh`` header file, and any headers
+needed to define the value type of the enumerator. Here is an example:
+
+
+.. code-block:: c++
+
+   #include <enhanced_enum/enhanced_enum.hh>
+
+   #include <string_view>
+
+   namespace myapp {
+
+   // The above enum definitions appear here
+
+   }
+
+   static_assert(myapp::Statuses::INITIALIZING.value() == "initializing");
+
 Library reference
 -----------------
 
