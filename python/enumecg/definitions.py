@@ -7,7 +7,7 @@ enum definition.
 """
 
 import collections
-import collections.abc as cabs
+import collections.abc as cabc
 import enum as py_enum
 import dataclasses
 import typing
@@ -97,7 +97,7 @@ def make_definition(enum, **options) -> EnumDefinition:
     """
     if isinstance(enum, EnumDefinition):
         return enum
-    elif isinstance(enum, cabs.Mapping):
+    elif isinstance(enum, cabc.Mapping):
         return _make_definition_from_dict(enum, **options)
     elif isinstance(enum, py_enum.EnumMeta):
         return _make_definition_from_dict(_extract_python_enum_attrs(enum), **options)
