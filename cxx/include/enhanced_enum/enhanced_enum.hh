@@ -60,15 +60,15 @@ struct enum_base {
 
     /** \brief Get enhanced enum associated with value
      *
-     * \param value The value to search
-     *
-     * \return The first enumerator whose value is \p value, or empty
-     * if no such enumerator exists
-     *
      * \note The number of comparisons is linear in the size of the
      * enumeration. The assumption is that the number of enumerators
      * is small and the values are localized in memory, making linear
      * algorithm efficient in practice.
+     *
+     * \param value The value to search
+     *
+     * \return The first enumerator whose value is \p value, or empty
+     * if no such enumerator exists
      */
     static constexpr std::optional<EnhancedEnum> from(const value_type& value) noexcept
     {
@@ -94,7 +94,7 @@ struct enum_base {
      *
      * \param label The label enumerator
      */
-    constexpr enum_base(LabelEnum label) noexcept : label {label} {}
+    constexpr enum_base(label_type label) noexcept : label {label} {}
 
     /** \brief Get the label enumerator
      *
@@ -107,9 +107,9 @@ struct enum_base {
 
     /** \brief Convert to label enumerator
      *
-     * \param return \c this->get()
+     * \return \c this->get()
      */
-    constexpr explicit operator LabelEnum() const noexcept
+    explicit constexpr operator label_type() const noexcept
     {
         return get();
     }
