@@ -12,6 +12,7 @@
 #
 import os
 import subprocess
+import re
 import sys
 
 sys.path.insert(0, os.path.abspath("../python"))
@@ -73,10 +74,13 @@ if read_the_docs_build:
     output_dir = "build"
     with open("Doxyfile.in") as infile:
         doxyfile_contents = infile.read()
-    doxyfile_contents = doxyfile_contents.replace(
-        "@ENHANCEDENUM_INCLUDE_DIR@", input_dir
+    doxyfile_contents = (
+        doxyfile_contents.replace("@ENHANCEDENUM_INCLUDE_DIR@", input_dir)
+        .replace("@DOXYGEN_OUTPUT_DIR@", output_dir)
+        .replace("@CMAKE_PROJECT_NAME@", "")
+        .replace("@CMAKE_PROJECT_VERSION@", "")
+        .replace("@CMAKE_PROJECT_DESCRIPTION@", "")
     )
-    doxyfile_contents = doxyfile_contents.replace("@DOXYGEN_OUTPUT_DIR@", output_dir)
     with open("Doxyfile", "w") as outfile:
         outfile.write(doxyfile_contents)
     subprocess.call("doxygen", shell=True)
