@@ -27,9 +27,7 @@ The Enhanced Enum library specific CMake variables are:
      $ python setup.py build
      $ python setup.py install
 
-  ...but does some extra bootstrapping to build out-of-source. The
-  package is thus installed in the current site-packages. You can also
-  do normal in-source build for greater control.
+  ...but does some extra bootstrapping to build out-of-source.
 
 - ``ENHANCEDENUM_BUILD_TESTS``: Build tests for the C++ and/or Python
   packages
@@ -44,12 +42,35 @@ imported target ``EnhancedEnum::EnhancedEnum``:
    find_package(EnhancedEnum)
    target_link_libraries(my-target EnhancedEnum::EnhancedEnum)
 
-Docs, EnumECG and unit tests *all* require Python when being built. A
-build environment can be bootstrapped using the ``Pipfile`` under
-the ``python/`` directory:
+Python environment
+------------------
+
+Docs, EnumECG and unit tests *all* require Python when being built. To
+use the CMake targets, a suggested approach is to create a build
+directory under the sources where the project ``Pipfile `` is
+available.
 
 .. code-block:: console
 
-  $ cd /path/to/repository/python
-  $ pipenv install --dev
-  $ pipenv shell
+   $ mkdir /path/to/repository/build
+   $ cd /path/to/repository/build
+   $ pipenv install --dev
+   $ pipenv run cmake                           \
+   >   -D ENHANCEDENUM_BUILD_DOCS:BOOL=ON       \
+   >   -D ENHANCEDENUM_BUILD_TESTS:BOOL=ON      \
+   >   ..
+   $ make && make test
+
+However, ``make install`` target may not make much sense with this
+workflow, as it will only install :mod:`enumecg` to the current
+virtualenv. If want to install development version of the EnumECG
+library via CMake, you should use an external virtualenv:
+
+.. code-block:: console
+
+   (venv) $ cd /path/to/build/dir
+   (venv) $ cmake -D ENHANCEDENUM_BUILD_PYTHON:BOOL=ON /path/to/repository
+   (venv) $ make && make install
+
+It is of course possible to build and install EnumECG by invoking a
+more typical in-source build.

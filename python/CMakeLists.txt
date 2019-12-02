@@ -3,7 +3,9 @@ include(FindPython)
 find_package(Python)
 
 if(Python_FOUND)
+  get_target_property(PYTHON_EXECUTABLE Python::Interpreter LOCATION)
   set(PYTHON_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/build/lib")
+  file(MAKE_DIRECTORY ${PYTHON_BUILD_DIR})
 
   set(ENUMECG_SETUP "${CMAKE_CURRENT_SOURCE_DIR}/setup.py")
   set(ENUMECG_OUTPUT "${PYTHON_BUILD_DIR}/timestamp")
