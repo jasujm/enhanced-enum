@@ -47,7 +47,7 @@ Python environment
 
 Docs, EnumECG and unit tests *all* require Python when being built. To
 use the CMake targets, a suggested approach is to create a build
-directory under the sources where the project ``Pipfile `` is
+directory under the sources where the project ``Pipfile`` is
 available.
 
 .. code-block:: console
