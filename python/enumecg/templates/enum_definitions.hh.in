@@ -22,7 +22,7 @@ struct {{ d.enhanced_enum_typename }} : {{ enum_base_class() }} {
     using {{ enum_base_class() }}::{{ enum_base_class_name }};
     static constexpr std::array {{ values_array_name }} {
     {%- for member in d.members %}
-        {{ value_type_alias }} { {{ initializer(member.enumerator_value) }} },
+        {{ value_type_alias }} {{ member.enumerator_value_initializers | initializer_list }},
     {%- endfor %}
     };
 };

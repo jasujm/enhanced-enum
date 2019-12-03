@@ -1,26 +1,14 @@
 import copy
-import enum
 import unittest
 
-from .common import STATUS_DEFINITION
+from .common import (
+    STATUS_DEFINITION,
+    Status,
+    STATUS_DEFINITION_DICT,
+    NESTED_ENUM_DEFINITION_DICT,
+)
 
 from enumecg.definitions import EnumDefinition, EnumMemberDefinition, make_definition
-
-
-class Status(enum.Enum):
-    INITIALIZING = "initializing"
-    WAITING_FOR_INPUT = "waitingForInput"
-    BUSY = "busy"
-
-
-STATUS_DEFINITION_DICT = {
-    "typename": "Status",
-    "members": {
-        "INITIALIZING": "initializing",
-        "WAITING_FOR_INPUT": "waitingForInput",
-        "BUSY": "busy",
-    },
-}
 
 
 class EnumDefinitionTest(unittest.TestCase):
@@ -48,4 +36,18 @@ class EnumDefinitionTest(unittest.TestCase):
         definition.enhanced_enum_typename = "Status"
         self.assertEqual(
             make_definition(STATUS_DEFINITION_DICT, primary_type="enhanced"), definition
+        )
+
+    def test_make_definition_type_deduction(self):
+        nested_enum_definition = make_definition(NESTED_ENUM_DEFINITION_DICT)
+        self.assertEqual(
+            nested_enum_definition.value_type_typename,
+            "std::tuple<long, std::tuple<std::string_view, bool>>",
+        )
+
+    def test_make_definition_enumerator_value_initializers(self):
+        nested_enum_definition = make_definition(NESTED_ENUM_DEFINITION_DICT)
+        self.assertSequenceEqual(
+            nested_enum_definition.members[0].enumerator_value_initializers,
+            ["0", ['"string"', "true"]],
         )

@@ -69,6 +69,18 @@ static_assert( StatusLabel::BUSY >= enhance(StatusLabel::INITIALIZING) );
 static_assert( enhance(StatusLabel::BUSY) >= StatusLabel::BUSY );
 static_assert( StatusLabel::BUSY >= enhance(StatusLabel::BUSY) );
 
+// Test nested enum type
+
+static_assert(
+    std::is_same_v<
+       nested::NestedEnum::value_type,
+       std::tuple<long, std::tuple<std::string_view, bool>>
+    >
+);
+
+static_assert( std::get<0>(nested::NestedEnums::enumerator_value) == 0 );
+static_assert( std::get<1>(nested::NestedEnums::enumerator_value) == std::tuple {"string", true} );
+
 // Non-compile time tests start here:
 
 class EnhancedEnumTest : public testing::TestWithParam<EnumBundle> {};

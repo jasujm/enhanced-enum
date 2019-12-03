@@ -21,7 +21,7 @@ class EnumMemberDefinition:
 
     enumerator_name: str
     enumerator_value_constant_name: str
-    enumerator_value: typing.Any
+    enumerator_value_initializers: typing.Union[typing.Sequence, str]
 
 
 @dataclasses.dataclass
@@ -51,17 +51,20 @@ def _make_definition_from_dict(enum_dict, **options):
         if primary_type != "enhanced"
         else typename
     )
+    type_deducer = utils.CppTypeDeducer(*members.values())
     return EnumDefinition(
         label_enum_typename=label_enum_typename,
         enhanced_enum_typename=enhanced_enum_typename,
-        value_type_typename="std::string_view",  # TODO: infer from values
+        value_type_typename=type_deducer.type_name,
         members=[
             EnumMemberDefinition(
                 enumerator_name=member_name,
                 enumerator_value_constant_name=member_formatter.join(
                     member_formatter.parts[n] + ["value"]
                 ),
-                enumerator_value=member_value,
+                enumerator_value_initializers=type_deducer.get_initializer(
+                    member_value
+                ),
             )
             for (n, (member_name, member_value)) in enumerate(members.items())
         ],

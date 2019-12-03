@@ -77,7 +77,7 @@ The code generator uses :class:`enumecg.definitions.EnumDefinition` as
 its datatype holding the native representation of enum
 definition. They can be used with the generator directly if a very
 fine control of the generated code is required.
-
+%
 .. doctest::
 
    >>> from enumecg.definitions import EnumDefinition, EnumMemberDefinition
@@ -89,17 +89,17 @@ fine control of the generated code is required.
    ...         EnumMemberDefinition(
    ...             enumerator_name="INITIALIZING",
    ...             enumerator_value_constant_name="INITIALIZING_VALUE",
-   ...             enumerator_value="initializing",
+   ...             enumerator_value_initializers="initializing",
    ...         ),
    ...         EnumMemberDefinition(
    ...             enumerator_name="WAITING_FOR_INPUT",
    ...             enumerator_value_constant_name="WAITING_FOR_INPUT_VALUE",
-   ...             enumerator_value="waitingForInput",
+   ...             enumerator_value_initializers="waitingForInput",
    ...         ),
    ...         EnumMemberDefinition(
    ...             enumerator_name="BUSY",
    ...             enumerator_value_constant_name="BUSY_VALUE",
-   ...             enumerator_value="busy",
+   ...             enumerator_value_initializers="busy",
    ...         ),
    ...     ],
    ...     associate_namespace_name="Statuses",
@@ -113,8 +113,8 @@ explicit fields of the definition object.
 
 .. _enumecg-code-generation:
 
-Code generation options
------------------------
+Enum definitions in detail
+--------------------------
 
 Various aspects of code generation can be controlled by passing
 keyword arguments to the code generator functions.
@@ -167,8 +167,8 @@ error:
      ...
    ValueError: Could not find common case
 
-Type names
-..........
+Primary enum type
+.................
 
 By default the label enum for ``Status`` has the name ``StatusLabel``
 and the enhanced enum has the name ``EnhancedStatus``. Almost
@@ -194,20 +194,92 @@ primary type:
 
 .. _enumecg-enumerator-values:
 
-Enumerator values
-.................
+Enumerator types and values
+...........................
 
-In the examples above the enumerator values are strings, but they can
-be an arbitrary combination of C++ string, scalar types, arrays and
-tuples, or even user defined types consisting thereof. The only
-restriction is that the enumerator values must be constructible at
-compile time.
+Python has dynamic typing, but in C++ all enumerators within an enum
+type must have the same type known in advance. There are two ways to
+define the enumerator type:
 
-.. warning::
+- Have the code generator deduce a C++ type automatically from the
+  Python enumerator values
 
-   WIP: Enumerator values are currently hardcoded as
-   ``std::string_view``. Working to make it inferred from the Python
-   values.
+- Specify it manually
+
+Enumerator type deduction
+`````````````````````````
+
+In the examples above the enumerator values are strings, but the
+enumerator type can be any type that can be constexpr constructible
+from arbitrarily nested initializer lists of string, integer, float
+and bool literals.
+
+For example:
+
+.. doctest::
+
+   >>> class MathConstants(enum.Enum):
+   ...     PI = 3.14
+   ...     NEPER = 2.71
+   >>> enumecg.generate(MathConstants)
+   '...enum_base<..., double>...'
+
+Or even:
+
+   >>> class NestedExample(enum.Enum):
+   ...     EXPLICIT_VALUE = 0, 1.2, ("string", True)
+   ...     DEFAULT_VALUE = ()
+   >>> enumecg.generate(NestedExample)
+   '...enum_base<..., std::tuple<long, double, std::tuple<std::string_view, bool>>>...'
+
+The Python types are mapped to C++ types in the following way:
+
+- Integral types are mapped to ``long``
+
+- Other real numbers (like floats) are mapped to ``double``
+
+- ``str`` and ``bytes`` are mapped to ``std::string_view``
+
+- ``bool`` is mapped to ``bool``
+
+- Sequences are mapped to ``std::tuple`` whose template arguments are
+  (recursively) the mapped types of the elements of the sequence.
+
+All enumerator values must have a compatible types for the type
+deduction to work. When deducing the type from multiple sequences, the
+longest sequence determines the template arguments of the resulting
+``std::tuple``, and all prefixes of values must have types compatible
+with the longest sequence. For example the following works:
+
+.. doctest::
+
+   >>> class GoodExample(enum.Enum):
+   ...     VALUE1 = 1, 2
+   ...     VALUE2 = 3,
+   >>> enumecg.generate(GoodExample)
+   '...enum_base<..., std::tuple<long, long>>...'
+
+But the following doesn't:
+
+.. doctest::
+
+   >>> class BadExample(enum.Enum):
+   ...     VALUE1 = 1, 2
+   ...     VALUE2 = "string",
+   >>> enumecg.generate(BadExample)
+   Traceback (most recent call last):
+     ...
+   ValueError: Could not deduce compatible type
+
+Specifying enumerator type manually
+```````````````````````````````````
+
+WIP
+
+C++ enumerator value initializers
+`````````````````````````````````
+
+WIP
 
 Overriding arbitrary fields in the definition
 .............................................

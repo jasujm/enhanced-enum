@@ -7,6 +7,9 @@ perform. While they are mainly targeted for internal use, they are may
 also be useful outside the scope of the :mod:`enumecg` package.
 """
 
+import collections.abc as cabc
+import itertools
+import numbers
 import typing
 
 import inflect
@@ -36,6 +39,10 @@ def _join_lower_camel_case(parts):
         return ""
     else:
         return first + "".join(_capitalize_word(part) for part in rest)
+
+
+def _all_are_instances(values, type):
+    return values and all(isinstance(v, type) for v in values)
 
 
 class NameFormatter:
@@ -104,11 +111,11 @@ class NameFormatter:
             raise ValueError(f"Could not find common case for {names!r}")
 
     @property
-    def parts(self):
+    def parts(self) -> typing.Sequence[str]:
         """List of the name parts used to create the formatter"""
         return self._parts
 
-    def join(self, parts: typing.Iterable[str], *, pluralize=False):
+    def join(self, parts: typing.Iterable[str], *, pluralize=False) -> str:
         """Create new name from ``parts``
 
         Parameters:
@@ -128,3 +135,76 @@ class NameFormatter:
             if pluralize:
                 last = self._inflect.plural_noun(last)
             return self._joiner(head + [last])
+
+
+class CppTypeDeducer:
+    """Deduce C++ types and initializers from Python values
+
+    This class examines collections of Python values, and deduces a
+    C++ type that is compatible with them. It implements the algorithm
+    described in :ref:`enumecg-enumerator-values`.
+    """
+
+    _type_pairs = [
+        ((str, bytes), "std::string_view"),
+        (bool, "bool"),
+        (numbers.Integral, "long"),
+        (numbers.Real, "double"),
+    ]
+
+    def __init__(self, *values):
+        """
+        Parameters:
+          values: The values to analyze
+
+        Raises:
+          :exc:`ValueError`: If no C++ type compatible with
+            ``values`` can be deduced.
+        """
+        self._type_name = self._get_compatible_type(values)
+
+    @property
+    def type_name(self) -> str:
+        """The deduced C++ type"""
+        return self._type_name
+
+    @classmethod
+    def get_initializer(cls, value) -> str:
+        """Return C++ initializer for ``value``
+
+        Parameters:
+            A value consisting of string, numbers, booleans and nested
+            requences thereof.
+
+        Return:
+            An expression that can be used in a C++ initializer list to
+            initialize a type compatible with ``value`` at compile time
+        """
+        if isinstance(value, (str, bytes)):
+            if isinstance(value, bytes):
+                value = value.decode()
+            return f'"{repr(value)[1:-1]}"'
+        elif isinstance(value, bool):
+            return "true" if value else "false"
+        elif isinstance(value, numbers.Real):
+            return repr(value)
+        elif isinstance(value, cabc.Sequence):
+            return [cls.get_initializer(v) for v in value]
+        raise ValueError(f"Could not generate initializer for {value!r}")
+
+    @classmethod
+    def _get_compatible_type(cls, values):
+        values = list(values)
+        for (py_type, cpp_type_name) in cls._type_pairs:
+            if _all_are_instances(values, py_type):
+                return cpp_type_name
+        if _all_are_instances(values, cabc.Sequence):
+            sentinel = object()
+            common_types = []
+            for value_zip in itertools.zip_longest(*values, fillvalue=sentinel):
+                common_type = cls._get_compatible_type(
+                    v for v in value_zip if v is not sentinel
+                )
+                common_types.append(common_type)
+            return f"std::tuple<{', '.join(common_types)}>"
+        raise ValueError(f"Could not deduce compatible type for {values!r}")
