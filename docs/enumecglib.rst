@@ -124,6 +124,49 @@ Please note that when generating the code directly from
 no effect because the :class:`EnumDefinition` object is assumed to contain
 all information required to generate the code already.
 
+.. _enumecg-identifiers:
+
+Identifiers
+...........
+
+In the example above the type names follow CamelCase while the
+enumerator names are UPPER_SNAKE_CASE. The code generator tries to
+deduce the case style for the different kinds of identifiers and uses
+it to format the names of others.
+
+- The case style of the enum type name is used to format the names of
+  the C++ enums and the associate namespace.
+
+- The case style of the enumerator names are used to format the names
+  of the the C++ enumerators and value constants.
+
+The following case styles are recognized:
+
+- Snake case with all lowercase letters: ``lower_snake_case``
+
+- Snake case with all uppercase letters: ``UPPER_SNAKE_CASE``
+
+- Camel case with every word capitalized: ``CamelCase``
+
+- Camel case with the first word starting with a lowercase letter:
+  ``mixedCase``. A single lower case word is recognized as snake_case
+  instead of mixedCase.
+
+Only ASCII alphanumeric characters are supported. Numbers may appear
+in any other position except at the start of a subword. All
+enumerators must follow the same case style. The following leads to an
+error:
+
+.. doctest::
+
+   >>> class BadExample(enum.Enum):
+   ...     mixedCaseValue = "value1"
+   ...     snake_case_value = "value2"
+   >>> enumecg.generate(BadExample)
+   Traceback (most recent call last):
+     ...
+   ValueError: Could not find common case
+
 Type names
 ..........
 

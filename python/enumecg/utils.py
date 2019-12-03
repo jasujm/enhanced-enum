@@ -38,23 +38,6 @@ def _join_lower_camel_case(parts):
         return first + "".join(_capitalize_word(part) for part in rest)
 
 
-_SPLIT_NAME_TESTS = [
-    (
-        regex.compile(r"(?P<parts>[a-z][a-z0-9]*)(_(?P<parts>[a-z][a-z0-9]*))*"),
-        _join_lower_snake_case,
-    ),
-    (
-        regex.compile(r"(?P<parts>[A-Z][A-Z0-9]*)(_(?P<parts>[A-Z][A-Z0-9]*))*"),
-        _join_upper_snake_case,
-    ),
-    (regex.compile(r"(?P<parts>[A-Z][a-z0-9]*)+"), _join_upper_camel_case),
-    (
-        regex.compile(r"(?P<parts>[a-z][a-z0-9]*)(?P<parts>[A-Z][a-z0-9]*)+"),
-        _join_lower_camel_case,
-    ),
-]
-
-
 class NameFormatter:
     """Format names in the same case style as sample names
 
@@ -76,36 +59,39 @@ class NameFormatter:
         >>> formatter.join(["snake", "case"], pluralize=True)
         'snake_cases'
 
-    The following case styles are recognized:
-
-    - Snake case with all lowercase letters: ``lower_snake_case``
-
-    - Snake case with all uppercase letters: ``UPPER_SNAKE_CASE``
-
-    - Camel case with every word capitalized: ``CamelCase``
-
-    - Camel case with the first word starting with a lowercase letter:
-      ``mixedCase``. A single lower case word is recognized as snake_case
-      instead of mixedCase.
-
-    Only ASCII alphanumeric characters are supported, because the function
-    targets code generation. Numbers may appear in any other position except at
-    the start of a subword.
+    This class implements the identifier formatting described in
+    :ref:`enumecg-identifiers`.
     """
+
+    _split_name_regexes_and_joiners = [
+        (
+            regex.compile(r"(?P<parts>[a-z][a-z0-9]*)(_(?P<parts>[a-z][a-z0-9]*))*"),
+            _join_lower_snake_case,
+        ),
+        (
+            regex.compile(r"(?P<parts>[A-Z][A-Z0-9]*)(_(?P<parts>[A-Z][A-Z0-9]*))*"),
+            _join_upper_snake_case,
+        ),
+        (regex.compile(r"(?P<parts>[A-Z][a-z0-9]*)+"), _join_upper_camel_case),
+        (
+            regex.compile(r"(?P<parts>[a-z][a-z0-9]*)(?P<parts>[A-Z][a-z0-9]*)+"),
+            _join_lower_camel_case,
+        ),
+    ]
 
     _inflect = inflect.engine()
 
     def __init__(self, *names: str):
         """
         Parameters:
-          name: The name to analyze
+          names: The names to analyze
 
         Raises:
           :exc:`ValueError`: If at least one of the ``names`` doesn't
             follow a known case style, or if the sample contains names
             that follow different case style.
         """
-        for pattern, joiner in _SPLIT_NAME_TESTS:
+        for pattern, joiner in self._split_name_regexes_and_joiners:
             matches = [pattern.fullmatch(name) for name in names]
             if all(matches):
                 self._parts = [
