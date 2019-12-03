@@ -9,7 +9,7 @@ Motivation
 The native C++ enums are a good choice for types labeling choices from
 a limited set. They are
 
-- Type safe: It's hard for a programmer to deliberately create an enum
+- Type safe: It's hard for a programmer to accidentally create an enum
   object holding a value not in the predetermined set.
 
 - Lightweight: Under the hood enum is just an integer
