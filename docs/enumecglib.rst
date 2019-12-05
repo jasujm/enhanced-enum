@@ -226,11 +226,13 @@ For example:
 
 Or even:
 
+.. doctest::
+
    >>> class NestedExample(enum.Enum):
-   ...     EXPLICIT_VALUE = 0, 1.2, ("string", True)
+   ...     EXPLICIT_VALUE = 0, ("string", True)
    ...     DEFAULT_VALUE = ()
    >>> enumecg.generate(NestedExample)
-   '...enum_base<..., std::tuple<long, double, std::tuple<std::string_view, bool>>>...'
+   '...enum_base<..., std::tuple<long, std::tuple<std::string_view, bool>>>...'
 
 The Python types are mapped to C++ types in the following way:
 
@@ -276,10 +278,39 @@ Specifying enumerator type manually
 
 WIP
 
-C++ enumerator value initializers
-`````````````````````````````````
+Enumerator value initialization
+```````````````````````````````
 
-WIP
+.. warning::
+
+   Converting Python object representations into C++ literals is done
+   in a very straight-forward manner from the built-in
+   :func:`repr()`. It may not handle edge cases correctly, leading to
+   compilation errors.
+
+C++ enumerators are initialized with expressions based on the enum
+members used as arguments to the generator.
+
+.. doctest::
+
+   >>> enumecg.generate(Status)
+   '...value_type { "initializing" }...'
+
+Sequences are converted to initializer lists recursively. Empty
+sequences are simply converted to initializer lists. Using the
+``NestedExample`` above:
+
+.. doctest::
+
+   >>> enumecg.generate(NestedExample)
+   '...       value_type { 0, { "string", true } },\n        value_type {  },\n...'
+
+Note that when generating the initializers, the underlying type is no
+longer considered. The generator just examines the values and converts
+them to possibly nested lists surrounded by braces. Thus empty tuple
+assigned to ``NestedExample.DEFAULT_VALUE`` was converted to an empty
+initializer list, i.e. the corresponding C++ enumerator is value
+initialized.
 
 Overriding arbitrary fields in the definition
 .............................................
