@@ -116,6 +116,10 @@ class UtilsTest(unittest.TestCase):
             "std::tuple<std::tuple<std::string_view, std::string_view>, std::tuple<long, long>, bool>",
         )
 
+    def test_type_deducer_with_explicit_typename(self):
+        deducer = CppTypeDeducer(type_name="MyType")
+        self.assertEqual(deducer.type_name, "MyType")
+
     def test_type_deducer_with_unrecognized_type_should_raise_error(self):
         self.assertRaises(ValueError, CppTypeDeducer, object())
         self.assertRaises(ValueError, CppTypeDeducer.get_initializer, object())

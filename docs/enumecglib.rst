@@ -276,7 +276,17 @@ But the following doesn't:
 Specifying enumerator type manually
 ```````````````````````````````````
 
-WIP
+You can use an type as the enum value type. Simply pass ``value_type``
+option when invoking the code generation:
+
+.. doctest::
+
+   >>> enumecg.generate(Status, value_type="StatusValue")
+   '...enum_base<..., StatusValue>...'
+
+``StatusValue`` must be constexpr constructible from the ``Status``
+member values, i.e. string literals. Let's look into that closer in
+the next section.
 
 Enumerator value initialization
 ```````````````````````````````

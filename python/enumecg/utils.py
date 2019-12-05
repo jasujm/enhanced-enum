@@ -152,16 +152,21 @@ class CppTypeDeducer:
         (numbers.Real, "double"),
     ]
 
-    def __init__(self, *values):
+    def __init__(self, *values, type_name=None):
         """
+        If the explicit ``type_name`` parameter is given, it is preferred and
+        the ``values`` are not examined.
+
         Parameters:
-          values: The values to analyze
+          values: The values used to deduce the type
+          type_name: The type name
 
         Raises:
           :exc:`ValueError`: If no C++ type compatible with
             ``values`` can be deduced.
+
         """
-        self._type_name = self._get_compatible_type(values)
+        self._type_name = type_name or self._get_compatible_type(values)
 
     @property
     def type_name(self) -> str:

@@ -51,7 +51,9 @@ def _make_definition_from_dict(enum_dict, **options):
         if primary_type != "enhanced"
         else typename
     )
-    type_deducer = utils.CppTypeDeducer(*members.values())
+    type_deducer = utils.CppTypeDeducer(
+        *members.values(), type_name=options.get("value_type")
+    )
     return EnumDefinition(
         label_enum_typename=label_enum_typename,
         enhanced_enum_typename=enhanced_enum_typename,
