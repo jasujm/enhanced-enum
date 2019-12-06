@@ -58,7 +58,7 @@ struct enum_base {
         return EnhancedEnum::values.size();
     }
 
-    /** \brief Get enhanced enum associated with value
+    /** \brief Get the enumerator associated with \p value
      *
      * \note The number of comparisons is linear in the size of the
      * enumeration. The assumption is that the number of enumerators

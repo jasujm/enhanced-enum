@@ -174,4 +174,4 @@ Library reference
 -----------------
 
 .. doxygennamespace:: enhanced_enum
-  :members:
+   :members:
