@@ -1,6 +1,9 @@
 import os
+import re
 import setuptools
+import sys
 
+dunder_re = re.compile(r'^__(?P<name>[a-z]+)__ += +"(?P<value>[^"]+)"')
 package_dir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -9,10 +12,20 @@ def get_description():
         return f.read()
 
 
+def get_package_dunder(name):
+    with open(os.path.join(package_dir, "enumecg", "__init__.py")) as f:
+        for row in f:
+            m = dunder_re.match(row)
+            if m and m.group("name") == name:
+                return m.group("value")
+    print(f"__{name}__ unexpectedly not found in module", file=sys.stderr)
+    sys.exit(1)
+
+
 setup_kwargs = dict(
     name="EnumECG",
-    version="0.1.dev2",
-    author="Jaakko Moisio",
+    version=get_package_dunder("version"),
+    author=get_package_dunder("author"),
     author_email="jaakko@moisio.fi",
     description="Generate Enhanced Enum definitions for C++",
     long_description=get_description(),
