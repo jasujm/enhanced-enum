@@ -58,6 +58,21 @@ struct enum_base {
         return EnhancedEnum::values.size();
     }
 
+    /** \brief Get range over all enumerators
+     *
+     * \return A random accessible range containing all enumerators in
+     * the order they are declared
+     */
+    static constexpr auto all() noexcept
+    {
+        constexpr auto N = size();
+        auto ret = std::array<EnhancedEnum, N> {};
+        for (auto i = 0u; i < N; ++i) {
+            ret[i] = static_cast<LabelEnum>(i);
+        }
+        return ret;
+    }
+
     /** \brief Get the enumerator associated with \p value
      *
      * \note The number of comparisons is linear in the size of the
@@ -72,9 +87,7 @@ struct enum_base {
      */
     static constexpr std::optional<EnhancedEnum> from(const value_type& value) noexcept
     {
-        constexpr auto N = size();
-        for (auto i = 0u; i < N; ++i) {
-            const auto e = EnhancedEnum {static_cast<LabelEnum>(i)};
+        for (const auto e : all()) {
             if (e.value() == value) {
                 return e;
             }

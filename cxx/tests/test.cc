@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <array>
 #include <ostream>
 
@@ -37,7 +38,7 @@ static_assert( enhanced_enum::is_label_enum_v<StatusLabel> );
 static_assert( std::is_same_v<enhanced_enum::make_enhanced_t<StatusLabel>, EnhancedStatus> );
 static_assert( std::is_same_v<enhanced_enum::make_enhanced_t<EnhancedStatus>, EnhancedStatus> );
 
-// enhance(), .get() and .value() are constexpr
+// enhance(), .get() and .value(), .from() are constexpr
 
 static_assert( enhance(StatusLabel::BUSY).get() == StatusLabel::BUSY );
 static_assert( enhance(StatusLabel::BUSY).value() == Statuses::BUSY_VALUE );
@@ -103,6 +104,20 @@ TEST_P(EnhancedEnumTest, testConstructFromValue)
 {
     const auto bundle = GetParam();
     EXPECT_EQ(EnhancedStatus::from(bundle.value), bundle.enhanced);
+}
+
+TEST_F(EnhancedEnumTest, testAll)
+{
+    const auto all_enumerators = EnhancedStatus::all();
+    const auto expected = {
+        Statuses::INITIALIZING,
+        Statuses::WAITING_FOR_INPUT,
+        Statuses::BUSY,
+    };
+    EXPECT_TRUE(
+        std::equal(
+            all_enumerators.begin(), all_enumerators.end(),
+            expected.begin(), expected.end()));
 }
 
 INSTANTIATE_TEST_SUITE_P(
