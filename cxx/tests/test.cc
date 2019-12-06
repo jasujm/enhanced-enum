@@ -78,8 +78,10 @@ static_assert(
     >
 );
 
-static_assert( std::get<0>(nested::NestedEnums::enumerator_value) == 0 );
-static_assert( std::get<1>(nested::NestedEnums::enumerator_value) == std::tuple {"string", true} );
+static_assert(
+    nested::NestedEnums::enumerator_value ==
+    std::tuple { 0, std::tuple { "string", true } }
+);
 
 // Non-compile time tests start here:
 
