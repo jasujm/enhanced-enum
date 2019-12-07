@@ -132,8 +132,9 @@ computer programming. Due to its shortness it makes the code using the
 function cleaner.
 
 Finally the enumerators and their values are defined as constants in
-the ``namespace Statuses``, defined at line 21. This is not necessary
-for the library itself, but defined for the application use.
+the ``namespace Statuses``, defined at line 21. This *associate
+namespace* is not necessary for the library itself, but the
+application may use the constants from this namespace.
 
 Controlling output
 ..................
@@ -149,6 +150,23 @@ For the details about controlling output see
 
 Using the generated enum in a project
 -------------------------------------
+
+This section introduces how to use an enhanced enum definition in your
+code, and the basic properties of an enhanced enum type. It is assumed
+that the code is generated as above, giving us:
+
+- Label type called ``StatusLabel``
+
+- Enhanced enum type called ``EnhancedStatus``
+
+- Function ``enhance()`` that can be used to promote a label enum into
+  enhanced enum
+
+- Associate namespace ``Statuses`` containing enums and their values
+  as constants
+
+Including the definitions in C++ code
+.....................................
 
 The generated enum definitions may appear in a namespace scope (global
 or any other namespace) in the user's C++ files. In addition the file
@@ -169,6 +187,31 @@ needed to define the value type of the enumerator. Here is an example:
    }
 
    static_assert(myapp::Statuses::INITIALIZING.value() == "initializing");
+
+Basic properties
+................
+
+Enhanced enums, like the build-in C++ enums, are `regular
+<https://www.modernescpp.com/index.php/c-core-guidelines-regular-and-semiregular-typs>`_. They
+can be constructed and assigned from enhanced and label enums:
+
+.. code-block:: c++
+
+   auto status = enhance(StatusLabel::INITIALIZING);
+   assert( status.get() == StatusLabel::INITIALIZING );
+   status = StatusLabel::BUSY;
+   assert( status.get() == StatusLabel::BUSY );
+
+They have all comparison operators defined, and working transparently
+with both enhanced and label enum operands. Both the enhanced enums
+and label enums are totally ordered by the order the labels are
+declared in the code.
+
+.. code-block:: c++
+
+   static_assert( Statuses::INITIALIZING == StatusLabel::INITIALIZING );
+   static_assert( StatusLabel::INITIALIZING < Statuses::BUSY );
+   // etc...
 
 Library reference
 -----------------

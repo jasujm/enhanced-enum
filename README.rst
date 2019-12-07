@@ -18,6 +18,14 @@ Their value is no longer restricted to integers:
    static_assert( status.value() == "initializing" );
    static_assert( status == Status::from("initializing") );
 
+They can be iterated:
+
+.. code-block:: c++
+
+   for (const auto status : Status::all()) {
+       std::cout << status.value() << "\n";
+   }
+
 ...all while taking remaining largely compatible with the fundamental enums:
 
 .. code-block:: c++
