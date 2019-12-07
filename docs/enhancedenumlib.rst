@@ -241,8 +241,12 @@ deliberately explicit.
    static_assert( Statuses::INITIALIZING.get() == StatusLabel::INITIALIZING )
    static_assert( static_cast<StatusLabel>(Statuses::INITIALIZING) == StatusLabel::INITIALIZING );
 
-Iterating over enumerators
-..........................
+Enumerators as range
+....................
+
+The number of enumerators in an enhanced enum type can be queries by
+using the :cpp:func:`size()` and :cpp:func:`ssize()`, for unsigned and
+signed sizes, respectively.
 
 A range containing all enumerators of a given enum type can be
 constructed with the static :cpp:func:`all()` method:

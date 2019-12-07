@@ -22,6 +22,7 @@ They can be iterated:
 
 .. code-block:: c++
 
+   std::cout << "Listing " << Status::size() << " enumerators:\n";
    for (const auto status : Status::all()) {
        std::cout << status.value() << "\n";
    }

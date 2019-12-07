@@ -38,8 +38,10 @@ static_assert( enhanced_enum::is_label_enum_v<StatusLabel> );
 static_assert( std::is_same_v<enhanced_enum::make_enhanced_t<StatusLabel>, EnhancedStatus> );
 static_assert( std::is_same_v<enhanced_enum::make_enhanced_t<EnhancedStatus>, EnhancedStatus> );
 
-// enhance(), .get() and .value(), .from() are constexpr
+// Basic functions
 
+static_assert( EnhancedStatus::size() == 3u );
+static_assert( EnhancedStatus::ssize() == 3 );
 static_assert( enhance(StatusLabel::BUSY).get() == StatusLabel::BUSY );
 static_assert( enhance(StatusLabel::BUSY).value() == Statuses::BUSY_VALUE );
 static_assert( EnhancedStatus::from(Statuses::BUSY_VALUE) == Statuses::BUSY );

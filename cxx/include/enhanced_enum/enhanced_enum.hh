@@ -58,6 +58,15 @@ struct enum_base {
         return EnhancedEnum::values.size();
     }
 
+    /** \brief Get the number of enumerators as signed number
+     *
+     * \return The number of enumerators in this enum
+     */
+    static constexpr std::ptrdiff_t ssize() noexcept
+    {
+        return static_cast<std::ptrdiff_t>(size());
+    }
+
     /** \brief Get range over all enumerators
      *
      * \return A random accessible range containing all enumerators in
