@@ -40,3 +40,11 @@ Developer guide
    :maxdepth: 2
 
    installation
+
+History
+=======
+
+.. toctree::
+   :maxdepth: 2
+
+   changelog
