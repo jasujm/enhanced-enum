@@ -213,6 +213,54 @@ declared in the code.
    static_assert( StatusLabel::INITIALIZING < Statuses::BUSY );
    // etc...
 
+Enumerator values and labels
+............................
+
+Enhanced enumerators have values. They can be accessed using the
+:cpp:func:`value()` function
+
+.. code-block:: c++
+
+   static_assert( Statuses::INITIALIZING.value() == "initializing" );
+
+Enumerators can be constructed from value using the static
+:cpp:func:`from()` method:
+
+.. code-block:: c++
+
+   static_assert( EnhancedStatus::from("initializing") == Statuses::INITIALIZING );
+
+The underlying label enum can be accessed either with the
+:cpp:func:`get()` method or explicit cast. Note that although label
+enum is implicitly convertible to enhanced enum, the converse is
+deliberately explicit.
+
+
+.. code-block:: c++
+
+   static_assert( Statuses::INITIALIZING.get() == StatusLabel::INITIALIZING )
+   static_assert( static_cast<StatusLabel>(Statuses::INITIALIZING) == StatusLabel::INITIALIZING );
+
+Iterating over enumerators
+..........................
+
+A range containing all enumerators of a given enum type can be
+constructed with the static :cpp:func:`all()` method:
+
+.. code-block:: c++
+
+   for (const auto status : EnhancedStatus::all()) {
+       // use status
+   }
+
+The returned range can be used in compile time and has all the
+enumerators in the same order as they are declared in the type.
+
+In the current implementation the range is just an array, but this is
+an implementation detail that may change in the future. The user
+should not assume an underlying type returned by the :cpp:func:`all()`
+method, except that it supports random access.
+
 Library reference
 -----------------
 
