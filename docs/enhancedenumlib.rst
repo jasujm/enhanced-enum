@@ -192,8 +192,8 @@ Basic properties
 ................
 
 Enhanced enums, like the build-in C++ enums, are `regular
-<https://www.modernescpp.com/index.php/c-core-guidelines-regular-and-semiregular-typs>`_. They
-can be constructed and assigned from enhanced and label enums:
+<https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#c11-make-concrete-types-regular>`_.
+They can be constructed and assigned from enhanced and label enums:
 
 .. code-block:: c++
 
