@@ -7,6 +7,9 @@
 #include <optional>
 #include <type_traits>
 
+#ifndef ENHANCED_ENUM_HH_INCLUDED_
+#define ENHANCED_ENUM_HH_INCLUDED_
+
 /** \brief The main namespace for the Enhanced Enum library
  */
 namespace enhanced_enum {
@@ -395,3 +398,5 @@ constexpr bool operator>=(Enum1 lhs, Enum2 rhs) noexcept
 // \endcond
 
 }
+
+#endif // ENHANCED_ENUM_HH_INCLUDED_
