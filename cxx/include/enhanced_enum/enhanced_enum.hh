@@ -211,7 +211,7 @@ struct is_enhanced_enum
 #endif
 {};
 
-//! cond internal
+/// cond internal
 
 template<typename T>
 struct is_enhanced_enum<
@@ -224,7 +224,7 @@ struct is_enhanced_enum<
     >
 > : std::true_type {};
 
-//! \endcond
+/// \endcond
 
 /** \brief Shorthand for \ref is_enhanced_enum
  */
@@ -251,12 +251,12 @@ struct is_label_enum
 #endif
 {};
 
-//! \cond internal
+/// \cond internal
 
 template<typename T>
 struct is_label_enum<T, std::void_t<enhanced<T>>> : std::true_type {};
 
-//! \endcond
+/// \endcond
 
 /** \brief Shorthand for \ref is_label_enum
  */
@@ -277,7 +277,7 @@ template<
 >
 struct make_enhanced;
 
-//! \cond internal
+/// \cond internal
 
 template<typename Enum>
 struct make_enhanced<Enum, std::enable_if_t<is_enhanced_enum_v<Enum>>>
@@ -291,7 +291,7 @@ struct make_enhanced<Enum, std::enable_if_t<is_label_enum_v<Enum>>>
     using type = enhanced<Enum>;
 };
 
-//! \endcond
+/// \endcond
 
 /** \brief Shorthand for \ref make_enhanced
  */
@@ -330,7 +330,7 @@ struct is_same_when_enhanced
 #endif
 {};
 
-//! \cond internal
+/// \cond internal
 
 template<typename T, typename U>
 struct is_same_when_enhanced<
@@ -340,7 +340,7 @@ struct is_same_when_enhanced<
     >
 > : std::true_type {};
 
-//! \endcond
+/// \endcond
 
 /** \brief Shorthand for \ref is_same_when_enhanced
  */
@@ -367,7 +367,7 @@ constexpr make_enhanced_t<Enum> ensure_enhanced(Enum e) noexcept
 // Comparison functions
 ////////////////////////////////////////////////////////////////////////////////
 
-//! \cond internal
+/// \cond internal
 
 template<
     typename Enum1, typename Enum2,
@@ -423,7 +423,7 @@ constexpr bool operator>=(Enum1 lhs, Enum2 rhs) noexcept
     return !(lhs < rhs);
 }
 
-// \endcond
+/// \endcond
 
 }
 
