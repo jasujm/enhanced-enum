@@ -1,3 +1,9 @@
+Unreleased
+----------
+
+Added
+   - Add :cpp:func:`enhanced_enum::enum_base::ssize()`
+
 Version 0.1
 -----------
 
