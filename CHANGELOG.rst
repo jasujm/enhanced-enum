@@ -3,6 +3,8 @@ Unreleased
 
 Added
    - Add :cpp:func:`enhanced_enum::enum_base::ssize()`
+   - Add :cpp:func:`enhanced_enum::enum_base::begin()` and
+     :cpp:func:`enhanced_enum::enum_base::end()`
 
 Fixed
    - Add include guards to the C++ headers

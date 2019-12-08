@@ -241,8 +241,8 @@ deliberately explicit.
    static_assert( Statuses::INITIALIZING.get() == StatusLabel::INITIALIZING )
    static_assert( static_cast<StatusLabel>(Statuses::INITIALIZING) == StatusLabel::INITIALIZING );
 
-Enumerators as range
-....................
+Enumerator ranges
+.................
 
 The number of enumerators in an enhanced enum type can be queries by
 using the :cpp:func:`size()` and :cpp:func:`ssize()`, for unsigned and
@@ -260,10 +260,21 @@ constructed with the static :cpp:func:`all()` method:
 The returned range can be used in compile time and has all the
 enumerators in the same order as they are declared in the type.
 
+For interfaces consuming iterator pairs, using :cpp:func:`begin()` and
+:cpp:func:`end()` may be more convenient:
+
+.. code-block:: c++
+
+   std::for_each(
+       EnhancedStatus::begin(), EnhancedStatus::end(),
+       [](const auto status) { /* use status */ });
+
 In the current implementation the range is just an array, but this is
 an implementation detail that may change in the future. The user
-should not assume an underlying type returned by the :cpp:func:`all()`
-method, except that it supports random access.
+should not assume an underlying type returned by the
+:cpp:func:`all()`, :cpp:func:`begin()` and :cpp:func:`end()`
+functions, except that the ranges and iterators supports random
+access.
 
 Library reference
 -----------------

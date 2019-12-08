@@ -72,17 +72,32 @@ struct enum_base {
 
     /** \brief Get range over all enumerators
      *
-     * \return A random accessible range containing all enumerators in
-     * the order they are declared
+     * \return A random access range containing all enumerators in the
+     * order they are declared in the enum
      */
-    static constexpr auto all() noexcept
+    static constexpr decltype(auto) all() noexcept
     {
-        constexpr auto N = size();
-        auto ret = std::array<EnhancedEnum, N> {};
-        for (auto i = 0u; i < N; ++i) {
-            ret[i] = static_cast<LabelEnum>(i);
-        }
-        return ret;
+        return *(&_enums_array);
+    }
+
+    /** \brief Get iterator to the first enumerator
+     *
+     * \return A random access iterator to the beginning of the range
+     * containing all enumerators in the order they are declared in
+     * the enum
+     */
+    static constexpr auto begin() noexcept
+    {
+        return _enums_array.begin();
+    }
+
+    /** \brief Get iterator one past the last enumerator
+     *
+     * \return Iterator to the end of the range pointed to by begin()
+     */
+    static constexpr auto end() noexcept
+    {
+        return _enums_array.end();
     }
 
     /** \brief Get the enumerator associated with \p value
@@ -150,6 +165,19 @@ struct enum_base {
     }
 
 private:
+
+    static constexpr auto _init_enums_array() noexcept
+    {
+        constexpr auto N = size();
+        auto ret = std::array<EnhancedEnum, N> {};
+        for (auto i = 0u; i < N; ++i) {
+            ret[i] = static_cast<LabelEnum>(i);
+        }
+        return ret;
+    }
+
+    constexpr static auto _enums_array = _init_enums_array();
+
     LabelEnum label;
 };
 

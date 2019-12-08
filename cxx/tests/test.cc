@@ -10,6 +10,14 @@ using testapp::StatusLabel;
 using testapp::EnhancedStatus;
 namespace Statuses = testapp::Statuses;
 
+namespace {
+
+constexpr auto ALL_STATUSES = std::array {
+    Statuses::INITIALIZING,
+    Statuses::WAITING_FOR_INPUT,
+    Statuses::BUSY,
+};
+
 // Explicitly bundling label enum, enhanced enum and value to be consumed in the
 // tests. Also defining operator<< to make the test reports pretty.
 
@@ -22,6 +30,8 @@ struct EnumBundle {
 std::ostream& operator<<(std::ostream& os, const EnumBundle& bundle)
 {
     return os << bundle.value;
+}
+
 }
 
 // Compiling the test executable is already a test:
@@ -111,15 +121,18 @@ TEST_P(EnhancedEnumTest, testConstructFromValue)
 TEST_F(EnhancedEnumTest, testAll)
 {
     const auto all_enumerators = EnhancedStatus::all();
-    const auto expected = {
-        Statuses::INITIALIZING,
-        Statuses::WAITING_FOR_INPUT,
-        Statuses::BUSY,
-    };
     EXPECT_TRUE(
         std::equal(
             all_enumerators.begin(), all_enumerators.end(),
-            expected.begin(), expected.end()));
+            ALL_STATUSES.begin(), ALL_STATUSES.end()));
+}
+
+TEST_F(EnhancedEnumTest, testBeginEnd)
+{
+    EXPECT_TRUE(
+        std::equal(
+            EnhancedStatus::begin(), EnhancedStatus::end(),
+            ALL_STATUSES.begin(), ALL_STATUSES.end()));
 }
 
 INSTANTIATE_TEST_SUITE_P(
