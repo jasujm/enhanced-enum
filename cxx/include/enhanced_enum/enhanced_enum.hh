@@ -3,12 +3,12 @@
  * \brief The main header for the Enhanced Enum library
  */
 
+#ifndef ENHANCED_ENUM_HH_INCLUDED_
+#define ENHANCED_ENUM_HH_INCLUDED_
+
 #include <array>
 #include <optional>
 #include <type_traits>
-
-#ifndef ENHANCED_ENUM_HH_INCLUDED_
-#define ENHANCED_ENUM_HH_INCLUDED_
 
 /** \brief The main namespace for the Enhanced Enum library
  */
