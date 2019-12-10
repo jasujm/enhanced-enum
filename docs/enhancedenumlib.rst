@@ -269,12 +269,9 @@ For interfaces consuming iterator pairs, using :cpp:func:`begin()` and
        EnhancedStatus::begin(), EnhancedStatus::end(),
        [](const auto status) { /* use status */ });
 
-In the current implementation the range is just an array, but this is
-an implementation detail that may change in the future. The user
-should not assume an underlying type returned by the
+The user should not assume an underlying type returned by the
 :cpp:func:`all()`, :cpp:func:`begin()` and :cpp:func:`end()`
-functions, except that the ranges and iterators supports random
-access.
+functions, except that the iterators supports random access.
 
 Library reference
 -----------------

@@ -12,12 +12,6 @@ namespace Statuses = testapp::Statuses;
 
 namespace {
 
-constexpr auto ALL_STATUSES = std::array {
-    Statuses::INITIALIZING,
-    Statuses::WAITING_FOR_INPUT,
-    Statuses::BUSY,
-};
-
 // Explicitly bundling label enum, enhanced enum and value to be consumed in the
 // tests. Also defining operator<< to make the test reports pretty.
 
@@ -82,6 +76,23 @@ static_assert( StatusLabel::BUSY >= enhance(StatusLabel::INITIALIZING) );
 static_assert( enhance(StatusLabel::BUSY) >= StatusLabel::BUSY );
 static_assert( StatusLabel::BUSY >= enhance(StatusLabel::BUSY) );
 
+// Iterators
+
+static_assert( std::distance(EnhancedStatus::begin(), EnhancedStatus::end()) == 3 );
+static_assert( std::distance(EnhancedStatus::end(), EnhancedStatus::begin()) == -3 );
+static_assert( EnhancedStatus::begin() == EnhancedStatus::begin()++ );
+static_assert( EnhancedStatus::begin() != ++EnhancedStatus::begin() );
+static_assert( EnhancedStatus::begin() < EnhancedStatus::end() );
+static_assert( EnhancedStatus::begin() + 3 == EnhancedStatus::end() );
+static_assert( EnhancedStatus::end() - 3 == EnhancedStatus::begin() );
+static_assert( *EnhancedStatus::begin() == Statuses::INITIALIZING );
+static_assert( EnhancedStatus::begin()->value() == Statuses::INITIALIZING_VALUE );
+static_assert( *++EnhancedStatus::begin() == Statuses::WAITING_FOR_INPUT );
+static_assert( EnhancedStatus::begin()[1] == Statuses::WAITING_FOR_INPUT );
+static_assert( *(EnhancedStatus::begin() + 2) == Statuses::BUSY );
+static_assert( *--EnhancedStatus::end() == Statuses::BUSY );
+static_assert( *(EnhancedStatus::end() - 2) == Statuses::WAITING_FOR_INPUT );
+
 // Test nested enum type
 
 static_assert(
@@ -99,6 +110,8 @@ static_assert(
 // Non-compile time tests start here:
 
 class EnhancedEnumTest : public testing::TestWithParam<EnumBundle> {};
+
+// Construction
 
 TEST_P(EnhancedEnumTest, testGetLabelEnum)
 {
@@ -118,21 +131,49 @@ TEST_P(EnhancedEnumTest, testConstructFromValue)
     EXPECT_EQ(EnhancedStatus::from(bundle.value), bundle.enhanced);
 }
 
+// Ranges and iterators
+
 TEST_F(EnhancedEnumTest, testAll)
 {
     const auto all_enumerators = EnhancedStatus::all();
     EXPECT_TRUE(
         std::equal(
             all_enumerators.begin(), all_enumerators.end(),
-            ALL_STATUSES.begin(), ALL_STATUSES.end()));
+            EnhancedStatus::begin(), EnhancedStatus::end()));
 }
 
-TEST_F(EnhancedEnumTest, testBeginEnd)
+TEST_F(EnhancedEnumTest, testIterator)
 {
-    EXPECT_TRUE(
-        std::equal(
-            EnhancedStatus::begin(), EnhancedStatus::end(),
-            ALL_STATUSES.begin(), ALL_STATUSES.end()));
+    auto iter = EnhancedStatus::begin();
+    EXPECT_EQ(*iter++, Statuses::INITIALIZING);
+    EXPECT_EQ(*iter++, Statuses::WAITING_FOR_INPUT);
+    EXPECT_EQ(*iter++, Statuses::BUSY);
+    EXPECT_EQ(iter, EnhancedStatus::end());
+}
+
+TEST_F(EnhancedEnumTest, testIteratorReversal)
+{
+    auto iter = EnhancedStatus::end();
+    EXPECT_EQ(*--iter, Statuses::BUSY);
+    EXPECT_EQ(*--iter, Statuses::WAITING_FOR_INPUT);
+    EXPECT_EQ(*--iter, Statuses::INITIALIZING);
+    EXPECT_EQ(iter, EnhancedStatus::begin());
+}
+
+TEST_F(EnhancedEnumTest, testIteratorRandomAccess)
+{
+    const auto iter = EnhancedStatus::begin();
+    EXPECT_EQ(iter[0], Statuses::INITIALIZING);
+    EXPECT_EQ(iter[1], Statuses::WAITING_FOR_INPUT);
+    EXPECT_EQ(iter[2], Statuses::BUSY);
+}
+
+TEST_F(EnhancedEnumTest, testIteratorRandomAccessReversal)
+{
+    const auto iter = EnhancedStatus::end();
+    EXPECT_EQ(iter[-3], Statuses::INITIALIZING);
+    EXPECT_EQ(iter[-2], Statuses::WAITING_FOR_INPUT);
+    EXPECT_EQ(iter[-1], Statuses::BUSY);
 }
 
 INSTANTIATE_TEST_SUITE_P(

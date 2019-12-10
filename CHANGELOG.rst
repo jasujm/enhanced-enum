@@ -6,6 +6,10 @@ Added
    - Add :cpp:func:`enhanced_enum::enum_base::begin()` and
      :cpp:func:`enhanced_enum::enum_base::end()`
 
+Changed:
+   - Implement :cpp:func:`enhanced_enum::enum_base::all()` in terms
+     of custom range type (not array)
+
 Fixed
    - Add include guards to the C++ headers
 
