@@ -80,6 +80,7 @@ static_assert( StatusLabel::BUSY >= enhance(StatusLabel::BUSY) );
 
 static_assert( std::distance(EnhancedStatus::begin(), EnhancedStatus::end()) == 3 );
 static_assert( std::distance(EnhancedStatus::end(), EnhancedStatus::begin()) == -3 );
+static_assert( EnhancedStatus::all().size() == 3u );
 static_assert( EnhancedStatus::begin() == EnhancedStatus::begin()++ );
 static_assert( EnhancedStatus::begin() != ++EnhancedStatus::begin() );
 static_assert( EnhancedStatus::begin() < EnhancedStatus::end() );

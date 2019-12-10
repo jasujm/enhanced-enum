@@ -146,7 +146,13 @@ constexpr enum_iterator<EnhancedEnum> operator-(
 template<typename EnhancedEnum>
 struct enum_range
 {
+    using value_type = EnhancedEnum;
+    using reference = const EnhancedEnum&;
+    using const_reference = const EnhancedEnum&;
     using iterator = enum_iterator<EnhancedEnum>;
+    using const_iterator = enum_iterator<EnhancedEnum>;
+    using difference_type = std::ptrdiff_t;
+    using size_type = std::size_t;
 
     constexpr enum_range(iterator first, iterator last) noexcept :
         first {first},
@@ -155,6 +161,11 @@ struct enum_range
 
     constexpr iterator begin() const noexcept { return first; }
     constexpr iterator end() const noexcept { return last; }
+
+    constexpr size_type size() const noexcept
+    {
+        return static_cast<size_type>(last - first);
+    }
 
 private:
     iterator first;
