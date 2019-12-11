@@ -269,9 +269,19 @@ For interfaces consuming iterator pairs, using :cpp:func:`begin()` and
        EnhancedStatus::begin(), EnhancedStatus::end(),
        [](const auto status) { /* use status */ });
 
-The user should not assume an underlying type returned by the
-:cpp:func:`all()`, :cpp:func:`begin()` and :cpp:func:`end()`
-functions, except that the iterators supports random access.
+.. note::
+
+   The user should not assume an underlying type returned by the
+   :cpp:func:`all()`, :cpp:func:`begin()` and :cpp:func:`end()`
+   functions, except that the iterators supports random access.
+
+   The iterators model the C++17 random access iterator concepts. The
+   range returned by :cpp:func:`all()` *doesn't* model STL
+   container. The intention is to remain forward-compatible with the
+   view concepts from the `Ranges TS
+   <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0896r3.pdf>`_. Unlike
+   STL containers, views don't define type aliases etc. The other
+   functions in the view interface should be implemented later.
 
 Library reference
 -----------------
