@@ -32,7 +32,7 @@ setup_kwargs = dict(
     license="MIT",
     url="https://github.com/jasujm/enhanced-enum",
     packages=["enumecg"],
-    package_data={"enumecg": ["templates/*.in"]},
+    package_data={"enumecg": ["templates/*.in", "templates/doxygen/*.in"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

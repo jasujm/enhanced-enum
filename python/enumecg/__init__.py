@@ -55,4 +55,4 @@ def generate(enum, **options) -> str:
     Returns:
        The enhanced enum definition created from the ``enum`` description.
     """
-    return str(generator(enum, **options).generate_enum_definitions())
+    return str(generator(enum, **options).generate_enum_definitions(**options))

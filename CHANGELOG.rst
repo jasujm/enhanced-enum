@@ -5,6 +5,7 @@ Added
    - Add :cpp:func:`enhanced_enum::enum_base::ssize()`
    - Add :cpp:func:`enhanced_enum::enum_base::begin()` and
      :cpp:func:`enhanced_enum::enum_base::end()`
+   - Add support for generating Doxygen comments
 
 Changed:
    - Implement :cpp:func:`enhanced_enum::enum_base::all()` in terms

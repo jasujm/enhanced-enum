@@ -1,0 +1,6 @@
+/** \brief Promote \ref {{ d.label_enum_typename }} to \ref {{ d.enhanced_enum_typename }}
+ *
+ * \param e Label enumerator
+ *
+ * \return The enhanced enumerator corresponding to \p e
+ */

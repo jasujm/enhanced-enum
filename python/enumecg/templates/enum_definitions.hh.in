@@ -4,6 +4,13 @@
 {%- set values_array_name = "values" -%}
 {%- set enhance_function_name = "enhance" -%}
 
+{%- macro include_documentation(fragment, member) -%}
+{%- if documentation -%}
+{%- set filename = documentation ~ "/" ~ fragment ~ ".doc.in" -%}
+{%- include filename %}
+{% endif -%}
+{%- endmacro -%}
+
 {%- macro enum_base_class() -%}
     ::{{ enhanced_enum_namespace_name }}::{{ enum_base_class_name }}<{{ d.enhanced_enum_typename }}, {{ d.label_enum_typename }}, {{ d.value_type_typename }}>
 {%- endmacro -%}
@@ -12,31 +19,38 @@
     {{ d.enhanced_enum_typename }}::{{ identifier }}
 {%- endmacro -%}
 
+{{ include_documentation("label_enum") -}}
 enum class {{ d.label_enum_typename }} {
 {%- for member in d.members %}
     {{ member.enumerator_name }},
 {%- endfor %}
 };
 
+{{ include_documentation("enhanced_enum") -}}
 struct {{ d.enhanced_enum_typename }} : {{ enum_base_class() }} {
-    using {{ enum_base_class() }}::{{ enum_base_class_name }};
+{{ include_documentation("internal_begin") }}    using {{ enum_base_class() }}::{{ enum_base_class_name }};
     static constexpr std::array {{ values_array_name }} {
     {%- for member in d.members %}
         {{ value_type_alias }} {{ member.enumerator_value_initializers | initializer_list }},
     {%- endfor %}
     };
+{{ include_documentation("internal_end") -}}
 };
 
+{{ include_documentation("enhance") -}}
 constexpr {{ d.enhanced_enum_typename }} {{ enhance_function_name }}({{ d.label_enum_typename }} e) noexcept
 {
     return e;
 }
 
+{{ include_documentation("associate_namespace") -}}
 namespace {{ d.associate_namespace_name }} {
 {%- for member in d.members %}
+{{ include_documentation("value_constant", member) -}}
 inline constexpr const {{ qualify_with_enhanced_enum(value_type_alias) }}& {{ member.enumerator_value_constant_name }} { std::get<{{ loop.index0 }}>({{ qualify_with_enhanced_enum(values_array_name) }}) };
 {%- endfor %}
 {%- for member in d.members %}
+{{ include_documentation("enumerator_constant", member) -}}
 inline constexpr {{ d.enhanced_enum_typename }} {{ member.enumerator_name }} { {{ d.label_enum_typename }}::{{ member.enumerator_name }} };
 {%- endfor %}
 }

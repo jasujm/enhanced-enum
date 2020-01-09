@@ -42,6 +42,7 @@ class CodeGenerator:
     """
 
     _JINJA_ENV = _create_jinja_env()
+    _DOCUMENTATION_CHOICES = {"doxygen"}
 
     def __init__(self, enum_definition: "definitions.EnumDefinition"):
         """
@@ -53,10 +54,18 @@ class CodeGenerator:
             "enum_definitions.hh.in"
         )
 
-    def generate_enum_definitions(self):
+    def generate_enum_definitions(self, **options):
         """Generate the C++ definitions needed for an enhanced enum
+
+        Parameters:
+            options: The code generation options
 
         Returns:
             The generated code
         """
-        return self._enum_definitions_template.render(d=self.enum_definition)
+        documentation = options.get("documentation")
+        if documentation and documentation not in self._DOCUMENTATION_CHOICES:
+            raise ValueError(f"Unsupported documentation style: {documentation!r}")
+        return self._enum_definitions_template.render(
+            d=self.enum_definition, documentation=documentation,
+        )

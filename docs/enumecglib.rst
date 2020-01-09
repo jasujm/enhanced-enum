@@ -340,6 +340,19 @@ applied when creating the enum definition.
 
 .. _enumecg-high-level-api:
 
+Including comments in the generator output
+..........................................
+
+Doxygen comments can be included by using the ``documentation``
+option:
+
+.. doctest::
+
+   >>> enumecg.generate(Status, documentation="doxygen")
+   '/** \\brief ...'
+
+Currently "doxygen" is the only supported documentation style.
+
 High level API
 --------------
 

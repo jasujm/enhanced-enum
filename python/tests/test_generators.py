@@ -39,3 +39,17 @@ class CodeGeneratorTest(unittest.TestCase):
 
     def test_enum_definitions_should_contain_associate_namespace(self):
         self.assertIn("namespace Statuses", self.gen.generate_enum_definitions())
+
+    def test_enum_definitions_should_not_contain_documentation_if_not_requested(self):
+        self.assertNotIn("/**", self.gen.generate_enum_definitions(documentation=None))
+
+    def test_enum_definitions_should_contain_documentation_if_requested(self):
+        self.assertIn(
+            "/**", self.gen.generate_enum_definitions(documentation="doxygen")
+        )
+        print(self.gen.generate_enum_definitions(documentation="doxygen"))
+
+    def test_unsupported_documentation_style(self):
+        self.assertRaises(
+            ValueError, self.gen.generate_enum_definitions, documentation="invalid"
+        )

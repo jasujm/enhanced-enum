@@ -12,6 +12,8 @@ class EnumECGTest(unittest.TestCase):
 
     def test_generate_should_return_code(self):
         self.assertEqual(
-            generate(STATUS_DEFINITION),
-            CodeGenerator(STATUS_DEFINITION).generate_enum_definitions(),
+            generate(STATUS_DEFINITION, documentation="doxygen"),
+            CodeGenerator(STATUS_DEFINITION).generate_enum_definitions(
+                documentation="doxygen"
+            ),
         )

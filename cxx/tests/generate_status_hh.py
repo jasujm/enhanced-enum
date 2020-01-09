@@ -32,7 +32,7 @@ namespace nested {
 def main(filename):
     status_definitions = generate(STATUS_DEFINITION_DICT)
     nested_enum_definitions = generate(
-        NESTED_ENUM_DEFINITION_DICT, primary_type="enhanced"
+        NESTED_ENUM_DEFINITION_DICT, primary_type="enhanced", documentation="doxygen",
     )
     status_hh = _STATUS_HH_TEMPLATE.render(
         status_definitions=status_definitions,
