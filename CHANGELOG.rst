@@ -1,5 +1,8 @@
-Unreleased
-----------
+Version 0.2
+-----------
+
+Date
+   2020-01-10
 
 Added
    - Add :cpp:func:`enhanced_enum::enum_base::ssize()`
