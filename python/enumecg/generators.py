@@ -7,7 +7,10 @@ outputting C++ code.
 """
 
 import collections.abc as cabc
+
 import jinja2
+
+from . import definitions
 
 
 def _make_initializer_list(value):
@@ -44,28 +47,30 @@ class CodeGenerator:
     _JINJA_ENV = _create_jinja_env()
     _DOCUMENTATION_CHOICES = {"doxygen"}
 
-    def __init__(self, enum_definition: "definitions.EnumDefinition"):
+    def __init__(self, **options):
         """
-        Parameters:
-            enum_definition: The definition used to generate the C++ code
-        """
-        self.enum_definition = enum_definition
-        self._enum_definitions_template = self._JINJA_ENV.get_template(
-            "enum_definitions.hh.in"
-        )
-
-    def generate_enum_definitions(self, **options):
-        """Generate the C++ definitions needed for an enhanced enum
-
         Parameters:
             options: The code generation options
-
-        Returns:
-            The generated code
         """
         documentation = options.get("documentation")
         if documentation and documentation not in self._DOCUMENTATION_CHOICES:
             raise ValueError(f"Unsupported documentation style: {documentation!r}")
+        self._documentation = documentation
+        self._enum_definitions_template = self._JINJA_ENV.get_template(
+            "enum_definitions.hh.in"
+        )
+
+    def generate_enum_definitions(self, enum, **options):
+        """Generate the C++ definitions needed for an enhanced enum
+
+        Parameters:
+            enum: The enum definition
+            options: The enum definition generation options
+
+        Returns:
+            The generated code
+        """
         return self._enum_definitions_template.render(
-            d=self.enum_definition, documentation=documentation,
+            d=definitions.make_definition(enum, **options),
+            documentation=self._documentation,
         )

@@ -334,9 +334,10 @@ to get an :class:`EnumDefinition` object, which can further be used
 with the :func:`enumecg.generate()` function.
 
 Note that, although the :func:`generate()` function will ignore any
-options when an :class:`EnumDefinition` object is used as argument,
-:func:`make_definition()` accepts all the same options, that will be
-applied when creating the enum definition.
+enum definition generation options when an :class:`EnumDefinition`
+object is used as argument, :func:`make_definition()` accepts all the
+same options, that will be applied when creating the
+:class:`EnumDefinition` object.
 
 .. _enumecg-high-level-api:
 

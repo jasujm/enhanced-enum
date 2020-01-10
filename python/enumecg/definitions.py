@@ -98,7 +98,7 @@ def make_definition(enum, **options) -> EnumDefinition:
 
     Parameters:
         enum: The convertible enum description
-        options: The conversion options
+        options: The enum definition generation options
     """
     if isinstance(enum, EnumDefinition):
         return enum
