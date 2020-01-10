@@ -10,7 +10,7 @@ Added
      :cpp:func:`enhanced_enum::enum_base::end()`
    - Add support for generating Doxygen comments
 
-Changed:
+Changed
    - Implement :cpp:func:`enhanced_enum::enum_base::all()` in terms
      of custom range type (not array)
 
