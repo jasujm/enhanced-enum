@@ -339,8 +339,6 @@ object is used as argument, :func:`make_definition()` accepts all the
 same options, that will be applied when creating the
 :class:`EnumDefinition` object.
 
-.. _enumecg-high-level-api:
-
 Including comments in the generator output
 ..........................................
 
@@ -353,6 +351,8 @@ option:
    '/** \\brief ...'
 
 Currently "doxygen" is the only supported documentation style.
+
+.. _enumecg-high-level-api:
 
 High level API
 --------------
