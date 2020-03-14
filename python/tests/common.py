@@ -1,9 +1,13 @@
 import enum
 
-from enumecg.definitions import EnumDefinition, EnumMemberDefinition
+from enumecg.definitions import EnumDefinition, EnumMemberDefinition, EnumDocumentation
 
 
 class Status(enum.Enum):
+    """An example enumeration for testing
+
+    This is a long description of the test enum."""
+
     INITIALIZING = "initializing"
     WAITING_FOR_INPUT = "waitingForInput"
     BUSY = "busy"
@@ -35,6 +39,7 @@ STATUS_DEFINITION = EnumDefinition(
 
 STATUS_DEFINITION_DICT = {
     "typename": "Status",
+    "docstring": Status.__doc__,
     "members": {
         "INITIALIZING": "initializing",
         "WAITING_FOR_INPUT": "waitingForInput",
@@ -47,3 +52,9 @@ NESTED_ENUM_DEFINITION_DICT = {
     "typename": "NestedEnum",
     "members": {"enumerator": (0, ("string", True))},
 }
+
+
+STATUS_DOCUMENTATION = EnumDocumentation(
+    short_description="An example enumeration for testing",
+    long_description="This is a long description of the test enum.",
+)

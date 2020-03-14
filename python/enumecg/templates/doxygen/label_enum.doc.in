@@ -1,2 +1,6 @@
-/** \brief Label enum for \ref {{ d.enhanced_enum_typename }}
- */
+{%- set doc = d.label_enum_documentation -%}
+{%- set default_doc -%}
+Label enum for \ref {{ d.enhanced_enum_typename }}
+{%- endset -%}
+{%- set sa_doc = d.enhanced_enum_typename -%}
+{% include "doxygen/enum.doc.in" %}

@@ -6,6 +6,7 @@ from .common import (
     Status,
     STATUS_DEFINITION_DICT,
     NESTED_ENUM_DEFINITION_DICT,
+    STATUS_DOCUMENTATION,
 )
 
 from enumecg.definitions import EnumDefinition, EnumMemberDefinition, make_definition
@@ -27,6 +28,7 @@ class EnumDefinitionTest(unittest.TestCase):
     def test_make_definition_with_label_type_as_primary(self):
         definition = copy.copy(STATUS_DEFINITION)
         definition.label_enum_typename = "Status"
+        definition.label_enum_documentation = STATUS_DOCUMENTATION
         self.assertEqual(
             make_definition(STATUS_DEFINITION_DICT, primary_type="label"), definition
         )
@@ -34,6 +36,7 @@ class EnumDefinitionTest(unittest.TestCase):
     def test_make_definition_with_enhanced_type_as_primary(self):
         definition = copy.copy(STATUS_DEFINITION)
         definition.enhanced_enum_typename = "Status"
+        definition.enhanced_enum_documentation = STATUS_DOCUMENTATION
         self.assertEqual(
             make_definition(STATUS_DEFINITION_DICT, primary_type="enhanced"), definition
         )

@@ -1,3 +1,10 @@
+Unreleased
+----------
+
+Added
+  - Docstring from the Python enum definition is now included in the
+    generated Doxygen comments
+
 Version 0.2
 -----------
 

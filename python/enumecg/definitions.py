@@ -12,7 +12,17 @@ import enum as py_enum
 import dataclasses
 import typing
 
+import docstring_parser
+
 from . import utils
+
+
+@dataclasses.dataclass
+class EnumDocumentation:
+    """Documentation associated with an enum"""
+
+    short_description: typing.Optional[str]
+    long_description: typing.Optional[str]
 
 
 @dataclasses.dataclass
@@ -33,6 +43,8 @@ class EnumDefinition:
     value_type_typename: str
     members: typing.Sequence[EnumMemberDefinition]
     associate_namespace_name: str
+    label_enum_documentation: typing.Optional[EnumDocumentation] = None
+    enhanced_enum_documentation: typing.Optional[EnumDocumentation] = None
 
 
 def _make_definition_from_dict(enum_dict, **options):
@@ -54,6 +66,15 @@ def _make_definition_from_dict(enum_dict, **options):
     type_deducer = utils.CppTypeDeducer(
         *members.values(), type_name=options.get("value_type")
     )
+    unparsed_docstring = enum_dict.get("docstring")
+    if unparsed_docstring:
+        parsed_docstring = docstring_parser.parse(unparsed_docstring)
+        documentation = EnumDocumentation(
+            short_description=parsed_docstring.short_description,
+            long_description=parsed_docstring.long_description,
+        )
+    else:
+        documentation = None
     return EnumDefinition(
         label_enum_typename=label_enum_typename,
         enhanced_enum_typename=enhanced_enum_typename,
@@ -71,6 +92,10 @@ def _make_definition_from_dict(enum_dict, **options):
             for (n, (member_name, member_value)) in enumerate(members.items())
         ],
         associate_namespace_name=formatter.join(formatter.parts[0], pluralize=True),
+        label_enum_documentation=documentation if primary_type == "label" else None,
+        enhanced_enum_documentation=documentation
+        if primary_type == "enhanced"
+        else None,
     )
 
 
@@ -80,6 +105,7 @@ def _extract_python_enum_attrs(enum):
         "members": collections.OrderedDict(
             (member.name, member.value) for member in enum
         ),
+        "docstring": enum.__doc__,
     }
 
 

@@ -1,12 +1,13 @@
+import copy
 import unittest
 
 from enumecg.generators import CodeGenerator
 
-from .common import STATUS_DEFINITION
+from .common import STATUS_DEFINITION, STATUS_DOCUMENTATION
 
 
-def _generate_enum_definitions(**options):
-    return CodeGenerator(**options).generate_enum_definitions(STATUS_DEFINITION)
+def _generate_enum_definitions(definition=STATUS_DEFINITION, **options):
+    return CodeGenerator(**options).generate_enum_definitions(definition)
 
 
 class CodeGeneratorTest(unittest.TestCase):
@@ -48,6 +49,38 @@ class CodeGeneratorDocumentationTest(unittest.TestCase):
 
     def test_enum_definitions_should_contain_documentation_if_requested(self):
         self.assertIn("/**", _generate_enum_definitions(documentation="doxygen"))
+
+    def test_label_enum_documentation_should_contain_short_description(self):
+        definition = copy.copy(STATUS_DEFINITION)
+        definition.label_enum_documentation = STATUS_DOCUMENTATION
+        self.assertIn(
+            STATUS_DOCUMENTATION.short_description,
+            _generate_enum_definitions(definition, documentation="doxygen"),
+        )
+
+    def test_label_enum_documentation_should_contain_long_description(self):
+        definition = copy.copy(STATUS_DEFINITION)
+        definition.label_enum_documentation = STATUS_DOCUMENTATION
+        self.assertIn(
+            STATUS_DOCUMENTATION.long_description,
+            _generate_enum_definitions(definition, documentation="doxygen"),
+        )
+
+    def test_enhanced_enum_documentation_should_contain_short_description(self):
+        definition = copy.copy(STATUS_DEFINITION)
+        definition.enhanced_enum_documentation = STATUS_DOCUMENTATION
+        self.assertIn(
+            STATUS_DOCUMENTATION.short_description,
+            _generate_enum_definitions(definition, documentation="doxygen"),
+        )
+
+    def test_enhanced_enum_documentation_should_contain_long_description(self):
+        definition = copy.copy(STATUS_DEFINITION)
+        definition.enhanced_enum_documentation = STATUS_DOCUMENTATION
+        self.assertIn(
+            STATUS_DOCUMENTATION.long_description,
+            _generate_enum_definitions(definition, documentation="doxygen"),
+        )
 
     def test_unsupported_documentation_style(self):
         self.assertRaises(ValueError, CodeGenerator, documentation="invalid")

@@ -40,6 +40,8 @@ to give the generator a Python enum type.
 The mapping between the name of the enum type, and the names and
 values of the enum members are obvious in this style.
 
+.. _enumecg-definition-from-dict:
+
 Creating C++ enum from a dict
 .............................
 
@@ -69,6 +71,9 @@ The supported keys are:
   definition. Note that in CPython ``dict`` type is ordered by
   default, but to be more explicit, :class:`collections.OrderedDict` might
   be preferred.
+
+- ``docstring``: An optional documentation for the generated enum
+  definition. See :ref:`enumecg-documentation-generation` for details.
 
 Native representation
 .....................
@@ -166,6 +171,8 @@ error:
    Traceback (most recent call last):
      ...
    ValueError: Could not find common case
+
+.. _enumecg-primary-enum:
 
 Primary enum type
 .................
@@ -339,8 +346,10 @@ object is used as argument, :func:`make_definition()` accepts all the
 same options, that will be applied when creating the
 :class:`EnumDefinition` object.
 
-Including comments in the generator output
-..........................................
+.. _enumecg-documentation-generation:
+
+Including documentation in the generator output
+...............................................
 
 Doxygen comments can be included by using the ``documentation``
 option:
@@ -350,7 +359,10 @@ option:
    >>> enumecg.generate(Status, documentation="doxygen")
    '/** \\brief ...'
 
-Currently "doxygen" is the only supported documentation style.
+The generated documentation contains information about the usage of an
+enhanced enum type. The doxygen documentation of
+:ref:`enumecg-primary-enum` also includes the possible docstring of
+the Python enum definition.
 
 .. _enumecg-high-level-api:
 

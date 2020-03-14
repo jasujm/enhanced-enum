@@ -28,9 +28,14 @@ def _make_initializer_list_ensure_outer_braces(value):
     return _make_initializer_list(value)
 
 
+def _doxygenize(value):
+    return value.replace("\n", "\n * ")
+
+
 def _create_jinja_env():
     env = jinja2.Environment(loader=jinja2.PackageLoader(__name__))
     env.filters["initializer_list"] = _make_initializer_list_ensure_outer_braces
+    env.filters["doxygenize"] = _doxygenize
     return env
 
 

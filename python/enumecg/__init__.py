@@ -43,9 +43,9 @@ def generate(enum, **options) -> str:
 
     - An instance of :class:`definitions.EnumDefinition`
 
-    - A ``dict`` containing "typename" and "members" keys, "members"
-      itself being a ``dict`` containing enumerator name to value
-      mapping.
+    - A ``dict`` object containing the enum definition. The required
+      and optional keys are discussed in
+      :ref:`enumecg-definition-from-dict`.
 
     - A native Python :class:`enum.Enum` class. The typename is
       derived from the name of the enum class, and the enumerator

@@ -39,7 +39,7 @@ setup_kwargs = dict(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.7",
-    install_requires=["Jinja2>=2.10", "regex", "inflect>=3.0"],
+    install_requires=["Jinja2>=2.10", "regex", "inflect>=3.0", "docstring-parser>=0.6"],
 )
 
 # This is to bootstrap the build in case it is made with Enhanced Enum
