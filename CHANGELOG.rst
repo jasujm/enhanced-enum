@@ -1,5 +1,8 @@
-Unreleased
+Version 0.3
 ----------
+
+Date
+   2020-03-15
 
 Added
   - Docstring from the Python enum definition is now included in the
