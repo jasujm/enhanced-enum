@@ -1,7 +1,7 @@
 .. _enumecg-library:
 
-EnumECG -- The Python library
-=============================
+EnumECG -- The code generation support
+======================================
 
 Overview
 --------
@@ -14,7 +14,7 @@ the library.
 
 There are multiple ways to map a Python object to the C++ enum
 type. The following code examples all produce the same C++
-definitions. For further discussion see :ref:`enhancedenum-overview`.
+definitions. For further discussion see :ref:`enhancedenum-creating`.
 
 .. literalinclude:: examples/status.hh
    :language: c++

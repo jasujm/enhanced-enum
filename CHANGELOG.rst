@@ -4,6 +4,10 @@ Unreleased
 Added
   - Docstring from the Python enum definition is now included in the
     generated Doxygen comments
+  - Documentation about integrating EnumECG to a project
+
+Changed
+  - Restructured documentation slightly
 
 Version 0.2
 -----------
