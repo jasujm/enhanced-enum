@@ -26,7 +26,7 @@ if(Python_FOUND)
 
   if (ENHANCEDENUM_BUILD_TESTS)
     add_test(NAME EnumECGTest
-      COMMAND Python::Interpreter -m unittest
+      COMMAND Python::Interpreter -m pytest
       WORKING_DIRECTORY ${PYTHON_SOURCE_DIR})
   endif()
 else()
