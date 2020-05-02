@@ -16,6 +16,7 @@ jinja2 = ">=2.10"
 regex = "*"
 inflect = ">=3.0"
 docstring-parser = ">=0.6"
+pytest = "*"
 
 [requires]
 python_version = "3.7"

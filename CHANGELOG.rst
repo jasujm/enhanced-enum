@@ -1,3 +1,9 @@
+Unreleased
+----------
+
+Changed
+  - Migrate unit tests to pytest
+
 Version 0.3
 ----------
 
