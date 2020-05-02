@@ -5,7 +5,7 @@ The project uses CMake as its build system. To build everything:
 
 .. code-block:: console
 
-   $ cd /path/to/build/dir
+   $ cd /path/to/build
    $ cmake                                      \
    >   -D ENHANCEDENUM_BUILD_DOCS:BOOL=ON       \
    >   -D ENHANCEDENUM_BUILD_PYTHON:BOOL=ON     \
@@ -17,17 +17,7 @@ The Enhanced Enum library specific CMake variables are:
 - ``ENHANCEDENUM_BUILD_DOCS``: Build ``sphinx`` docs
 
 - ``ENHANCEDENUM_BUILD_PYTHON``: Build and install the :mod:`enumecg`
-  package
-
-  Installing the package in this way is limited. Essentially it's
-  equivalent of running the following in the ``python/`` directory:
-
-  .. code-block:: console
-
-     $ python setup.py build
-     $ python setup.py install
-
-  ...but does some extra bootstrapping to build out-of-source.
+  package (see caveats below)
 
 - ``ENHANCEDENUM_BUILD_TESTS``: Build tests for the C++ and/or Python
   packages
@@ -45,32 +35,38 @@ imported target ``EnhancedEnum::EnhancedEnum``:
 Python environment
 ------------------
 
-Docs, EnumECG and unit tests *all* require Python when being built. To
-use the CMake targets, a suggested approach is to create a build
-directory under the sources where the project ``Pipfile`` is
-available.
+Docs, EnumECG and unit tests *all* require Python when being
+built. This would be a typical way to bootstrap a virtual environment,
+and build and test the C++ code and documentations with CMake:
 
 .. code-block:: console
 
-   $ mkdir /path/to/repository/build
-   $ cd /path/to/repository/build
-   $ pipenv install --dev
-   $ pipenv run cmake                           \
+   $ mkdir /path/to/build
+   $ cd /path/to/build
+   $ source /path/to/venv/bin/activate
+   $ pip install -r requirements.txt -r requirements-dev.txt
+   $ cmake                                      \
    >   -D ENHANCEDENUM_BUILD_DOCS:BOOL=ON       \
    >   -D ENHANCEDENUM_BUILD_TESTS:BOOL=ON      \
-   >   ..
-   $ make && make test
+   >   /path/to/repository
+   $ make && make test && make install
 
-However, ``make install`` target may not make much sense with this
-workflow, as it will only install :mod:`enumecg` to the current
-virtualenv. If want to install development version of the EnumECG
-library via CMake, you should use an external virtualenv:
+By default CMake will not build and install EnumECG, because the more
+typical ``pip`` based workflow is preferred. If you want to install
+:mod:`enumecg` from sources using CMake, you can do that:
 
 .. code-block:: console
 
-   (venv) $ cd /path/to/build/dir
-   (venv) $ cmake -D ENHANCEDENUM_BUILD_PYTHON:BOOL=ON /path/to/repository
-   (venv) $ make && make install
+   $ cd /path/to/build
+   $ cmake -D ENHANCEDENUM_BUILD_PYTHON:BOOL=ON /path/to/repository
+   $ make && make install
 
-It is of course possible to build and install EnumECG by invoking a
-more typical in-source build.
+Installing the package in this way is limited. Essentially it's
+equivalent of running the following in the ``python/`` directory:
+
+.. code-block:: console
+
+   $ python setup.py build
+   $ python setup.py install
+
+...but does some extra bootstrapping to build out-of-source.
