@@ -4,7 +4,8 @@ import sys
 
 import jinja2
 
-from tests.common import STATUS_DEFINITION_DICT, NESTED_ENUM_DEFINITION_DICT
+from tests.conftest import STATUS_DEFINITION_DICT, NESTED_ENUM_DEFINITION_DICT
+
 from enumecg import generate
 
 
