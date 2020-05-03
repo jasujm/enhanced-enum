@@ -2,7 +2,10 @@ Unreleased
 ----------
 
 Changed
-  - Migrate unit tests to pytest
+  - Migrate Python unit tests to pytest
+  - Introduce tox to manage Python unit tests
+  - More explicit call signatures in Python API (more type
+    annotations, less catch-all keyword arguments)
 
 Version 0.3
 ----------
