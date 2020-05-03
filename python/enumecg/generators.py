@@ -7,10 +7,12 @@ outputting C++ code.
 """
 
 import collections.abc as cabc
+import typing
 
 import jinja2
 
 from . import definitions
+from .utils import call_with_supported_options
 
 
 def _make_initializer_list(value):
@@ -52,12 +54,12 @@ class CodeGenerator:
     _JINJA_ENV = _create_jinja_env()
     _DOCUMENTATION_CHOICES = {"doxygen"}
 
-    def __init__(self, **options):
+    def __init__(self, *, documentation: typing.Optional[str] = None):
         """
         Parameters:
-            options: The code generation options
+            documentation: The documentation style, or ``None`` if the generated code should
+                           not include documentation. Currently "doxygen" is the only supported option.
         """
-        documentation = options.get("documentation")
         if documentation and documentation not in self._DOCUMENTATION_CHOICES:
             raise ValueError(f"Unsupported documentation style: {documentation!r}")
         self._documentation = documentation
@@ -70,12 +72,14 @@ class CodeGenerator:
 
         Parameters:
             enum: The enum definition
-            options: The enum definition generation options
+
+            options: The options passed to :func:`definitions.make_definition()`.
+                     The unknown options are silently ignored.
 
         Returns:
             The generated code
         """
         return self._enum_definitions_template.render(
-            d=definitions.make_definition(enum, **options),
+            d=call_with_supported_options(definitions.make_definition, enum, **options),
             documentation=self._documentation,
         )

@@ -10,6 +10,7 @@ __version__ = "0.3"
 __author__ = "Jaakko Moisio"
 
 from . import generators
+from .utils import call_with_supported_options
 
 
 def generator(**options) -> generators.CodeGenerator:
@@ -19,13 +20,14 @@ def generator(**options) -> generators.CodeGenerator:
     with the given ``options``.
 
     Parameters:
-        options: The code generation options
+        options: The options to initialize the code generator. The unknown
+                 options are silently ignored.
 
     Returns:
         The :class:`generators.CodeGenerator` instance.
 
     """
-    return generators.CodeGenerator(**options)
+    return call_with_supported_options(generators.CodeGenerator, **options)
 
 
 def generate(enum, **options) -> str:
@@ -34,10 +36,7 @@ def generate(enum, **options) -> str:
     This function is a shorthand for creating and invoking a code
     generator in one call. It first calls :func:`generator()` with
     ``options`` as the argument, followed by code
-    generation. ``options`` may contain `both` options targeted for
-    initializing the code generator and the options targeted for
-    generating the enum definitions. The two kinds of options do not
-    share names so there is no risk of ambiguity.
+    generation.
 
     The enum definition may be:
 
@@ -56,8 +55,10 @@ def generate(enum, **options) -> str:
     :ref:`enumecg-code-generation`.
 
     Parameters:
-       enum: The description of the enum
-       options: The code generation and enum definition generation options
+       enum: The enum definition
+       options: The code generation and enum definition generation options. Please
+                see :ref:`enumecg-code-generation` for the full list. The unknown
+                options are silently ignored.
 
     Returns:
        The enhanced enum definition created from the ``enum`` description.

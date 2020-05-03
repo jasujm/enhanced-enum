@@ -47,12 +47,11 @@ class EnumDefinition:
     enhanced_enum_documentation: typing.Optional[EnumDocumentation] = None
 
 
-def _make_definition_from_dict(enum_dict, **options):
+def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
     typename = enum_dict["typename"]
     members = enum_dict["members"]
     formatter = utils.NameFormatter(typename)
     member_formatter = utils.NameFormatter(*members.keys())
-    primary_type = options.get("primary_type")
     label_enum_typename = (
         formatter.join(formatter.parts[0] + ["label"])
         if primary_type != "label"
@@ -63,9 +62,7 @@ def _make_definition_from_dict(enum_dict, **options):
         if primary_type != "enhanced"
         else typename
     )
-    type_deducer = utils.CppTypeDeducer(
-        *members.values(), type_name=options.get("value_type")
-    )
+    type_deducer = utils.CppTypeDeducer(*members.values(), type_name=value_type)
     unparsed_docstring = enum_dict.get("docstring")
     if unparsed_docstring:
         parsed_docstring = docstring_parser.parse(unparsed_docstring)
@@ -109,7 +106,12 @@ def _extract_python_enum_attrs(enum):
     }
 
 
-def make_definition(enum, **options) -> EnumDefinition:
+def make_definition(
+    enum,
+    *,
+    primary_type: typing.Optional[str] = None,
+    value_type: typing.Optional[str] = None,
+) -> EnumDefinition:
     """Make :class:`EnumDefinition` instance from various types
 
     This function is used to convert various kinds of enum descriptions
@@ -124,14 +126,22 @@ def make_definition(enum, **options) -> EnumDefinition:
 
     Parameters:
         enum: The convertible enum description
-        options: The enum definition generation options
+        primary_type: The primary type of the generated definition ("enhanced" or "label"),
+                      or ``None`` if there is no primary type
+        value_type: The name of the C++ type of the enumerators, or ``None`` if it is deduced
     """
     if isinstance(enum, EnumDefinition):
         return enum
     elif isinstance(enum, cabc.Mapping):
-        return _make_definition_from_dict(enum, **options)
+        return _make_definition_from_dict(
+            enum, primary_type=primary_type, value_type=value_type
+        )
     elif isinstance(enum, py_enum.EnumMeta):
-        return _make_definition_from_dict(_extract_python_enum_attrs(enum), **options)
+        return _make_definition_from_dict(
+            _extract_python_enum_attrs(enum),
+            primary_type=primary_type,
+            value_type=value_type,
+        )
     else:
         raise TypeError(
             f"Could not convert {enum!r} of type {type(enum)} into EnumDefinition"
