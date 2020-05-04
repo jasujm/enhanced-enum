@@ -178,8 +178,8 @@ class CppTypeDeducer:
         """Return C++ initializer for ``value``
 
         Parameters:
-            A value consisting of string, numbers, booleans and nested
-            requences thereof.
+            value: A value consisting of string, numbers, booleans and nested
+                   sequences thereof.
 
         Return:
             An expression that can be used in a C++ initializer list to

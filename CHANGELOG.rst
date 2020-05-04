@@ -8,7 +8,7 @@ Changed
     annotations, less catch-all keyword arguments)
 
 Version 0.3
-----------
+-----------
 
 Date
    2020-03-15

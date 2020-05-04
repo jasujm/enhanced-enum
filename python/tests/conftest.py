@@ -44,7 +44,7 @@ STATUS_DEFINITION = EnumDefinition(
     associate_namespace_name="Statuses",
 )
 
-"""``dict`` representation of :const:`STATUS_DEFINITION`
+""":class:`dict` representation of :const:`STATUS_DEFINITION`
 
 This is global constant. For copy that can be modified, please use the
 :func:`status_definition_dict()` fixture.
