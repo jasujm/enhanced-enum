@@ -1,6 +1,6 @@
 import pytest
 
-from enumecg.utils import NameFormatter, CppTypeDeducer, call_with_supported_options
+from enumecg.utils import NameFormatter, CppTypeDeducer
 
 
 def test_name_formatter_lower_snake_case():
@@ -147,19 +147,3 @@ def test_get_initializer_with_unrecognized_type_should_raise_error():
 def test_type_deducer_with_incompatible_types_should_raise_error():
     with pytest.raises(ValueError):
         CppTypeDeducer("str", 1, 3.14)
-
-
-def test_call_with_supported_options_should_filter_options():
-    called_with_correct_arguments = False
-
-    def _function(positional, *, option):
-        nonlocal called_with_correct_arguments
-        called_with_correct_arguments = (positional, option) == (
-            "retained1",
-            "retained2",
-        )
-
-    call_with_supported_options(
-        _function, "retained1", option="retained2", other_option="discarded"
-    )
-    assert called_with_correct_arguments

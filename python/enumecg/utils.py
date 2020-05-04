@@ -8,7 +8,6 @@ also be useful outside the scope of the :mod:`enumecg` package.
 """
 
 import collections.abc as cabc
-import inspect
 import itertools
 import numbers
 import typing
@@ -214,30 +213,3 @@ class CppTypeDeducer:
                 common_types.append(common_type)
             return f"std::tuple<{', '.join(common_types)}>"
         raise ValueError(f"Could not deduce compatible type for {values!r}")
-
-
-def call_with_supported_options(function: typing.Callable, *args, **options):
-    """Call ``function``, retaining only supported keyword arguments
-
-    Parameters:
-        function: The function to call
-        args: Positional arguments (passed as is)
-        options: Keyword arguments (filtered to supported only)
-
-    Return:
-        Whatever ``function(*args, **options)`` returns after
-        retaining only the ``options`` that belong to the signature of
-        ``function``.
-    """
-    sig = inspect.signature(function)
-
-    def _retain(name):
-        parameter = sig.parameters.get(name)
-        return parameter and parameter.kind in (
-            parameter.KEYWORD_ONLY,
-            parameter.POSITIONAL_OR_KEYWORD,
-        )
-
-    return function(
-        *args, **{name: value for (name, value) in options.items() if _retain(name)}
-    )

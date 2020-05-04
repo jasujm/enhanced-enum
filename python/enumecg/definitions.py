@@ -126,9 +126,8 @@ def make_definition(
 
     Parameters:
         enum: The convertible enum description
-        primary_type: The primary type of the generated definition ("enhanced" or "label"),
-                      or ``None`` if there is no primary type
-        value_type: The name of the C++ type of the enumerators, or ``None`` if it is deduced
+        primary_type: See :ref:`enumecg-primary-enum`.
+        value_type: See :ref:`enumerator-value-type`.
     """
     if isinstance(enum, EnumDefinition):
         return enum

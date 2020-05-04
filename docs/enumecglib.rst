@@ -280,6 +280,8 @@ But the following doesn't:
      ...
    ValueError: Could not deduce compatible type
 
+.. _enumerator-value-type:
+
 Specifying enumerator type manually
 ```````````````````````````````````
 

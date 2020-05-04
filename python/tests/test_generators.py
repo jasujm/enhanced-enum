@@ -6,8 +6,10 @@ from enumecg.generators import CodeGenerator
 from .conftest import STATUS_DEFINITION
 
 
-def _generate_enum_definitions(definition, **options):
-    return CodeGenerator(**options).generate_enum_definitions(definition)
+def _generate_enum_definitions(definition, documentation=None):
+    return CodeGenerator(documentation=documentation).generate_enum_definitions(
+        definition
+    )
 
 
 @pytest.fixture

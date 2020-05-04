@@ -12,7 +12,6 @@ import typing
 import jinja2
 
 from . import definitions
-from .utils import call_with_supported_options
 
 
 def _make_initializer_list(value):
@@ -57,8 +56,7 @@ class CodeGenerator:
     def __init__(self, *, documentation: typing.Optional[str] = None):
         """
         Parameters:
-            documentation: The documentation style, or ``None`` if the generated code should
-                           not include documentation. Currently "doxygen" is the only supported option.
+            documentation: See :ref:`enumecg-documentation-generation`.
         """
         if documentation and documentation not in self._DOCUMENTATION_CHOICES:
             raise ValueError(f"Unsupported documentation style: {documentation!r}")
@@ -72,14 +70,12 @@ class CodeGenerator:
 
         Parameters:
             enum: The enum definition
-
             options: The options passed to :func:`definitions.make_definition()`.
-                     The unknown options are silently ignored.
 
         Returns:
             The generated code
         """
         return self._enum_definitions_template.render(
-            d=call_with_supported_options(definitions.make_definition, enum, **options),
+            d=definitions.make_definition(enum, **options),
             documentation=self._documentation,
         )

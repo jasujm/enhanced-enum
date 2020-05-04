@@ -9,41 +9,45 @@ Enhanced Enum library.
 __version__ = "0.3"
 __author__ = "Jaakko Moisio"
 
+import typing
+
 from . import generators
-from .utils import call_with_supported_options
 
 
-def generator(**options) -> generators.CodeGenerator:
+def generator(
+    *, documentation: typing.Optional[str] = None
+) -> generators.CodeGenerator:
     """Create code generator for an enhanced enum type
 
-    Creates an instance of :class:`generators.CodeGenerator` created
-    with the given ``options``.
+    Creates an instance of :class:`generators.CodeGenerator`.
 
     Parameters:
-        options: The options to initialize the code generator. The unknown
-                 options are silently ignored.
+        documentation: See :ref:`enumecg-documentation-generation`.
 
     Returns:
         The :class:`generators.CodeGenerator` instance.
-
     """
-    return call_with_supported_options(generators.CodeGenerator, **options)
+    return generators.CodeGenerator(documentation=documentation)
 
 
-def generate(enum, **options) -> str:
+def generate(
+    enum,
+    *,
+    documentation: typing.Optional[str] = None,
+    primary_type: typing.Optional[str] = None,
+    value_type: typing.Optional[str] = None
+) -> str:
     """Generate code for an enhanced enum
 
     This function is a shorthand for creating and invoking a code
-    generator in one call. It first calls :func:`generator()` with
-    ``options`` as the argument, followed by code
-    generation.
+    generator in one call.
 
     The enum definition may be:
 
     - An instance of :class:`definitions.EnumDefinition`
 
-    - A ``dict`` object containing the enum definition. The required
-      and optional keys are discussed in
+    - A :class:`dict` object containing the enum definition. The
+      required and optional keys are discussed in
       :ref:`enumecg-definition-from-dict`.
 
     - A native Python :class:`enum.Enum` class. The typename is
@@ -55,13 +59,17 @@ def generate(enum, **options) -> str:
     :ref:`enumecg-code-generation`.
 
     Parameters:
-       enum: The enum definition
-       options: The code generation and enum definition generation options. Please
-                see :ref:`enumecg-code-generation` for the full list. The unknown
-                options are silently ignored.
+        enum: The enum definition
+        documentation: See :ref:`enumecg-documentation-generation`.
+        primary_type: See :ref:`enumecg-primary-enum`.
+        value_type: See :ref:`enumerator-value-type`.
 
     Returns:
-       The enhanced enum definition created from the ``enum`` description.
+        The enhanced enum definition created from the ``enum`` description.
 
     """
-    return str(generator(**options).generate_enum_definitions(enum, **options))
+    return str(
+        generator(documentation=documentation).generate_enum_definitions(
+            enum, primary_type=primary_type, value_type=value_type
+        )
+    )
