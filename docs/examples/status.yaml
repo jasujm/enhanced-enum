@@ -1,0 +1,8 @@
+typename: Status
+members:
+- name: INITIALIZING
+  value: initializing
+- name: WAITING_FOR_INPUT
+  value: waitingForInput
+- name: BUSY
+  value: busy

@@ -32,6 +32,9 @@ setup_kwargs = dict(
     license="MIT",
     url="https://github.com/jasujm/enhanced-enum",
     packages=["enumecg"],
+    entry_points={
+        "console_scripts": ["enumecg=enumecg.__main__:main"],
+    },
     package_data={"enumecg": ["templates/*.in", "templates/doxygen/*.in"]},
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -39,7 +42,14 @@ setup_kwargs = dict(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.7",
-    install_requires=["Jinja2>=2.10", "regex", "inflect>=3.0", "docstring-parser>=0.6"],
+    install_requires=[
+        "Jinja2>=2.10",
+        "regex",
+        "inflect>=3.0",
+        "docstring-parser>=0.6",
+        "PyYAML>=5.3",
+        "click>=7.1",
+    ],
 )
 
 # This is to bootstrap the build in case it is made with Enhanced Enum

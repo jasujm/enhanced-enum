@@ -42,8 +42,8 @@ values of the enum members are obvious in this style.
 
 .. _enumecg-definition-from-dict:
 
-Creating C++ enum from a dict
-.............................
+Creating C++ enum from a mapping
+................................
 
 This is a convenient method if the enum definitions are loaded from a
 file using general purpose serialization format like JSON or YAML.
@@ -370,6 +370,32 @@ The generated documentation contains information about the usage of an
 enhanced enum type. The doxygen documentation of
 :ref:`enumecg-primary-enum` also includes the possible docstring of
 the Python enum definition.
+
+.. _enumecg-cli:
+
+Command line interface
+----------------------
+
+The :mod:`enumecg` module can be invoked as a command. Given a YAML
+file ``status.yaml``:
+
+.. literalinclude:: examples/status.yaml
+   :language: yaml
+
+The command line interface can use this file as an input to print the
+generated code to stdout.
+
+.. code-block:: console
+
+   $ enumecg status.yaml
+   ... # C++ definition printed to stdout
+
+The input file is a single YAML document containing an enum
+definition. See :ref:`enumecg-definition-from-dict` for the details of
+the schema.
+
+Invoking ``enumecg --help`` will list the supported options and
+arguments.
 
 .. _enumecg-high-level-api:
 
