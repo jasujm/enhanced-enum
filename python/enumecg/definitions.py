@@ -6,7 +6,6 @@ Contains the classes that the code generator uses as its representation of an
 enum definition.
 """
 
-import collections
 import collections.abc as cabc
 import enum as py_enum
 import dataclasses
@@ -51,7 +50,7 @@ def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
     typename = enum_dict["typename"]
     members = enum_dict["members"]
     formatter = utils.NameFormatter(typename)
-    member_formatter = utils.NameFormatter(*members.keys())
+    member_formatter = utils.NameFormatter(*(member["name"] for member in members))
     label_enum_typename = (
         formatter.join(formatter.parts[0] + ["label"])
         if primary_type != "label"
@@ -62,7 +61,9 @@ def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
         if primary_type != "enhanced"
         else typename
     )
-    type_deducer = utils.CppTypeDeducer(*members.values(), type_name=value_type)
+    type_deducer = utils.CppTypeDeducer(
+        *(member["value"] for member in members), type_name=value_type
+    )
     unparsed_docstring = enum_dict.get("docstring")
     if unparsed_docstring:
         parsed_docstring = docstring_parser.parse(unparsed_docstring)
@@ -78,15 +79,15 @@ def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
         value_type_typename=type_deducer.type_name,
         members=[
             EnumMemberDefinition(
-                enumerator_name=member_name,
+                enumerator_name=member["name"],
                 enumerator_value_constant_name=member_formatter.join(
                     member_formatter.parts[n] + ["value"]
                 ),
                 enumerator_value_initializers=type_deducer.get_initializer(
-                    member_value
+                    member["value"]
                 ),
             )
-            for (n, (member_name, member_value)) in enumerate(members.items())
+            for (n, member) in enumerate(members)
         ],
         associate_namespace_name=formatter.join(formatter.parts[0], pluralize=True),
         label_enum_documentation=documentation if primary_type == "label" else None,
@@ -99,9 +100,7 @@ def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
 def _extract_python_enum_attrs(enum):
     return {
         "typename": enum.__name__,
-        "members": collections.OrderedDict(
-            (member.name, member.value) for member in enum
-        ),
+        "members": [{"name": member.name, "value": member.value} for member in enum],
         "docstring": enum.__doc__,
     }
 

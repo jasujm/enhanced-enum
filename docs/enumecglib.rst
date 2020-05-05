@@ -52,11 +52,20 @@ file using general purpose serialization format like JSON or YAML.
 
    >>> status = {
    ...     "typename": "Status",
-   ...     "members": {
-   ...         "INITIALIZING": "initializing",
-   ...         "WAITING_FOR_INPUT": "waitingForInput",
-   ...         "BUSY": "busy",
-   ...     }
+   ...     "members": [
+   ...         {
+   ...             "name": "INITIALIZING",
+   ...             "value": "initializing",
+   ...         },
+   ...         {
+   ...             "name": "WAITING_FOR_INPUT",
+   ...             "value": "waitingForInput",
+   ...         },
+   ...         {
+   ...             "name": "BUSY",
+   ...             "value": "busy",
+   ...         },
+   ...     ]
    ... }
    >>> import enumecg
    >>> enumecg.generate(status)
@@ -66,11 +75,7 @@ The supported keys are:
 
 - ``typename``: The enum typename.
 
-- ``members``: Mapping between enumerator names and values. The
-  enumerators appear in the same order as they appear in the
-  definition. Note that in CPython ``dict`` type is ordered by
-  default, but to be more explicit, :class:`collections.OrderedDict` might
-  be preferred.
+- ``members``: Mapping between enumerator names and values.
 
 - ``docstring``: An optional documentation for the generated enum
   definition. See :ref:`enumecg-documentation-generation` for details.

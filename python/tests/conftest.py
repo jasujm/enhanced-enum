@@ -52,11 +52,11 @@ This is global constant. For copy that can be modified, please use the
 STATUS_DEFINITION_DICT = {
     "typename": "Status",
     "docstring": Status.__doc__,
-    "members": {
-        "INITIALIZING": "initializing",
-        "WAITING_FOR_INPUT": "waitingForInput",
-        "BUSY": "busy",
-    },
+    "members": [
+        {"name": "INITIALIZING", "value": "initializing",},
+        {"name": "WAITING_FOR_INPUT", "value": "waitingForInput",},
+        {"name": "BUSY", "value": "busy",},
+    ],
 }
 
 
@@ -67,7 +67,7 @@ This is global constant. For copy that can be modified, please use the
 """
 NESTED_ENUM_DEFINITION_DICT = {
     "typename": "NestedEnum",
-    "members": {"enumerator": (0, ("string", True))},
+    "members": [{"name": "enumerator", "value": (0, ("string", True))}],
 }
 
 
