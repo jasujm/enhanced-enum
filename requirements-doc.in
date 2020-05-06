@@ -1,5 +1,4 @@
 # For running breathe in Read the Docs
+-r requirements.txt
 sphinx>=2.2
 breathe
-inflect>=3.0
-regex
