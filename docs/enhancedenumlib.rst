@@ -52,8 +52,7 @@ To give the enum types their capabilities without resorting to
 compiler hacks, it's necessary to write some boilerplate accompanying
 the enum definitions. To aid with that the project includes
 ``EnumECG`` library that can be used to generate the necessary C++
-code from Python enum definitions. See :ref:`enumecg-library` for more
-details.
+code with Python. See :ref:`enumecg-library` for more details.
 
 The library currently targets C++17, but will include C++20 goodies
 later.
@@ -65,7 +64,7 @@ Creating the enumeration
 
 .. warning::
 
-   The generated definitions should not be edited, or the behavior of
+   The generated code should not be edited, or the behavior of
    instantiating and using a class deriving from enum_base is
    undefined. The library makes assumptions about the types and
    functions used with the library. Those assumptions include but are
@@ -107,14 +106,14 @@ The above command will generate the following C++ code:
    :language: c++
    :linenos:
 
-The generated enum definitions may appear in a namespace scope (global
-or any other namespace) in the user's C++ files. In addition the file
+The generated boilerplate may appear in a namespace scope (global or
+any other namespace) in the user's C++ files. In addition the file
 must include the ``enhanced_enum.hh`` header file.
 
-Overview of the generated definitions
-.....................................
+Overview of the generated code
+..............................
 
-The code starts with definition of ``enum class StatusLabel`` at
+The code starts with the definition of ``enum class StatusLabel`` at
 line 1. This is the underlying *label enum* type. The `label
 enumerators` be thought as a names for the enumerators in the enhanced
 enum type.
@@ -152,7 +151,7 @@ Controlling the output
 ......................
 
 The above command generated names of the types, enumerators and the
-helper namespace from the names in the Python definition. The defaults
+helper namespace from the names in the ``class Status``. The defaults
 may not be what you want. Especially you might want to control if the
 label enum or the enhanced enum is the *primary type* and simply
 called ``Status``.
@@ -195,7 +194,7 @@ the following:
    }
 
 Then, assuming you have ``cog`` installed in your environment, just
-invoke the command line utility and the enum definitions will appear
+invoke the command line utility and the enum boilerplate will appear
 where the template is located in the source file:
 
 .. code-block:: console
@@ -206,15 +205,15 @@ where the template is located in the source file:
 to a file. There are advantages and disadvantages in both
 approaches. In-place code generation is IDE friendly and allows users
 that don't have ``cog`` or ``EnumECG`` installed still compile your
-code, but care must be taken that the definitions are not changed
+code, but care must be taken that the generated code is not changed
 manually. See the ``cog`` documentation for more details.
 
 Using the enumeration
 ---------------------
 
-This section introduces how to use an enhanced enum definition in your
-code, and the basic properties of an enhanced enum type. It is assumed
-that the code is the one generated in the previous section
+This section introduces how to use an enhanced enum type in your code,
+and the basic properties of an enhanced enum type. It is assumed that
+the code is the one generated in the previous section
 (:ref:`enhancedenum-creating`).
 
 - Label type called ``StatusLabel``

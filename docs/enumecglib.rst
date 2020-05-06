@@ -14,7 +14,7 @@ the library.
 
 There are multiple ways to map a Python object to the C++ enum
 type. The following code examples all produce the same C++
-definitions. For further discussion see :ref:`enhancedenum-creating`.
+boilerplate. For further discussion see :ref:`enhancedenum-creating`.
 
 .. literalinclude:: examples/status.hh
    :language: c++
@@ -23,8 +23,8 @@ definitions. For further discussion see :ref:`enhancedenum-creating`.
 Creating C++ enum from Python enum
 ..................................
 
-The most idiomatic way to create an enum definition in pure Python is
-to give the generator a Python enum type.
+The most idiomatic way to create an enhanced enum type is to give the
+generator a Python enum type.
 
 .. doctest::
 
@@ -45,7 +45,7 @@ values of the enum members are obvious in this style.
 Creating C++ enum from a mapping
 ................................
 
-This is a convenient method if the enum definitions are loaded from a
+This is a convenient method if the enum definition is loaded from a
 file using general purpose serialization format like JSON or YAML.
 
 .. doctest::
@@ -77,17 +77,18 @@ The supported keys are:
 
 - ``members``: Mapping between enumerator names and values.
 
-- ``docstring``: An optional documentation for the generated enum
-  definition. See :ref:`enumecg-documentation-generation` for details.
+- ``docstring``: An optional documentation accompanying the generated
+  types, constants and functions. See
+  :ref:`enumecg-documentation-generation` for details.
 
 Native representation
 .....................
 
 The code generator uses :class:`enumecg.definitions.EnumDefinition` as
-its datatype holding the native representation of enum
+its datatype holding the native representation of an enum
 definition. They can be used with the generator directly if a very
 fine control of the generated code is required.
-%
+
 .. doctest::
 
    >>> from enumecg.definitions import EnumDefinition, EnumMemberDefinition
@@ -119,7 +120,7 @@ fine control of the generated code is required.
    '...'
 
 Note that in this style all names used in the C++ template are
-explicit fields of the definition object.
+explicit fields of the :class:`EnumDefinition` object.
 
 .. _enumecg-code-generation:
 
@@ -347,12 +348,6 @@ code. :func:`enumecg.definitions.make_definition()` can first be used
 to get an :class:`EnumDefinition` object, which can further be used
 with the :func:`enumecg.generate()` function.
 
-Note that, although the :func:`generate()` function will ignore any
-enum definition generation options when an :class:`EnumDefinition`
-object is used as argument, :func:`make_definition()` accepts all the
-same options, that will be applied when creating the
-:class:`EnumDefinition` object.
-
 .. _enumecg-documentation-generation:
 
 Including documentation in the generator output
@@ -369,7 +364,7 @@ option:
 The generated documentation contains information about the usage of an
 enhanced enum type. The doxygen documentation of
 :ref:`enumecg-primary-enum` also includes the possible docstring of
-the Python enum definition.
+the Python enum.
 
 .. _enumecg-cli:
 
@@ -388,7 +383,7 @@ generated code to stdout.
 .. code-block:: console
 
    $ enumecg status.yaml
-   ... # C++ definition printed to stdout
+   ... # C++ boilerplate printed to stdout
 
 The input file is a single YAML document containing an enum
 definition. See :ref:`enumecg-definition-from-dict` for the details of

@@ -2,8 +2,8 @@
 EnumECG package
 ...............
 
-The top level module provides the high level code generation API for the
-Enhanced Enum library.
+The top level module provides the high level code generation API for
+the Enhanced Enum library.
 """
 
 __version__ = "0.3"
@@ -66,7 +66,6 @@ def generate(
 
     Returns:
         The enhanced enum definition created from the ``enum`` description.
-
     """
     return str(
         generator(documentation=documentation).generate_enum_definitions(

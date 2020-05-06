@@ -43,7 +43,7 @@ def _create_jinja_env():
 class CodeGenerator:
     """Code generator for an enhanced enum type
 
-    Used to generate the necessary C++ definitions to make an enum type
+    Used to generate the necessary C++ boilerplate to make an enum type
     compatible with the Enhanced Enum library.
 
     The recommended way to create an instance is by using the

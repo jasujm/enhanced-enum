@@ -2,8 +2,8 @@
 Enum definitions
 ................
 
-Contains the classes that the code generator uses as its representation of an
-enum definition.
+Contains the classes that the code generator uses as its
+representation of an enum definition.
 """
 
 import collections.abc as cabc
@@ -113,18 +113,19 @@ def make_definition(
 ) -> EnumDefinition:
     """Make :class:`EnumDefinition` instance from various types
 
-    This function is used to convert various kinds of enum descriptions
-    (standard Python :class:`enum.Enum` types, :class:`dict` instances etc.)
-    into an :class:`EnumDefinition` instance usable by the code generator. It
-    allows for an user to provide a simple enum description, and having the
-    details filled in automatically.
+    This function is used to convert various kinds of enum definitions
+    (standard Python :class:`enum.Enum` types, :class:`dict` instances
+    etc.) into an :class:`EnumDefinition` instance usable by the code
+    generator. It allows for an user to provide a simpler enum
+    definition, and having the details filled in automatically.
 
-    This function is mainly meant to be used by the high level functions in the
-    top level :mod:`enumecg` module, but can also be invoked directly for
-    greater control over the code generation process.
+    This function is mainly meant to be used by the high level
+    functions in the top level :mod:`enumecg` module, but can also be
+    invoked directly for greater control over the code generation
+    process.
 
     Parameters:
-        enum: The convertible enum description
+        enum: The enum definition.
         primary_type: See :ref:`enumecg-primary-enum`.
         value_type: See :ref:`enumerator-value-type`.
     """
