@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+Added
+  - Command line interface
+
 Changed
   - Migrate Python unit tests to pytest
   - Introduce tox to manage Python unit tests
