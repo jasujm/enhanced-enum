@@ -9,8 +9,9 @@ Changed
   - Introduce tox to manage Python unit tests
   - More explicit call signatures in Python API (more type
     annotations, less catch-all keyword arguments)
-  - Changed the format of ``dict`` representation of enumerators to
+  - Change the format of ``dict`` representation of enumerators to
     have more explicit ordering of members
+  - Improvements to the documentation
 
 Version 0.3
 -----------

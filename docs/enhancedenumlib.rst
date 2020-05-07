@@ -324,5 +324,20 @@ For interfaces consuming iterator pairs, using :cpp:func:`begin()` and
 Library reference
 -----------------
 
-.. doxygennamespace:: enhanced_enum
+The base class
+..............
+
+.. doxygenstruct:: enhanced_enum::enum_base
+   :members:
+
+Comparison operators
+....................
+
+.. doxygengroup:: comparisons
+   :members:
+
+Template support
+................
+
+.. doxygengroup:: templatesupport
    :members:
