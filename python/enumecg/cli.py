@@ -13,6 +13,7 @@ import yaml
 
 from . import generate
 from .generators import CodeGenerator
+from .definitions import PRIMARY_TYPE_CHOICES
 
 
 @click.command()
@@ -21,8 +22,13 @@ from .generators import CodeGenerator
     type=click.Choice(CodeGenerator.DOCUMENTATION_CHOICES),
     help="Documentation style",
 )
+@click.option(
+    "--primary-type",
+    type=click.Choice(PRIMARY_TYPE_CHOICES),
+    help="Primary enumeration type",
+)
 @click.argument("file", type=click.File(), default=sys.stdin)
-def cli(file, documentation=None):
+def cli(file, documentation=None, primary_type=None):
     """Generate C++ boilerplate for an Enhanced Enum definition
 
     This executable is a part of the Enhanced Enum library. It is used
@@ -40,4 +46,4 @@ def cli(file, documentation=None):
 
     """
     enum = yaml.safe_load(file)
-    click.echo(generate(enum, documentation=documentation))
+    click.echo(generate(enum, documentation=documentation, primary_type=primary_type))

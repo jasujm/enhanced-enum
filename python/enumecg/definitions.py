@@ -15,6 +15,13 @@ import docstring_parser
 
 from . import utils
 
+PRIMARY_TYPE_CHOICES = ["label", "enhanced"]
+"""Possible primary types when generating enum definitions
+
+These are the accepted choices for the ``primary_type`` argument in
+:func:`make_definition()`.
+"""
+
 
 @dataclasses.dataclass
 class EnumDocumentation:
