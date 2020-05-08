@@ -27,8 +27,8 @@ from .definitions import PRIMARY_TYPE_CHOICES
     type=click.Choice(PRIMARY_TYPE_CHOICES),
     help="Primary enumeration type",
 )
-@click.argument("file", type=click.File(), default=sys.stdin)
-def cli(file, documentation=None, primary_type=None):
+@click.argument("file", type=click.File())
+def cli(file=sys.stdin, documentation=None, primary_type=None):
     """Generate C++ boilerplate for an Enhanced Enum definition
 
     This executable is a part of the Enhanced Enum library. It is used
