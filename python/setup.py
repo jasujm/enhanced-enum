@@ -32,9 +32,7 @@ setup_kwargs = dict(
     license="MIT",
     url="https://github.com/jasujm/enhanced-enum",
     packages=["enumecg"],
-    entry_points={
-        "console_scripts": ["enumecg=enumecg.__main__:main"],
-    },
+    entry_points={"console_scripts": ["enumecg=enumecg.__main__:main"]},
     package_data={"enumecg": ["templates/*.in", "templates/doxygen/*.in"]},
     classifiers=[
         "Programming Language :: Python :: 3",
