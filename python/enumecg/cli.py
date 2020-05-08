@@ -12,10 +12,17 @@ import click
 import yaml
 
 from . import generate
+from .generators import CodeGenerator
+
 
 @click.command()
+@click.option(
+    "--documentation",
+    type=click.Choice(CodeGenerator.DOCUMENTATION_CHOICES),
+    help="Documentation style",
+)
 @click.argument("file", type=click.File(), default=sys.stdin)
-def cli(file):
+def cli(file, documentation=None):
     """Generate C++ boilerplate for an Enhanced Enum definition
 
     This executable is a part of the Enhanced Enum library. It is used
@@ -33,4 +40,4 @@ def cli(file):
 
     """
     enum = yaml.safe_load(file)
-    click.echo(generate(enum))
+    click.echo(generate(enum, documentation=documentation))

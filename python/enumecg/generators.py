@@ -50,15 +50,21 @@ class CodeGenerator:
     :func:`enumecg.generator()` function.
     """
 
+    DOCUMENTATION_CHOICES = ["doxygen"]
+    """Possible documentation styles
+
+    These are the accepted choices for the ``documentation`` argument
+    in :func:`CodeGenerator()`.
+    """
+
     _JINJA_ENV = _create_jinja_env()
-    _DOCUMENTATION_CHOICES = {"doxygen"}
 
     def __init__(self, *, documentation: typing.Optional[str] = None):
         """
         Parameters:
             documentation: See :ref:`enumecg-documentation-generation`.
         """
-        if documentation and documentation not in self._DOCUMENTATION_CHOICES:
+        if documentation and documentation not in self.DOCUMENTATION_CHOICES:
             raise ValueError(f"Unsupported documentation style: {documentation!r}")
         self._documentation = documentation
         self._enum_definitions_template = self._JINJA_ENV.get_template(
