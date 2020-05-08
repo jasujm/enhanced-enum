@@ -28,8 +28,8 @@ from .definitions import PRIMARY_TYPE_CHOICES
     help="Primary enumeration type",
 )
 @click.option("--value-type", help="Enumerator value type")
-@click.argument("file", type=click.File())
-def cli(file=sys.stdin, documentation=None, primary_type=None, value_type=None):
+@click.argument("file", type=click.File(), default="-")
+def cli(file, documentation, primary_type, value_type):
     """Generate C++ boilerplate for an Enhanced Enum definition
 
     This executable is a part of the Enhanced Enum library. It is used
