@@ -27,8 +27,9 @@ from .definitions import PRIMARY_TYPE_CHOICES
     type=click.Choice(PRIMARY_TYPE_CHOICES),
     help="Primary enumeration type",
 )
+@click.option("--value-type", help="Enumerator value type")
 @click.argument("file", type=click.File())
-def cli(file=sys.stdin, documentation=None, primary_type=None):
+def cli(file=sys.stdin, documentation=None, primary_type=None, value_type=None):
     """Generate C++ boilerplate for an Enhanced Enum definition
 
     This executable is a part of the Enhanced Enum library. It is used
@@ -46,4 +47,11 @@ def cli(file=sys.stdin, documentation=None, primary_type=None):
 
     """
     enum = yaml.safe_load(file)
-    click.echo(generate(enum, documentation=documentation, primary_type=primary_type))
+    click.echo(
+        generate(
+            enum,
+            documentation=documentation,
+            primary_type=primary_type,
+            value_type=value_type,
+        )
+    )

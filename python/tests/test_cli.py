@@ -43,3 +43,10 @@ def test_cli_should_have_primeray_type_option(
         result.output
         == generate(status_definition_dict, primary_type=primary_type) + "\n"
     )
+
+
+def test_cli_should_have_value_type_option(
+    cli_runner, enum_file, status_definition_dict
+):
+    result = cli_runner.invoke(cli, ["--value-type", "MyType", str(enum_file)])
+    assert result.output == generate(status_definition_dict, value_type="MyType") + "\n"
