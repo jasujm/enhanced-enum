@@ -129,13 +129,31 @@ struct enum_base {
      */
     enum_base() = default;
 
+    /** \brief Copy construct an enumerator
+     *
+     * Postcondition: <tt>this->get() == other.get()</tt>
+     *
+     * \param other The source enumerator
+     */
+    constexpr enum_base(const enum_base& other) noexcept = default;
+
     /** \brief Construct an enumerator with the given label
      *
      * Postcondition: <tt>this->get() == label</tt>.
      *
      * \param label The label enumerator
      */
-    constexpr enum_base(label_type label) noexcept : label {label} {}
+    constexpr enum_base(const label_type& label) noexcept : label {label} {}
+
+    /** \brief Copy assign an enumerator
+     *
+     * Postcondition: <tt>this->get() == other.get()</tt>
+     *
+     * \param other The source enumerator
+     *
+     * \return \c *this
+     */
+    constexpr enum_base& operator=(const enum_base& other) noexcept = default;
 
     /** \brief Return the label enumerator
      */
