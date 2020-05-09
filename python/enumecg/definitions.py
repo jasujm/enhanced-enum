@@ -15,12 +15,16 @@ import docstring_parser
 
 from . import utils
 
-PRIMARY_TYPE_CHOICES = ["label", "enhanced"]
-"""Possible primary types when generating enum definitions
 
-These are the accepted choices for the ``primary_type`` argument in
-:func:`make_definition()`.
-"""
+class PrimaryType(py_enum.Enum):
+    """Possible primary types when generating enum definitions
+
+    These are the accepted choices for the ``primary_type`` argument
+    in :func:`make_definition()`.
+    """
+
+    label = "label"
+    enhanced = "enhanced"
 
 
 @dataclasses.dataclass
@@ -60,12 +64,12 @@ def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
     member_formatter = utils.NameFormatter(*(member["name"] for member in members))
     label_enum_typename = (
         formatter.join(formatter.parts[0] + ["label"])
-        if primary_type != "label"
+        if primary_type != PrimaryType.label
         else typename
     )
     enhanced_enum_typename = (
         formatter.join(["enhanced"] + formatter.parts[0])
-        if primary_type != "enhanced"
+        if primary_type != PrimaryType.enhanced
         else typename
     )
     type_deducer = utils.CppTypeDeducer(
@@ -97,9 +101,9 @@ def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
             for (n, member) in enumerate(members)
         ],
         associate_namespace_name=formatter.join(formatter.parts[0], pluralize=True),
-        label_enum_documentation=documentation if primary_type == "label" else None,
+        label_enum_documentation=documentation if primary_type == PrimaryType.label else None,
         enhanced_enum_documentation=documentation
-        if primary_type == "enhanced"
+        if primary_type == PrimaryType.enhanced
         else None,
     )
 
@@ -115,7 +119,7 @@ def _extract_python_enum_attrs(enum):
 def make_definition(
     enum,
     *,
-    primary_type: typing.Optional[str] = None,
+    primary_type: typing.Optional[PrimaryType] = None,
     value_type: typing.Optional[str] = None,
 ) -> EnumDefinition:
     """Make :class:`EnumDefinition` instance from various types
@@ -133,8 +137,10 @@ def make_definition(
 
     Parameters:
         enum: The enum definition.
-        primary_type: See :ref:`enumecg-primary-enum`.
+        primary_type: A :class:`PrimaryType` enumerator indicating the
+                      primary type. See :ref:`enumecg-primary-enum`.
         value_type: See :ref:`enumerator-value-type`.
+
     """
     if isinstance(enum, EnumDefinition):
         return enum

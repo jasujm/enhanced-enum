@@ -12,6 +12,7 @@ Changed
   - Change the format of ``dict`` representation of enumerators to
     have more explicit ordering of members
   - Improvements to the documentation
+  - Use Python enums to enumerate the possible primary types in EnumECG
 
 Version 0.3
 -----------

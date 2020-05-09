@@ -1,6 +1,6 @@
 import pytest
 
-from enumecg.definitions import EnumDefinition, EnumMemberDefinition, make_definition
+from enumecg.definitions import EnumDefinition, EnumMemberDefinition, make_definition, PrimaryType
 
 from .conftest import Status
 
@@ -30,7 +30,7 @@ def test_make_definition_with_label_type_as_primary(
     status_definition.label_enum_typename = "Status"
     status_definition.label_enum_documentation = status_documentation
     assert (
-        make_definition(status_definition_dict, primary_type="label")
+        make_definition(status_definition_dict, primary_type=PrimaryType.label)
         == status_definition
     )
 
@@ -41,7 +41,7 @@ def test_make_definition_with_enhanced_type_as_primary(
     status_definition.enhanced_enum_typename = "Status"
     status_definition.enhanced_enum_documentation = status_documentation
     make_definition(
-        status_definition_dict, primary_type="enhanced"
+        status_definition_dict, primary_type=PrimaryType.enhanced
     ) == status_definition
 
 

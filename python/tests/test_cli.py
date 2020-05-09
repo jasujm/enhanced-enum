@@ -5,6 +5,7 @@ from click.testing import CliRunner
 
 from enumecg import generate
 from enumecg.cli import cli
+from enumecg.definitions import PrimaryType
 
 
 @pytest.fixture
@@ -34,11 +35,11 @@ def test_cli_should_have_documentation_option(cli_runner, enum_file, status_defi
     assert result.output == generate(status_definition, documentation="doxygen") + "\n"
 
 
-@pytest.mark.parametrize("primary_type", ["label", "enhanced"])
+@pytest.mark.parametrize("primary_type", PrimaryType)
 def test_cli_should_have_primeray_type_option(
     cli_runner, enum_file, status_definition_dict, primary_type
 ):
-    result = cli_runner.invoke(cli, ["--primary-type", primary_type, str(enum_file)])
+    result = cli_runner.invoke(cli, ["--primary-type", primary_type.value, str(enum_file)])
     assert (
         result.output
         == generate(status_definition_dict, primary_type=primary_type) + "\n"

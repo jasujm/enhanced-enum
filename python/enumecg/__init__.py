@@ -11,7 +11,7 @@ __author__ = "Jaakko Moisio"
 
 import typing
 
-from . import generators
+from . import definitions, generators
 
 
 def generator(
@@ -34,7 +34,7 @@ def generate(
     enum,
     *,
     documentation: typing.Optional[str] = None,
-    primary_type: typing.Optional[str] = None,
+    primary_type: typing.Union[definitions.PrimaryType, str, None] = None,
     value_type: typing.Optional[str] = None
 ) -> str:
     """Generate code for an enhanced enum
@@ -61,12 +61,16 @@ def generate(
     Parameters:
         enum: The enum definition
         documentation: See :ref:`enumecg-documentation-generation`.
-        primary_type: See :ref:`enumecg-primary-enum`.
+        primary_type: A string or an enumerator indicating the
+                      primary type. See :ref:`enumecg-primary-enum`.
         value_type: See :ref:`enumerator-value-type`.
 
     Returns:
         The enhanced enum definition created from the ``enum`` description.
+
     """
+    if primary_type is not None:
+        primary_type = definitions.PrimaryType(primary_type)
     return str(
         generator(documentation=documentation).generate_enum_definitions(
             enum, primary_type=primary_type, value_type=value_type

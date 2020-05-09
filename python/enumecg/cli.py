@@ -13,7 +13,7 @@ import yaml
 
 from . import generate
 from .generators import CodeGenerator
-from .definitions import PRIMARY_TYPE_CHOICES
+from .definitions import PrimaryType
 
 
 @click.command()
@@ -24,7 +24,7 @@ from .definitions import PRIMARY_TYPE_CHOICES
 )
 @click.option(
     "--primary-type",
-    type=click.Choice(PRIMARY_TYPE_CHOICES),
+    type=click.Choice([e.value for e in PrimaryType.__members__.values()]),
     help="Primary enumeration type",
 )
 @click.option("--value-type", help="Enumerator value type")
