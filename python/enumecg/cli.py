@@ -14,6 +14,7 @@ import yaml
 from . import generate
 from .generators import DocumentationStyle
 from .definitions import PrimaryType
+from .exceptions import Error
 
 
 def _get_enum_values(Enum):
@@ -59,11 +60,15 @@ def cli(file, documentation, primary_type, value_type):
         enum = yaml.safe_load(file)
     except yaml.YAMLError as e:
         _report_error_and_fail(f"Failed to load {file.name}: {e}")
-    click.echo(
-        generate(
+
+    try:
+        output = generate(
             enum,
             documentation=documentation,
             primary_type=primary_type,
             value_type=value_type,
         )
-    )
+    except Error as e:
+        _report_error_and_fail(f"Failed to generate code from {enum!r}: {e}")
+
+    click.echo(output)

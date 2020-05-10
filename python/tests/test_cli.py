@@ -60,4 +60,9 @@ def test_cli_should_fail_if_input_cannot_be_parsed(cli_runner):
         cli, input=""" " let's open a string literal and never close it """
     )
     assert result.exit_code != 0
+
+
+def test_cli_should_fail_if_input_is_invalid(cli_runner, status_definition_dict):
+    del status_definition_dict["members"][0]["name"]
+    result = cli_runner.invoke(cli, input=yaml.dump(status_definition_dict))
     assert result.exit_code != 0
