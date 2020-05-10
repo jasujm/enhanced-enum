@@ -1,6 +1,7 @@
 import pytest
 
 from enumecg.utils import NameFormatter, CppTypeDeducer
+from enumecg.exceptions import Error
 
 
 def test_name_formatter_lower_snake_case():
@@ -51,7 +52,8 @@ def test_name_formatter_with_single_capitalized_word_should_be_camel_case():
 
 
 def test_name_with_unrecognized_case_should_raise_error():
-    assert ValueError, NameFormatter == "odd word"
+    with pytest.raises(Error):
+        NameFormatter("odd word")
 
 
 def test_name_formatter_pluralize():
@@ -61,12 +63,12 @@ def test_name_formatter_pluralize():
 
 
 def test_names_with_different_cases_should_raise_error():
-    with pytest.raises(ValueError):
+    with pytest.raises(Error):
         NameFormatter("lower", "UPPER")
 
 
 def test_type_deducer_with_empty_type_list_should_raise_error():
-    with pytest.raises(ValueError):
+    with pytest.raises(Error):
         CppTypeDeducer()
 
 
@@ -135,15 +137,15 @@ def test_type_deducer_with_explicit_typename():
 
 
 def test_type_deducer_with_unrecognized_type_should_raise_error():
-    with pytest.raises(ValueError):
+    with pytest.raises(Error):
         CppTypeDeducer(object())
 
 
 def test_get_initializer_with_unrecognized_type_should_raise_error():
-    with pytest.raises(ValueError):
+    with pytest.raises(Error):
         CppTypeDeducer.get_initializer(object())
 
 
 def test_type_deducer_with_incompatible_types_should_raise_error():
-    with pytest.raises(ValueError):
+    with pytest.raises(Error):
         CppTypeDeducer("str", 1, 3.14)

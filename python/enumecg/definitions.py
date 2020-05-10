@@ -13,7 +13,7 @@ import typing
 
 import docstring_parser
 
-from . import utils
+from . import utils, exceptions
 
 
 class PrimaryType(py_enum.Enum):
@@ -146,20 +146,26 @@ def make_definition(
                       primary type. See :ref:`enumecg-primary-enum`.
         value_type: See :ref:`enumerator-value-type`.
 
+    Raises:
+        :exc:`exceptions.Error`: If ``enum`` is invalid and cannot be
+          converted to :class:`EnumDefinition`.
     """
     if isinstance(enum, EnumDefinition):
         return enum
     elif isinstance(enum, cabc.Mapping):
+        pass
+    elif isinstance(enum, py_enum.EnumMeta):
+        enum = _extract_python_enum_attrs(enum)
+    else:
+        raise exceptions.Error(
+            f"Could not convert {enum!r} of type {type(enum)} into EnumDefinition"
+        )
+
+    try:
         return _make_definition_from_dict(
             enum, primary_type=primary_type, value_type=value_type
         )
-    elif isinstance(enum, py_enum.EnumMeta):
-        return _make_definition_from_dict(
-            _extract_python_enum_attrs(enum),
-            primary_type=primary_type,
-            value_type=value_type,
-        )
-    else:
-        raise TypeError(
-            f"Could not convert {enum!r} of type {type(enum)} into EnumDefinition"
-        )
+    except Exception as e:
+        raise exceptions.Error(
+            f"Failed to convert {enum!r} into an enum definition"
+        ) from e

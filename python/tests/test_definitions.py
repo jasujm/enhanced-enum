@@ -6,6 +6,7 @@ from enumecg.definitions import (
     make_definition,
     PrimaryType,
 )
+from enumecg.exceptions import Error
 
 from .conftest import Status
 
@@ -25,8 +26,14 @@ def test_make_definition_should_make_definition_from_python_enum(status_definiti
 
 
 def test_make_definition_should_raise_error_on_unknown_type():
-    with pytest.raises(TypeError):
+    with pytest.raises(Error):
         make_definition("this doesn't make sense")
+
+
+def test_invalid_definition_dict_should_raise_error(status_definition_dict):
+    del status_definition_dict["members"][0]["name"]
+    with pytest.raises(Error):
+        make_definition(status_definition_dict)
 
 
 def test_make_definition_with_label_type_as_primary(

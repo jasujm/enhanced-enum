@@ -15,6 +15,8 @@ import typing
 import inflect
 import regex
 
+from . import exceptions
+
 
 def _capitalize_word(word):
     return word[0].upper() + word[1:]
@@ -94,7 +96,7 @@ class NameFormatter:
           names: The names to analyze
 
         Raises:
-          :exc:`ValueError`: If at least one of the ``names`` doesn't
+          :exc:`exceptions.Error`: If at least one of the ``names`` doesn't
             follow a known case style, or if the sample contains names
             that follow different case style.
         """
@@ -108,7 +110,7 @@ class NameFormatter:
                 self._joiner = joiner
                 break
         else:
-            raise ValueError(f"Could not find common case for {names!r}")
+            raise exceptions.Error(f"Could not find common case for {names!r}")
 
     @property
     def parts(self) -> typing.Sequence[str]:
@@ -162,9 +164,8 @@ class CppTypeDeducer:
           type_name: The type name
 
         Raises:
-          :exc:`ValueError`: If no C++ type compatible with
+          :exc:`exceptions.Error`: If no C++ type compatible with
             ``values`` can be deduced.
-
         """
         self._type_name = type_name or self._get_compatible_type(values)
 
@@ -195,7 +196,7 @@ class CppTypeDeducer:
             return repr(value)
         elif isinstance(value, cabc.Sequence):
             return [cls.get_initializer(v) for v in value]
-        raise ValueError(f"Could not generate initializer for {value!r}")
+        raise exceptions.Error(f"Could not generate initializer for {value!r}")
 
     @classmethod
     def _get_compatible_type(cls, values):
@@ -212,4 +213,4 @@ class CppTypeDeducer:
                 )
                 common_types.append(common_type)
             return f"std::tuple<{', '.join(common_types)}>"
-        raise ValueError(f"Could not deduce compatible type for {values!r}")
+        raise exceptions.Error(f"Could not deduce compatible type for {values!r}")

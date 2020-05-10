@@ -176,7 +176,7 @@ error:
    >>> enumecg.generate(BadExample)
    Traceback (most recent call last):
      ...
-   ValueError: Could not find common case
+   enumecg.exceptions.Error: Could not find common case
 
 .. _enumecg-primary-enum:
 
@@ -284,7 +284,7 @@ But the following doesn't:
    >>> enumecg.generate(BadExample)
    Traceback (most recent call last):
      ...
-   ValueError: Could not deduce compatible type
+   enumecg.exceptions.Error: Could not deduce compatible type
 
 .. _enumerator-value-type:
 
@@ -417,4 +417,7 @@ to give greater control over the generated code.
    :members:
 
 .. automodule:: enumecg.utils
+   :members:
+
+.. automodule:: enumecg.exceptions
    :members:

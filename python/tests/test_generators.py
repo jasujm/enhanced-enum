@@ -2,6 +2,7 @@ import pytest
 import re
 
 from enumecg.generators import CodeGenerator, DocumentationStyle
+from enumecg.exceptions import Error
 
 from .conftest import STATUS_DEFINITION
 
@@ -101,3 +102,9 @@ def test_enhanced_enum_documentation_should_contain_long_description(
     assert status_documentation.long_description in _generate_enum_definitions(
         status_definition, documentation=DocumentationStyle.doxygen
     )
+
+
+def test_code_generation_should_fail_if_enum_definition_is_invalid(status_definition):
+    status_definition.members[0].enumerator_value_initializers = object()
+    with pytest.raises(Error):
+        _generate_enum_definitions(status_definition)

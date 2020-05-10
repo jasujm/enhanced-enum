@@ -12,7 +12,7 @@ import typing
 
 import jinja2
 
-from . import definitions
+from . import definitions, exceptions
 
 
 class DocumentationStyle(enum.Enum):
@@ -32,7 +32,7 @@ def _make_initializer_list(value):
     elif isinstance(value, cabc.Iterable):
         value_initializer_list = ", ".join(_make_initializer_list(v) for v in value)
         return f"{{ {value_initializer_list} }}"
-    raise ValueError("Argument not str or an iterable: {value!r}")
+    raise exceptions.Error("Argument not str or an iterable: {value!r}")
 
 
 def _make_initializer_list_ensure_outer_braces(value):
@@ -84,6 +84,10 @@ class CodeGenerator:
 
         Returns:
             The generated code
+
+        Raises:
+            :exc:`exceptions.Error`: If the code generation fails due
+              to an invalid enum definition.
         """
         return self._enum_definitions_template.render(
             d=definitions.make_definition(enum, **options),
