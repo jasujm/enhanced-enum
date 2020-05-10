@@ -20,6 +20,11 @@ def _get_enum_values(Enum):
     return [e.value for e in Enum.__members__.values()]
 
 
+def _report_error_and_fail(message):
+    click.secho(message, err=True, fg="red")
+    sys.exit(1)
+
+
 @click.command()
 @click.option(
     "--documentation",
@@ -50,7 +55,10 @@ def cli(file, documentation, primary_type, value_type):
         https://enhanced-enum.readthedocs.io/en/latest/
 
     """
-    enum = yaml.safe_load(file)
+    try:
+        enum = yaml.safe_load(file)
+    except yaml.YAMLError as e:
+        _report_error_and_fail(f"Failed to load {file.name}: {e}")
     click.echo(
         generate(
             enum,

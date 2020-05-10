@@ -53,3 +53,11 @@ def test_cli_should_have_value_type_option(
 ):
     result = cli_runner.invoke(cli, ["--value-type", "MyType", str(enum_file)])
     assert result.output == generate(status_definition_dict, value_type="MyType") + "\n"
+
+
+def test_cli_should_fail_if_input_cannot_be_parsed(cli_runner):
+    result = cli_runner.invoke(
+        cli, input=""" " let's open a string literal and never close it """
+    )
+    assert result.exit_code != 0
+    assert result.exit_code != 0
