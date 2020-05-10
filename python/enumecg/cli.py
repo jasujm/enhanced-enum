@@ -6,8 +6,6 @@ Contains the command line interface to EnumECG. The entry point is
 :func:`cli()`.
 """
 
-import sys
-
 import click
 import yaml
 
@@ -21,12 +19,13 @@ def _get_enum_values(Enum):
     return [e.value for e in Enum.__members__.values()]
 
 
-def _report_error_and_fail(message):
+def _report_error_and_fail(message, abort):
     click.secho(message, err=True, fg="red")
-    sys.exit(1)
+    abort()
 
 
 @click.command()
+@click.pass_context
 @click.option(
     "--documentation",
     type=click.Choice(_get_enum_values(DocumentationStyle)),
@@ -39,7 +38,7 @@ def _report_error_and_fail(message):
 )
 @click.option("--value-type", help="Enumerator value type")
 @click.argument("file", type=click.File(), default="-")
-def cli(file, documentation, primary_type, value_type):
+def cli(ctx, file, documentation, primary_type, value_type):
     """Generate C++ boilerplate for an Enhanced Enum definition
 
     This executable is a part of the Enhanced Enum library. It is used
@@ -59,7 +58,7 @@ def cli(file, documentation, primary_type, value_type):
     try:
         enum = yaml.safe_load(file)
     except yaml.YAMLError as e:
-        _report_error_and_fail(f"Failed to load {file.name}: {e}")
+        _report_error_and_fail(f"Failed to load {file.name}: {e}", ctx.abort)
 
     try:
         output = generate(
@@ -69,6 +68,6 @@ def cli(file, documentation, primary_type, value_type):
             value_type=value_type,
         )
     except Error as e:
-        _report_error_and_fail(f"Failed to generate code from {enum!r}: {e}")
+        _report_error_and_fail(f"Failed to generate code from {enum!r}: {e}", ctx.abort)
 
     click.echo(output)
