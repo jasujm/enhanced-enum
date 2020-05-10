@@ -24,7 +24,10 @@ class PrimaryType(py_enum.Enum):
     """
 
     label = "label"
+    """Label enum is the primary type"""
+
     enhanced = "enhanced"
+    """Enhanced enum is the primary type"""
 
 
 @dataclasses.dataclass
@@ -101,7 +104,9 @@ def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
             for (n, member) in enumerate(members)
         ],
         associate_namespace_name=formatter.join(formatter.parts[0], pluralize=True),
-        label_enum_documentation=documentation if primary_type == PrimaryType.label else None,
+        label_enum_documentation=documentation
+        if primary_type == PrimaryType.label
+        else None,
         enhanced_enum_documentation=documentation
         if primary_type == PrimaryType.enhanced
         else None,

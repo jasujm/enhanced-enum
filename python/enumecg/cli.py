@@ -12,19 +12,23 @@ import click
 import yaml
 
 from . import generate
-from .generators import CodeGenerator
+from .generators import DocumentationStyle
 from .definitions import PrimaryType
+
+
+def _get_enum_values(Enum):
+    return [e.value for e in Enum.__members__.values()]
 
 
 @click.command()
 @click.option(
     "--documentation",
-    type=click.Choice(CodeGenerator.DOCUMENTATION_CHOICES),
+    type=click.Choice(_get_enum_values(DocumentationStyle)),
     help="Documentation style",
 )
 @click.option(
     "--primary-type",
-    type=click.Choice([e.value for e in PrimaryType.__members__.values()]),
+    type=click.Choice(_get_enum_values(PrimaryType)),
     help="Primary enumeration type",
 )
 @click.option("--value-type", help="Enumerator value type")

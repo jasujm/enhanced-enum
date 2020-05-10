@@ -1,6 +1,11 @@
 import pytest
 
-from enumecg.definitions import EnumDefinition, EnumMemberDefinition, make_definition, PrimaryType
+from enumecg.definitions import (
+    EnumDefinition,
+    EnumMemberDefinition,
+    make_definition,
+    PrimaryType,
+)
 
 from .conftest import Status
 

@@ -15,25 +15,28 @@ from . import definitions, generators
 
 
 def generator(
-    *, documentation: typing.Optional[str] = None
+    *, documentation: typing.Union[generators.DocumentationStyle, str, None] = None
 ) -> generators.CodeGenerator:
     """Create code generator for an enhanced enum type
 
     Creates an instance of :class:`generators.CodeGenerator`.
 
     Parameters:
-        documentation: See :ref:`enumecg-documentation-generation`.
+        documentation: A string or an enumerator indicating the documentation
+                       style. See :ref:`enumecg-documentation-generation`.
 
     Returns:
         The :class:`generators.CodeGenerator` instance.
     """
+    if documentation is not None:
+        documentation = generators.DocumentationStyle(documentation)
     return generators.CodeGenerator(documentation=documentation)
 
 
 def generate(
     enum,
     *,
-    documentation: typing.Optional[str] = None,
+    documentation: typing.Union[generators.DocumentationStyle, str, None] = None,
     primary_type: typing.Union[definitions.PrimaryType, str, None] = None,
     value_type: typing.Optional[str] = None
 ) -> str:
@@ -60,7 +63,8 @@ def generate(
 
     Parameters:
         enum: The enum definition
-        documentation: See :ref:`enumecg-documentation-generation`.
+        documentation: A string or an enumerator indicating the documentation
+                       style. See :ref:`enumecg-documentation-generation`.
         primary_type: A string or an enumerator indicating the
                       primary type. See :ref:`enumecg-primary-enum`.
         value_type: See :ref:`enumerator-value-type`.

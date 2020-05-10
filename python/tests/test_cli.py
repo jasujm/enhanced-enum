@@ -39,7 +39,9 @@ def test_cli_should_have_documentation_option(cli_runner, enum_file, status_defi
 def test_cli_should_have_primeray_type_option(
     cli_runner, enum_file, status_definition_dict, primary_type
 ):
-    result = cli_runner.invoke(cli, ["--primary-type", primary_type.value, str(enum_file)])
+    result = cli_runner.invoke(
+        cli, ["--primary-type", primary_type.value, str(enum_file)]
+    )
     assert (
         result.output
         == generate(status_definition_dict, primary_type=primary_type) + "\n"

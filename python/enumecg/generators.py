@@ -7,11 +7,23 @@ outputting C++ code.
 """
 
 import collections.abc as cabc
+import enum
 import typing
 
 import jinja2
 
 from . import definitions
+
+
+class DocumentationStyle(enum.Enum):
+    """Possible documentation styles
+
+    These are the accepted choices for the ``documentation`` argument
+    in :func:`CodeGenerator()`.
+    """
+
+    doxygen = "doxygen"
+    """Doxygen documentation style"""
 
 
 def _make_initializer_list(value):
@@ -50,23 +62,15 @@ class CodeGenerator:
     :func:`enumecg.generator()` function.
     """
 
-    DOCUMENTATION_CHOICES = ["doxygen"]
-    """Possible documentation styles
-
-    These are the accepted choices for the ``documentation`` argument
-    in :func:`CodeGenerator()`.
-    """
-
     _JINJA_ENV = _create_jinja_env()
 
-    def __init__(self, *, documentation: typing.Optional[str] = None):
+    def __init__(self, *, documentation: typing.Optional[DocumentationStyle] = None):
         """
         Parameters:
-            documentation: See :ref:`enumecg-documentation-generation`.
+            documentation: A :class:`DocumentationStyle` enumerator indicating the
+                           documentation style. See :ref:`enumecg-documentation-generation`.
         """
-        if documentation and documentation not in self.DOCUMENTATION_CHOICES:
-            raise ValueError(f"Unsupported documentation style: {documentation!r}")
-        self._documentation = documentation
+        self._documentation = documentation.value if documentation else None
         self._enum_definitions_template = self._JINJA_ENV.get_template(
             "enum_definitions.hh.in"
         )

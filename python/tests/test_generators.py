@@ -1,7 +1,7 @@
 import pytest
 import re
 
-from enumecg.generators import CodeGenerator
+from enumecg.generators import CodeGenerator, DocumentationStyle
 
 from .conftest import STATUS_DEFINITION
 
@@ -63,7 +63,7 @@ def test_enum_definitions_should_not_contain_documentation_if_not_requested(
 
 def test_enum_definitions_should_contain_documentation_if_requested(status_definition):
     assert "/**" in _generate_enum_definitions(
-        status_definition, documentation="doxygen"
+        status_definition, documentation=DocumentationStyle.doxygen
     )
 
 
@@ -72,7 +72,7 @@ def test_label_enum_documentation_should_contain_short_description(
 ):
     status_definition.label_enum_documentation = status_documentation
     assert status_documentation.short_description in _generate_enum_definitions(
-        status_definition, documentation="doxygen"
+        status_definition, documentation=DocumentationStyle.doxygen
     )
 
 
@@ -81,7 +81,7 @@ def test_label_enum_documentation_should_contain_long_description(
 ):
     status_definition.label_enum_documentation = status_documentation
     assert status_documentation.long_description in _generate_enum_definitions(
-        status_definition, documentation="doxygen"
+        status_definition, documentation=DocumentationStyle.doxygen
     )
 
 
@@ -90,7 +90,7 @@ def test_enhanced_enum_documentation_should_contain_short_description(
 ):
     status_definition.enhanced_enum_documentation = status_documentation
     assert status_documentation.short_description in _generate_enum_definitions(
-        status_definition, documentation="doxygen"
+        status_definition, documentation=DocumentationStyle.doxygen
     )
 
 
@@ -99,10 +99,5 @@ def test_enhanced_enum_documentation_should_contain_long_description(
 ):
     status_definition.enhanced_enum_documentation = status_documentation
     assert status_documentation.long_description in _generate_enum_definitions(
-        status_definition, documentation="doxygen"
+        status_definition, documentation=DocumentationStyle.doxygen
     )
-
-
-def test_unsupported_documentation_style():
-    with pytest.raises(ValueError):
-        CodeGenerator(documentation="invalid")
