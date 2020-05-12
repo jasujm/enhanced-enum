@@ -165,7 +165,7 @@ def make_definition(
         return _make_definition_from_dict(
             enum, primary_type=primary_type, value_type=value_type
         )
-    except Exception as e:
+    except (KeyError, AttributeError, TypeError, ValueError) as e:
         raise exceptions.Error(
-            f"Failed to convert {enum!r} into an enum definition"
+            f"Failed to convert {enum!r} into an enum definition: {e!r}"
         ) from e
