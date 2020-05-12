@@ -167,5 +167,5 @@ def make_definition(
         )
     except (KeyError, AttributeError, TypeError, ValueError) as e:
         raise exceptions.Error(
-            f"Failed to convert {enum!r} into an enum definition: {e!r}"
+            f"Failed to convert {enum!r} into an enum definition"
         ) from e
