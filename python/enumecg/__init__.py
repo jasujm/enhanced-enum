@@ -11,7 +11,16 @@ __author__ = "Jaakko Moisio"
 
 import typing
 
-from . import definitions, generators
+from . import definitions, generators, exceptions
+
+
+def _convert_to_enumerator(Enum, value, parameter):
+    if value is not None:
+        try:
+            value = Enum(value)
+        except ValueError as e:
+            raise exceptions.Error(f"Invalid value for {parameter}: {value!r}") from e
+    return value
 
 
 def generator(
@@ -28,9 +37,11 @@ def generator(
     Returns:
         The :class:`generators.CodeGenerator` instance.
     """
-    if documentation is not None:
-        documentation = generators.DocumentationStyle(documentation)
-    return generators.CodeGenerator(documentation=documentation)
+    return generators.CodeGenerator(
+        documentation=_convert_to_enumerator(
+            generators.DocumentationStyle, documentation, "documentation"
+        )
+    )
 
 
 def generate(
@@ -38,7 +49,7 @@ def generate(
     *,
     documentation: typing.Union[generators.DocumentationStyle, str, None] = None,
     primary_type: typing.Union[definitions.PrimaryType, str, None] = None,
-    value_type: typing.Optional[str] = None
+    value_type: typing.Optional[str] = None,
 ) -> str:
     """Generate code for an enhanced enum
 
@@ -73,10 +84,12 @@ def generate(
         The enhanced enum definition created from the ``enum`` description.
 
     """
-    if primary_type is not None:
-        primary_type = definitions.PrimaryType(primary_type)
     return str(
         generator(documentation=documentation).generate_enum_definitions(
-            enum, primary_type=primary_type, value_type=value_type
+            enum,
+            primary_type=_convert_to_enumerator(
+                definitions.PrimaryType, primary_type, "primary_type"
+            ),
+            value_type=value_type,
         )
     )

@@ -3,6 +3,7 @@ import pytest
 from enumecg import generate, generator
 from enumecg.generators import CodeGenerator, DocumentationStyle
 from enumecg.definitions import PrimaryType
+from enumecg.exceptions import Error
 
 
 def test_generator_function_should_return_code_generator():
@@ -31,3 +32,13 @@ def test_generate_should_accept_documentation_as_string(
     assert generate(
         status_definition_dict, documentation=documentation.value
     ) == generate(status_definition_dict, documentation=documentation)
+
+
+def test_invalid_primary_type_should_raise_error(status_definition):
+    with pytest.raises(Error):
+        generate(status_definition, primary_type="invalid")
+
+
+def test_invalid_documentation_should_raise_error(status_definition):
+    with pytest.raises(Error):
+        generate(status_definition, documentation="invalid")
