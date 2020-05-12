@@ -60,7 +60,7 @@ def cli(file, documentation, primary_type, value_type):
     """
     try:
         enum = yaml.safe_load(file)
-    except:
+    except Exception:
         _report_error_and_fail(f"Failed to load {file.name}")
 
     try:
@@ -70,7 +70,7 @@ def cli(file, documentation, primary_type, value_type):
             primary_type=primary_type,
             value_type=value_type,
         )
-    except:
+    except Exception:
         _report_error_and_fail(f"Failed to generate code from {file.name}")
 
     click.echo(output)
