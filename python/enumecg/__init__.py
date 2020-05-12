@@ -45,7 +45,7 @@ def generator(
 
 
 def generate(
-    enum,
+    enum: definitions.Enum,
     *,
     documentation: typing.Union[generators.DocumentationStyle, str, None] = None,
     primary_type: typing.Union[definitions.PrimaryType, str, None] = None,

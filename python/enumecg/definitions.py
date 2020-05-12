@@ -60,6 +60,14 @@ class EnumDefinition:
     enhanced_enum_documentation: typing.Optional[EnumDocumentation] = None
 
 
+Enum = typing.Union[EnumDefinition, typing.Mapping, py_enum.EnumMeta]
+"""Generic enum definition
+
+Types accepted by :func:`make_definition()` and other functions that
+are used to generate enhanced enum definition.
+"""
+
+
 def _make_definition_from_dict(enum_dict, *, primary_type, value_type):
     typename = enum_dict["typename"]
     members = enum_dict["members"]
@@ -122,7 +130,7 @@ def _extract_python_enum_attrs(enum):
 
 
 def make_definition(
-    enum,
+    enum: Enum,
     *,
     primary_type: typing.Optional[PrimaryType] = None,
     value_type: typing.Optional[str] = None,
