@@ -16,8 +16,8 @@ The Enhanced Enum library specific CMake variables are:
 
 - ``ENHANCEDENUM_BUILD_DOCS``: Build ``sphinx`` docs
 
-- ``ENHANCEDENUM_BUILD_PYTHON``: Build and install the :mod:`enumecg`
-  package (see caveats below)
+- ``ENHANCEDENUM_BUILD_PYTHON``: Build the :mod:`enumecg` package
+  (see caveats below)
 
 - ``ENHANCEDENUM_BUILD_TESTS``: Build tests for the C++ and/or Python
   packages
@@ -51,9 +51,13 @@ and build and test the C++ code and documentations with CMake:
    >   /path/to/repository
    $ make && make test && make install
 
-By default CMake will not build and install EnumECG, because the more
-typical ``pip`` based workflow is preferred. If you want to install
-:mod:`enumecg` from sources using CMake, you can do that:
+Installing EnumECG from sources
+-------------------------------
+
+EnumECG uses `Flit <https://flit.readthedocs.io/en/latest/>`_ for
+building. By default CMake will not build the EnumECG library. If you
+want to install :mod:`enumecg` from sources using CMake, you can do
+that:
 
 .. code-block:: console
 
@@ -66,7 +70,7 @@ equivalent of running the following in the ``python/`` directory:
 
 .. code-block:: console
 
-   $ python setup.py build
-   $ python setup.py install
+   $ flit build
+   $ flit install
 
-...but does some extra bootstrapping to build out-of-source.
+Note that the build will happen in-source.

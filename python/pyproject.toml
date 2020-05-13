@@ -1,0 +1,33 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+dist-name = "EnumECG"
+module = "enumecg"
+author = "Jaakko Moisio"
+author-email = "jaakko@moisio.fi"
+home-page = "https://github.com/jasujm/enhanced-enum"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+requires = [
+  "Jinja2>=2.10",
+  "regex",
+  "inflect>=3.0",
+  "docstring-parser>=0.6",
+  "PyYAML>=5.3",
+  "click>=7.1",
+]
+description-file = "README.txt"
+requires-python = ">=3.7"
+
+[tool.flit.scripts]
+enumecg = "enumecg.__main__:main"
+
+[tool.flit.sdist]
+exclude = [
+  "CMakeLists.txt",
+]

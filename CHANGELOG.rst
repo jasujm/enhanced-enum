@@ -5,6 +5,7 @@ Added
   - Command line interface
 
 Changed
+  - Migrate build system to flit
   - Migrate Python unit tests to pytest
   - Introduce tox to manage Python unit tests
   - More explicit call signatures in Python API (more type

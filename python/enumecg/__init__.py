@@ -1,6 +1,6 @@
 """
-EnumECG package
-...............
+Generate Enhanced Enum definitions for C++
+..........................................
 
 The top level module provides the high level code generation API for
 the Enhanced Enum library.

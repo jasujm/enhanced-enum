@@ -3,7 +3,6 @@ black==19.10b0
 sphinx>=2.2
 breathe>=3.1
 sphinx-rtd-theme
-twine
-wheel
 pytest
 tox
+flit>=2.3
