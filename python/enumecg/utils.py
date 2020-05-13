@@ -43,8 +43,8 @@ def _join_lower_camel_case(parts):
         return first + "".join(_capitalize_word(part) for part in rest)
 
 
-def _all_are_instances(values, type):
-    return values and all(isinstance(v, type) for v in values)
+def _all_are_instances(values, type_):
+    return values and all(isinstance(v, type_) for v in values)
 
 
 class NameFormatter:
@@ -190,11 +190,11 @@ class CppTypeDeducer:
             if isinstance(value, bytes):
                 value = value.decode()
             return f'"{repr(value)[1:-1]}"'
-        elif isinstance(value, bool):
+        if isinstance(value, bool):
             return "true" if value else "false"
-        elif isinstance(value, numbers.Real):
+        if isinstance(value, numbers.Real):
             return repr(value)
-        elif isinstance(value, cabc.Sequence):
+        if isinstance(value, cabc.Sequence):
             return [cls.get_initializer(v) for v in value]
         raise exceptions.Error(f"Could not generate initializer for {value!r}")
 

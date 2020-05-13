@@ -6,3 +6,4 @@ sphinx-rtd-theme
 pytest
 tox
 flit>=2.3
+pylint>=2.5

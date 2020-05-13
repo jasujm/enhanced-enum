@@ -24,7 +24,11 @@ if(Python_FOUND)
     add_test(NAME EnumECGTest
       COMMAND Python::Interpreter -m tox
       WORKING_DIRECTORY ${PYTHON_SOURCE_DIR})
-  endif()
+
+    add_test(NAME EnumECGLint
+      COMMAND Python::Interpreter -m pylint enumecg
+      WORKING_DIRECTORY ${PYTHON_SOURCE_DIR})
+endif()
 else()
   message(STATUS "Python not found. Skipping building python packages.")
 endif()

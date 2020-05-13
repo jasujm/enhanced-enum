@@ -160,11 +160,10 @@ def make_definition(
     """
     if isinstance(enum, EnumDefinition):
         return enum
-    elif isinstance(enum, cabc.Mapping):
-        pass
-    elif isinstance(enum, py_enum.EnumMeta):
+
+    if isinstance(enum, py_enum.EnumMeta):
         enum = _extract_python_enum_attrs(enum)
-    else:
+    elif not isinstance(enum, cabc.Mapping):
         raise exceptions.Error(
             f"Could not convert {enum!r} of type {type(enum)} into EnumDefinition"
         )
@@ -173,7 +172,7 @@ def make_definition(
         return _make_definition_from_dict(
             enum, primary_type=primary_type, value_type=value_type
         )
-    except (KeyError, AttributeError, TypeError, ValueError) as e:
+    except (KeyError, AttributeError, TypeError, ValueError) as ex:
         raise exceptions.Error(
             f"Failed to convert {enum!r} into an enum definition"
-        ) from e
+        ) from ex

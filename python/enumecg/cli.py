@@ -6,7 +6,6 @@ Contains the command line interface to EnumECG. The entry point is
 :func:`cli()`.
 """
 
-import sys
 import traceback
 
 import click
@@ -15,11 +14,10 @@ import yaml
 from . import generate
 from .generators import DocumentationStyle
 from .definitions import PrimaryType
-from .exceptions import Error
 
 
-def _get_enum_values(Enum):
-    return [e.value for e in Enum.__members__.values()]
+def _get_enum_values(enum_type):
+    return [e.value for e in enum_type.__members__.values()]
 
 
 def _report_error_and_fail(message):
@@ -60,7 +58,7 @@ def cli(file, documentation, primary_type, value_type):
     """
     try:
         enum = yaml.safe_load(file)
-    except Exception:
+    except Exception:  # pylint: disable=broad-except
         _report_error_and_fail(f"Failed to load {file.name}")
 
     try:
@@ -70,7 +68,7 @@ def cli(file, documentation, primary_type, value_type):
             primary_type=primary_type,
             value_type=value_type,
         )
-    except Exception:
+    except Exception:  # pylint: disable=broad-except
         _report_error_and_fail(f"Failed to generate code from {file.name}")
 
     click.echo(output)

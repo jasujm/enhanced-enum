@@ -1,3 +1,12 @@
+Unreleased
+----------
+
+Added
+  - Pylint (test target, configurations)
+
+Fixed
+  - Several pylint errors
+
 Version 0.4
 -----------
 

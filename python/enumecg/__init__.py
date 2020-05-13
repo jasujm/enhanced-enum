@@ -14,12 +14,12 @@ import typing
 from . import definitions, generators, exceptions
 
 
-def _convert_to_enumerator(Enum, value, parameter):
+def _convert_to_enumerator(enum_type, value, parameter):
     if value is not None:
         try:
-            value = Enum(value)
-        except ValueError as e:
-            raise exceptions.Error(f"Invalid value for {parameter}: {value!r}") from e
+            value = enum_type(value)
+        except ValueError as ex:
+            raise exceptions.Error(f"Invalid value for {parameter}: {value!r}") from ex
     return value
 
 

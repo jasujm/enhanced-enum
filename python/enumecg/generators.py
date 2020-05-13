@@ -7,7 +7,7 @@ outputting C++ code.
 """
 
 import collections.abc as cabc
-import enum
+import enum as py_enum
 import typing
 
 import jinja2
@@ -15,7 +15,7 @@ import jinja2
 from . import definitions, exceptions
 
 
-class DocumentationStyle(enum.Enum):
+class DocumentationStyle(py_enum.Enum):
     """Possible documentation styles
 
     These are the accepted choices for the ``documentation`` argument
@@ -29,7 +29,7 @@ class DocumentationStyle(enum.Enum):
 def _make_initializer_list(value):
     if isinstance(value, str):
         return value
-    elif isinstance(value, cabc.Iterable):
+    if isinstance(value, cabc.Iterable):
         value_initializer_list = ", ".join(_make_initializer_list(v) for v in value)
         return f"{{ {value_initializer_list} }}"
     raise exceptions.Error("Argument not str or an iterable: {value!r}")
@@ -52,6 +52,7 @@ def _create_jinja_env():
     return env
 
 
+# pylint: disable=too-few-public-methods
 class CodeGenerator:
     """Code generator for an enhanced enum type
 
