@@ -6,7 +6,7 @@ The top level module provides the high level code generation API for
 the Enhanced Enum library.
 """
 
-__version__ = "0.3"
+__version__ = "0.4"
 __author__ = "Jaakko Moisio"
 
 import typing

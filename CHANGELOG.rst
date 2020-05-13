@@ -1,17 +1,20 @@
-Unreleased
-----------
+Version 0.4
+-----------
+
+Date
+  2020-05-13
 
 Added
   - Command line interface
 
 Changed
-  - Migrate build system to flit
-  - Migrate Python unit tests to pytest
-  - Introduce tox to manage Python unit tests
+  - Migrate EnumECG build system to flit
+  - Migrate EnumECG unit tests to pytest
+  - Use tox to manage EnumECG unit tests
   - More explicit call signatures in Python API (more type
     annotations, less catch-all keyword arguments)
   - Change the format of ``dict`` representation of enumerators to
-    have more explicit ordering of members
+    have a more explicit ordering of members
   - Improvements to the documentation
   - Use Python enums to enumerate the possible primary types and documentation
     styles in the EnumECG library
