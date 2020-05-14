@@ -113,7 +113,7 @@ class NameFormatter:
             raise exceptions.Error(f"Could not find common case for {names!r}")
 
     @property
-    def parts(self) -> typing.Sequence[str]:
+    def parts(self) -> typing.List[typing.List[str]]:
         """List of the name parts used to create the formatter"""
         return self._parts
 
@@ -175,7 +175,7 @@ class CppTypeDeducer:
         return self._type_name
 
     @classmethod
-    def get_initializer(cls, value) -> str:
+    def get_initializer(cls, value):
         """Return C++ initializer for ``value``
 
         Parameters:
