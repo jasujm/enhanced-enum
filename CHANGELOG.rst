@@ -6,6 +6,7 @@ Added
 
 Fixed
   - Several pylint errors
+  - Fix bugs in the CMake build system
 
 Version 0.4
 -----------
