@@ -11,5 +11,5 @@ inflect==4.1.0            # via -r requirements.in
 jinja2==2.11.2            # via -r requirements.in
 markupsafe==1.1.1         # via jinja2
 pyyaml==5.3.1             # via -r requirements.in
-regex==2020.4.4           # via -r requirements.in
+regex==2020.5.14          # via -r requirements.in
 zipp==3.1.0               # via importlib-metadata
