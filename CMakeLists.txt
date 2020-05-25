@@ -61,12 +61,12 @@ if(NOT IS_SUBPROJECT)
 
   install(DIRECTORY ${ENHANCEDENUM_INCLUDE_DIR}/ DESTINATION include)
 
-  set(ENHANCEDENUM_BUILD_TESTS OFF CACHE BOOL "Build tests")
+  option(ENHANCEDENUM_BUILD_TESTS "Build tests" ON)
   if(ENHANCEDENUM_BUILD_TESTS)
     enable_testing()
   endif()
 
-  set(ENHANCEDENUM_BUILD_DOCS OFF CACHE BOOL "Build documentation")
+  option(ENHANCEDENUM_BUILD_DOCS "Build documentation" ON)
   if(ENHANCEDENUM_BUILD_DOCS)
     add_subdirectory(docs)
   endif()
@@ -75,7 +75,7 @@ if(NOT IS_SUBPROJECT)
     add_subdirectory(cxx/tests)
   endif()
 
-  set(ENHANCEDENUM_BUILD_PYTHON OFF CACHE BOOL "Build python modules")
+  option(ENHANCEDENUM_BUILD_PYTHON "Build python modules" OFF)
   if(ENHANCEDENUM_BUILD_PYTHON)
     add_subdirectory(python)
   endif()
