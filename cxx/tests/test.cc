@@ -92,6 +92,8 @@ static_assert( EnhancedStatus::begin()[1] == Statuses::WAITING_FOR_INPUT );
 static_assert( *(EnhancedStatus::begin() + 2) == Statuses::BUSY );
 static_assert( *--EnhancedStatus::end() == Statuses::BUSY );
 static_assert( *(EnhancedStatus::end() - 2) == Statuses::WAITING_FOR_INPUT );
+static_assert( Statuses::begin() == EnhancedStatus::begin() );
+static_assert( Statuses::end() == EnhancedStatus::end() );
 
 // Test nested enum type
 
@@ -140,6 +142,15 @@ TEST_F(EnhancedEnumTest, testAll)
         std::equal(
             all_enumerators.begin(), all_enumerators.end(),
             EnhancedStatus::begin(), EnhancedStatus::end()));
+}
+
+TEST_F(EnhancedEnumTest, testAllAlias)
+{
+    const auto all_enumerators = Statuses::all();
+    EXPECT_TRUE(
+        std::equal(
+            all_enumerators.begin(), all_enumerators.end(),
+            Statuses::begin(), Statuses::end()));
 }
 
 TEST_F(EnhancedEnumTest, testIterator)

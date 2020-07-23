@@ -25,4 +25,7 @@ inline constexpr const EnhancedStatus::value_type& BUSY_VALUE { std::get<2>(Enha
 inline constexpr EnhancedStatus INITIALIZING { StatusLabel::INITIALIZING };
 inline constexpr EnhancedStatus WAITING_FOR_INPUT { StatusLabel::WAITING_FOR_INPUT };
 inline constexpr EnhancedStatus BUSY { StatusLabel::BUSY };
+inline constexpr auto begin() noexcept { return EnhancedStatus::begin();  }
+inline constexpr auto end() noexcept { return EnhancedStatus::end();  }
+inline constexpr auto all() noexcept { return EnhancedStatus::all();  }
 }

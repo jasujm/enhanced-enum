@@ -53,4 +53,8 @@ inline constexpr const {{ qualify_with_enhanced_enum(value_type_alias) }}& {{ me
 {{ include_documentation("enumerator_constant", member) -}}
 inline constexpr {{ d.enhanced_enum_typename }} {{ member.enumerator_name }} { {{ d.label_enum_typename }}::{{ member.enumerator_name }} };
 {%- endfor %}
+{%- for function in ["begin", "end", "all"] %}
+{{ include_documentation("function_alias", function) -}}
+inline constexpr auto {{ function }}() noexcept { return {{ qualify_with_enhanced_enum(function) }}();  }
+{%- endfor %}
 }
