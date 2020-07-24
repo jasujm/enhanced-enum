@@ -465,6 +465,33 @@ constexpr bool operator>=(Enum1 lhs, Enum2 rhs) noexcept
 
 /// \}
 
+/** \brief Hash for enhanced enums
+ *
+ * This is a struct template satisfying the requirements of Hash for
+ * enhanced enum types. Instantiating the template is possibly if and
+ * only if <tt>\ref is_enhanced_enum_v<Enum> == true</tt>.
+ *
+ * \note Due to restrictions of the C++ standard library, the enhanced
+ * enum library doesn't specialize the \c std::hash template. Please
+ * see the user guide if you need a specialization of \c std::hash for
+ * your own type.
+ */
+template<
+    typename Enum
+#ifndef IS_DOXYGEN
+    , typename = std::enable_if_t<is_enhanced_enum_v<Enum>>
+#endif
+>
+struct hash
+{
+    /** \brief Calculate hash for \p e
+     */
+    std::size_t operator()(const Enum& e) const noexcept
+    {
+        return std::hash<typename Enum::label_type>{}(e.get());
+    }
+};
+
 }
 
 #endif // ENHANCED_ENUM_HH_INCLUDED_

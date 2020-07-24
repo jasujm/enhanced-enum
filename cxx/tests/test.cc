@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <array>
 #include <ostream>
+#include <map>
 
 #include <gtest/gtest.h>
 
@@ -25,6 +26,13 @@ std::ostream& operator<<(std::ostream& os, const EnumBundle& bundle)
 {
     return os << bundle.value;
 }
+
+}
+
+namespace std {
+
+template<>
+struct hash<EnhancedStatus> : enhanced_enum::hash<EnhancedStatus> {};
 
 }
 
@@ -185,6 +193,39 @@ TEST_F(EnhancedEnumTest, testIteratorRandomAccessReversal)
     EXPECT_EQ(iter[-3], Statuses::INITIALIZING);
     EXPECT_EQ(iter[-2], Statuses::WAITING_FOR_INPUT);
     EXPECT_EQ(iter[-1], Statuses::BUSY);
+}
+
+TEST_F(EnhancedEnumTest, testMap)
+{
+    std::map<EnhancedStatus, StatusLabel> map;
+    for (const auto e : EnhancedStatus::all()) {
+        map[e] = e.get();
+    }
+    for (const auto e : EnhancedStatus::all()) {
+        EXPECT_EQ(map.at(e), e.get());
+    }
+}
+
+TEST_F(EnhancedEnumTest, testHash)
+{
+    const enhanced_enum::hash<EnhancedStatus> hasher;
+    for (const auto e1 : EnhancedStatus::all()) {
+        for (const auto e2 : EnhancedStatus::all()) {
+            // I would be _very_ surprised if this failed...
+            EXPECT_EQ(e1 == e2, hasher(e1) == hasher(e2));
+        }
+    }
+}
+
+TEST_F(EnhancedEnumTest, testUnorderedMap)
+{
+    std::unordered_map<EnhancedStatus, StatusLabel> map;
+    for (const auto e : EnhancedStatus::all()) {
+        map[e] = e.get();
+    }
+    for (const auto e : EnhancedStatus::all()) {
+        EXPECT_EQ(map.at(e), e.get());
+    }
 }
 
 INSTANTIATE_TEST_SUITE_P(

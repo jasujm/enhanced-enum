@@ -335,6 +335,48 @@ the ``EnumECG`` library also contains aliases to the range functions:
        Statuses::begin(), Statuses::end(),
        [](const auto status) { /* use status */ });
 
+Hashes
+......
+
+The library defines a hash template for enhanced enumerations:
+
+.. code-block:: c++
+
+   enhanced_enum::hash<EnhancedStatus> hasher;
+   for (const auto status : EnhancedStatus::all()) {
+       std::cout << "Hash of " << status.value() << " is " << hasher(status) << "\n";
+   }
+
+Due to restrictions of specializing the ``std::hash`` template in the
+standard library [#]_, the hash object is defined in the
+``enhanced_enum`` namespace. But the standard library by default
+expects to find the definition of a hash object in the ``std``
+namespace. You can do this yourself via inheritance:
+
+.. code-block:: c++
+
+   namespace std {
+       template<>
+       struct hash<EnhancedStatus> : enhanced_enum::hash<EnhancedStatus> {};
+   }
+
+   std::unordered_map<EnhancedStatus, int> map;
+   map[Statuses::INITIALIZING] = 123;
+
+Alternatively you can just instantiate the hash template explicitly
+when needed:
+
+.. code-block:: c++
+
+   std::unordered_map<EnhancedStatus, int, enhanced_enum::hash<EnhancedStatus>> map;
+   map[Statuses::INITIALIZING] = 123;
+
+.. [#] Because the Enhanced Enum library doesn't know about *your*
+       types, the C++17 implementation relies on SFINAE to specialize
+       templates for enhanced enumerations. But the standard library
+       doesn't allow SFINAE, it only allows partial specializations in
+       the ``std`` namespace to rely on user defined types explicitly.
+
 Library reference
 -----------------
 
@@ -355,3 +397,8 @@ Template support
 
 .. doxygengroup:: templatesupport
    :members:
+
+Hash
+....
+
+.. doxygenstruct:: enhanced_enum::hash
