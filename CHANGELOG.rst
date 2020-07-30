@@ -1,5 +1,8 @@
-Unreleased
-----------
+Version 0.5
+-----------
+
+Date
+  2020-07-30
 
 Added
   - Pylint (test target, configurations)
