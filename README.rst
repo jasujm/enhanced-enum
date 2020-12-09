@@ -3,13 +3,13 @@ normally have:
 
 .. code-block:: c++
 
-   struct StatusLabel {
+   enum class StatusLabel {
        INITIALIZING,
        WAITING_FOR_INPUT,
        BUSY,
    };
 
-   constexpr auto status = enhance(StatusLabel::INITIALIZING);
+   constexpr auto status = Statuses::INITIALIZING;
 
 Their value is no longer restricted to integers:
 
@@ -22,8 +22,8 @@ They can be iterated:
 
 .. code-block:: c++
 
-   std::cout << "Listing " << Status::size() << " enumerators:\n";
-   for (const auto status : Status::all()) {
+   std::cout << "Listing " << Statuses::size() << " enumerators:\n";
+   for (const auto status : Statuses::all()) {
        std::cout << status.value() << "\n";
    }
 
