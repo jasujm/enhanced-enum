@@ -12,7 +12,7 @@ template<typename EnhancedEnum>
 struct enum_iterator {
     using difference_type = std::ptrdiff_t;
     using value_type = EnhancedEnum;
-    using reference = const EnhancedEnum&;
+    using reference = EnhancedEnum;
     using pointer = const EnhancedEnum*;
     using iterator_category = std::random_access_iterator_tag;
 

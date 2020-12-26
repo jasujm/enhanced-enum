@@ -1,3 +1,10 @@
+Unreleased
+----------
+
+Fixed
+  - Do not return dangling references from ``enum_iterator::operator*()`` and
+    ``enum_iterator::operator[]()``
+
 Version 0.5
 -----------
 
