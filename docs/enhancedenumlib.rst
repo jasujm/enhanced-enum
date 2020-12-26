@@ -54,9 +54,6 @@ the enum definitions. To aid with that the project includes
 ``EnumECG`` library that can be used to generate the necessary C++
 code with Python. See :ref:`enumecg-library` for more details.
 
-The library currently targets C++17, but will include C++20 goodies
-later.
-
 .. _enhancedenum-creating:
 
 Creating the enumeration

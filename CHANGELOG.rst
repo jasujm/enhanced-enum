@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+Added
+  - Three-way comparison operator for C++20 builds
+
 Fixed
   - Do not return dangling references from ``enum_iterator::operator*()`` and
     ``enum_iterator::operator[]()``

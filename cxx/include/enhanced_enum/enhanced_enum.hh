@@ -444,6 +444,19 @@ constexpr bool operator>=(Enum1 lhs, Enum2 rhs) noexcept
     return !(lhs < rhs);
 }
 
+#if __cpp_impl_three_way_comparison
+
+template<
+    typename Enum1, typename Enum2,
+    typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
+>
+constexpr auto operator<=>(Enum1 lhs, Enum2 rhs) noexcept
+{
+    return ensure_enhanced(lhs).get() <=> ensure_enhanced(rhs).get();
+}
+
+#endif // __cpp_impl_three_way_comparison
+
 #endif // IS_DOXYGEN
 
 /// \}

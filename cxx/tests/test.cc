@@ -1,7 +1,8 @@
 #include <algorithm>
 #include <array>
-#include <ostream>
 #include <map>
+#include <ostream>
+#include <tuple>
 
 #include <gtest/gtest.h>
 
