@@ -386,12 +386,6 @@ The base class
 .. doxygenstruct:: enhanced_enum::enum_base
    :members:
 
-Comparison operators
-....................
-
-.. doxygengroup:: comparisons
-   :members:
-
 Template support
 ................
 

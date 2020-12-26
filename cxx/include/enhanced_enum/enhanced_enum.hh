@@ -388,20 +388,11 @@ constexpr make_enhanced_t<Enum> ensure_enhanced(Enum e) noexcept
 // Comparison operators
 ////////////////////////////////////////////////////////////////////////////////
 
-/** \defgroup comparisons Comparison operators
- *
- * Enhanced enumerations are totally ordered, and can be compared with
- * each other and their underlying label enumerations. All the
- * comparison operators in the library have the expected semantics.
- *
- * \{
- */
+#ifndef IS_DOXYGEN
 
 template<
-    typename Enum1, typename Enum2
-#ifndef IS_DOXYGEN
-    , typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
-#endif
+    typename Enum1, typename Enum2,
+    typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
 >
 constexpr bool operator==(Enum1 lhs, Enum2 rhs) noexcept
 {
@@ -409,10 +400,8 @@ constexpr bool operator==(Enum1 lhs, Enum2 rhs) noexcept
 }
 
 template<
-    typename Enum1, typename Enum2
-#ifndef IS_DOXYGEN
-    , typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
-#endif
+    typename Enum1, typename Enum2,
+    typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
 >
 constexpr bool operator!=(Enum1 lhs, Enum2 rhs) noexcept
 {
@@ -420,10 +409,8 @@ constexpr bool operator!=(Enum1 lhs, Enum2 rhs) noexcept
 }
 
 template<
-    typename Enum1, typename Enum2
-#ifndef IS_DOXYGEN
-    , typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
-#endif
+    typename Enum1, typename Enum2,
+    typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
 >
 constexpr bool operator<(Enum1 lhs, Enum2 rhs) noexcept
 {
@@ -431,10 +418,8 @@ constexpr bool operator<(Enum1 lhs, Enum2 rhs) noexcept
 }
 
 template<
-    typename Enum1, typename Enum2
-#ifndef IS_DOXYGEN
-    , typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
-#endif
+    typename Enum1, typename Enum2,
+    typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
 >
 constexpr bool operator<=(Enum1 lhs, Enum2 rhs) noexcept
 {
@@ -442,10 +427,8 @@ constexpr bool operator<=(Enum1 lhs, Enum2 rhs) noexcept
 }
 
 template<
-    typename Enum1, typename Enum2
-#ifndef IS_DOXYGEN
-    , typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
-#endif
+    typename Enum1, typename Enum2,
+    typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
 >
 constexpr bool operator>(Enum1 lhs, Enum2 rhs) noexcept
 {
@@ -453,15 +436,15 @@ constexpr bool operator>(Enum1 lhs, Enum2 rhs) noexcept
 }
 
 template<
-    typename Enum1, typename Enum2
-#ifndef IS_DOXYGEN
-    , typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
-#endif
+    typename Enum1, typename Enum2,
+    typename = std::enable_if_t<is_same_when_enhanced_v<Enum1, Enum2>>
 >
 constexpr bool operator>=(Enum1 lhs, Enum2 rhs) noexcept
 {
     return !(lhs < rhs);
 }
+
+#endif // IS_DOXYGEN
 
 /// \}
 
