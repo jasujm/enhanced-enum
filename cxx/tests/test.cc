@@ -85,6 +85,22 @@ static_assert( StatusLabel::BUSY >= enhance(StatusLabel::INITIALIZING) );
 static_assert( enhance(StatusLabel::BUSY) >= StatusLabel::BUSY );
 static_assert( StatusLabel::BUSY >= enhance(StatusLabel::BUSY) );
 
+#if __cpp_impl_three_way_comparison
+
+static_assert( (Statuses::BUSY <=> StatusLabel::BUSY) == std::strong_ordering::equal );
+static_assert( (StatusLabel::BUSY <=> Statuses::BUSY) == std::strong_ordering::equal );
+static_assert( (Statuses::BUSY <=> Statuses::BUSY) == std::strong_ordering::equal );
+
+static_assert( (Statuses::INITIALIZING <=> StatusLabel::BUSY) == std::strong_ordering::less );
+static_assert( (StatusLabel::INITIALIZING <=> Statuses::BUSY) == std::strong_ordering::less );
+static_assert( (Statuses::INITIALIZING <=> Statuses::BUSY) == std::strong_ordering::less );
+
+static_assert( (Statuses::BUSY <=> StatusLabel::INITIALIZING) == std::strong_ordering::greater );
+static_assert( (StatusLabel::BUSY <=> Statuses::INITIALIZING) == std::strong_ordering::greater );
+static_assert( (StatusLabel::BUSY <=> Statuses::INITIALIZING) == std::strong_ordering::greater );
+
+#endif // __cpp_impl_three_way_comparison
+
 // Iterators
 
 static_assert( std::distance(EnhancedStatus::begin(), EnhancedStatus::end()) == 3 );
