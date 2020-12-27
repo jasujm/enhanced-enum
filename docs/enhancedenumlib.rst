@@ -249,6 +249,14 @@ declared in the code.
    static_assert( StatusLabel::INITIALIZING < Statuses::BUSY );
    // etc...
 
+In C++20 the three-way comparison operator is defined between both label and
+enhanced enums.
+
+.. code-block:: c++
+
+   static_assert( (Statuses::INITIALIZING <=> StatusLabel::INITIALIZING) == std::strong_ordering::equal );
+   static_assert( (StatusLabel::INITIALIZING <=> Statuses::BUSY) == std::strong_ordering::less );
+
 Enumerator values and labels
 ............................
 
