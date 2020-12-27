@@ -1,5 +1,8 @@
-Unreleased
-----------
+Version 0.6
+-----------
+
+Date
+  2020-12-27
 
 Added
   - Three-way comparison operator for C++20 builds

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 project("Enhanced Enum"
   DESCRIPTION "First class enums in C++"
-  VERSION "0.5")
+  VERSION "0.6")
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
