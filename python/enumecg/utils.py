@@ -74,11 +74,11 @@ class NameFormatter:
 
     _split_name_regexes_and_joiners = [
         (
-            regex.compile(r"(?P<parts>[a-z][a-z0-9]*)(_(?P<parts>[a-z][a-z0-9]*))*"),
+            regex.compile(r"(?P<parts>[a-z][a-z0-9]*)(_(?P<parts>[a-z0-9]*))*"),
             _join_lower_snake_case,
         ),
         (
-            regex.compile(r"(?P<parts>[A-Z][A-Z0-9]*)(_(?P<parts>[A-Z][A-Z0-9]*))*"),
+            regex.compile(r"(?P<parts>[A-Z][A-Z0-9]*)(_(?P<parts>[A-Z0-9]*))*"),
             _join_upper_snake_case,
         ),
         (regex.compile(r"(?P<parts>[A-Z][a-z0-9]*)+"), _join_upper_camel_case),

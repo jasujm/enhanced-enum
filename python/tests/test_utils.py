@@ -5,18 +5,20 @@ from enumecg.exceptions import Error
 
 
 def test_name_formatter_lower_snake_case():
-    formatter = NameFormatter("snake_case", "sn4ke_cas3")
+    formatter = NameFormatter("snake_case", "sn4ke_cas3", "test_123")
     assert formatter.parts[0] == ["snake", "case"]
     assert formatter.parts[1] == ["sn4ke", "cas3"]
-    assert formatter.join(["snake", "case", "rules"]) == "snake_case_rules"
+    assert formatter.parts[2] == ["test", "123"]
+    assert formatter.join(["snake", "case", "rules", "123"]) == "snake_case_rules_123"
     assert formatter.join([]) == ""
 
 
 def test_name_formatter_upper_snake_case():
-    formatter = NameFormatter("SNAKE_CASE", "SN4KE_CAS3")
+    formatter = NameFormatter("SNAKE_CASE", "SN4KE_CAS3", "TEST_123")
     assert formatter.parts[0] == ["snake", "case"]
     assert formatter.parts[1] == ["sn4ke", "cas3"]
-    assert formatter.join(["snake", "case", "rules"]) == "SNAKE_CASE_RULES"
+    assert formatter.parts[2] == ["test", "123"]
+    assert formatter.join(["snake", "case", "rules", "123"]) == "SNAKE_CASE_RULES_123"
     assert formatter.join([]) == ""
 
 

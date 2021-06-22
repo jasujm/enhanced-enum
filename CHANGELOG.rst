@@ -1,3 +1,13 @@
+Version 0.7
+-----------
+
+Date
+  2021-06-22
+
+Fixed
+  - ``enumecg.utils.NameFormatter`` now supports snake cased names that have
+    numeric parts
+
 Version 0.6
 -----------
 
