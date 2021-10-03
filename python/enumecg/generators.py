@@ -8,6 +8,7 @@ outputting C++ code.
 
 import collections.abc as cabc
 import enum as py_enum
+import os
 import typing
 
 import jinja2
@@ -46,7 +47,16 @@ def _doxygenize(value):
 
 
 def _create_jinja_env():
-    env = jinja2.Environment(loader=jinja2.PackageLoader(__name__))
+    try:
+        env = jinja2.Environment(loader=jinja2.PackageLoader(__name__))
+    except ValueError:
+        # Fallback to locate templates via file system path
+        # This is a workaround for pytest not working with jinja2 PackageLoader
+        env = jinja2.Environment(
+            loader=jinja2.FileSystemLoader(
+                os.path.join(os.path.dirname(__file__), "templates")
+            )
+        )
     env.filters["initializer_list"] = _make_initializer_list_ensure_outer_braces
     env.filters["doxygenize"] = _doxygenize
     return env
