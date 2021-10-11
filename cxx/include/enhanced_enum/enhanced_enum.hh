@@ -6,6 +6,13 @@
 #ifndef ENHANCED_ENUM_HH_INCLUDED_
 #define ENHANCED_ENUM_HH_INCLUDED_
 
+#if __cpp_lib_ranges
+#include <ranges>
+#define ENHANCED_ENUM_USE_NATIVE_RANGES 1
+#else
+#define ENHANCED_ENUM_USE_NATIVE_RANGES 0
+#endif
+
 #include "details/ranges.hh"
 
 #include <array>

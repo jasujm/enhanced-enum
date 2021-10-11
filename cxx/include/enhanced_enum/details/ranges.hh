@@ -3,6 +3,10 @@
 #ifndef ENHANCED_ENUM_DETAILS_RANGES_HH_INCLUDED_
 #define ENHANCED_ENUM_DETAILS_RANGES_HH_INCLUDED_
 
+#if ENHANCED_ENUM_USE_NATIVE_RANGES
+#include <ranges>
+#endif
+
 #include <iterator>
 
 namespace enhanced_enum {
@@ -145,8 +149,13 @@ constexpr enum_iterator<EnhancedEnum> operator-(
 
 template<typename EnhancedEnum>
 struct enum_range
+#if ENHANCED_ENUM_USE_NATIVE_RANGES
+    : public std::ranges::view_interface<enum_range<EnhancedEnum>>
+#endif
 {
     using iterator = enum_iterator<EnhancedEnum>;
+
+    enum_range() = default;
 
     constexpr enum_range(iterator first, iterator last) noexcept :
         first {first},

@@ -134,6 +134,32 @@ static_assert(
     std::tuple { 0, std::tuple { "string", true } }
 );
 
+// Ranges and concepts
+
+#if __cpp_lib_ranges
+
+static_assert( std::ranges::view<decltype(EnhancedStatus::all())> );
+static_assert( std::ranges::random_access_range<decltype(EnhancedStatus::all())> );
+static_assert( std::ranges::sized_range<decltype(EnhancedStatus::all())> );
+static_assert( std::ranges::common_range<decltype(EnhancedStatus::all())> );
+static_assert( !EnhancedStatus::all().empty() );
+static_assert( EnhancedStatus::all().size() == 3 );
+static_assert( EnhancedStatus::all().front() == Statuses::INITIALIZING );
+static_assert( EnhancedStatus::all().back() == Statuses::BUSY );
+
+static_assert(
+    std::ranges::equal(
+        EnhancedStatus::all() |
+            std::ranges::views::reverse |
+            std::ranges::views::transform([](const auto e) { return e.value(); }),
+        std::array {
+            Statuses::BUSY_VALUE, Statuses::WAITING_FOR_INPUT_VALUE, Statuses::INITIALIZING_VALUE
+        }
+    )
+);
+
+#endif // __cpp_lib_ranges
+
 // Non-compile time tests start here:
 
 class EnhancedEnumTest : public testing::TestWithParam<EnumBundle> {};
