@@ -1,6 +1,9 @@
 Version 0.8
 -----------
 
+Added
+  - Python 3.10 support for ``enumecg``
+
 Changed
   - Make the range returned by ``all()`` implement the C++20 view concept
 
