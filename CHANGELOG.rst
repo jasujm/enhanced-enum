@@ -1,6 +1,9 @@
 Version 0.8
 -----------
 
+Date
+  2022-02-17
+
 Added
   - Python 3.10 support for ``enumecg``
 
