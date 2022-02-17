@@ -1,5 +1,5 @@
-Unreleased
-----------
+Version 0.8
+-----------
 
 Changed
   - Make the range returned by ``all()`` implement the C++20 view concept
